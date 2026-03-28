@@ -151,7 +151,7 @@ export default function Landing() {
         <div className="absolute inset-0 bg-gradient-to-br from-violet-50 to-transparent pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-violet-200 rounded-full filter blur-3xl opacity-30 translate-x-1/2 -translate-y-1/2" />
         {/* Watermark */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none" style={{ opacity: 0.06 }}>
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none" style={{ opacity: 0.04 }}>
           <div className="relative flex items-center justify-center" style={{ width: '800px', height: '800px' }}>
             <div className="absolute inset-0 rounded-full border-[40px] border-violet-600" />
             <svg width="400" height="400" viewBox="0 0 100 100" className="text-violet-600 fill-violet-600">
