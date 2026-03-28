@@ -1,4 +1,4 @@
-export default async function handler(req: any, res: any) {
+export default async function handler(req, res) {
   const { code } = req.query;
   
   if (!code) {
@@ -11,9 +11,9 @@ export default async function handler(req: any, res: any) {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
-        code: code as string,
-        client_id: process.env.VITE_GOOGLE_CLIENT_ID!,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+        code: code,
+        client_id: process.env.VITE_GOOGLE_CLIENT_ID,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET,
         redirect_uri: `${process.env.VITE_APP_URL}/auth/callback`,
         grant_type: 'authorization_code',
       }),
