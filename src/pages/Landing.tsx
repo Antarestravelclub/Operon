@@ -2,6 +2,13 @@ import { Link } from 'react-router-dom'
 import { TrendingUp, MessageCircle, ClipboardList, Check, Shield } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
+// Stripe Price IDs
+const PRICE_IDS = {
+  starter: 'price_1TG2Xe78GJC5elzIdznAvtC3',
+  growth: 'price_1TG2Xf78GJC5elzI3GbCRbNt',
+  pro: 'price_1TG2Xg78GJC5elzIiWGrCMuP'
+}
+
 function TestimonialCard({ name, role, stars, quote }: { name: string, role: string, stars: number, quote: string }) {
   const initials = name.split(' ').map((n: string) => n[0]).join('');
   
@@ -122,6 +129,25 @@ function TractionCounter({ targetValue, prefix = '', suffix = '', label }: { tar
 }
 
 export default function Landing() {
+  const [loading, setLoading] = useState<string | null>(null)
+
+  const handleSubscribe = async (priceId: string) => {
+    setLoading(priceId)
+    try {
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId, email: undefined }),
+      })
+      const data = await res.json()
+      if (data.url) window.location.href = data.url
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(null)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navbar */}
@@ -392,9 +418,9 @@ export default function Landing() {
                   Basic analytics
                 </li>
               </ul>
-              <Link to="/signup" className="block w-full text-center border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition">
-                Start Free Trial
-              </Link>
+              <button onClick={() => handleSubscribe(PRICE_IDS.starter)} disabled={loading === PRICE_IDS.starter} className="block w-full text-center border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                {loading === PRICE_IDS.starter ? 'Processing...' : 'Start Free Trial'}
+              </button>
             </div>
 
             {/* Growth */}
@@ -429,9 +455,9 @@ export default function Landing() {
                   CRM integrations
                 </li>
               </ul>
-              <Link to="/signup" className="block w-full text-center bg-violet-600 text-white px-6 py-3 rounded-lg hover:bg-violet-700 transition">
-                Start Free Trial
-              </Link>
+              <button onClick={() => handleSubscribe(PRICE_IDS.growth)} disabled={loading === PRICE_IDS.growth} className="block w-full text-center bg-violet-600 text-white px-6 py-3 rounded-lg hover:bg-violet-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                {loading === PRICE_IDS.growth ? 'Processing...' : 'Start Free Trial'}
+              </button>
             </div>
 
             {/* Pro */}
@@ -463,9 +489,9 @@ export default function Landing() {
                   White-label option
                 </li>
               </ul>
-              <Link to="/signup" className="block w-full text-center border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition">
-                Contact Sales
-              </Link>
+              <button onClick={() => handleSubscribe(PRICE_IDS.pro)} disabled={loading === PRICE_IDS.pro} className="block w-full text-center border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                {loading === PRICE_IDS.pro ? 'Processing...' : 'Start Free Trial'}
+              </button>
             </div>
           </div>
         </div>

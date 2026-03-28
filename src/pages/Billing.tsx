@@ -1,12 +1,22 @@
 import { Link } from 'react-router-dom'
 import { Zap, Check } from 'lucide-react'
+import { useState } from 'react'
+
+// Stripe Price IDs
+const PRICE_IDS = {
+  starter: 'price_1TG2Xe78GJC5elzIdznAvtC3',
+  growth: 'price_1TG2Xf78GJC5elzI3GbCRbNt',
+  pro: 'price_1TG2Xg78GJC5elzIiWGrCMuP'
+}
 
 export default function Billing() {
+  const [loading, setLoading] = useState<string | null>(null)
   const currentPlan = 'growth'
   
   const plans = [
     {
       id: 'starter',
+      priceId: PRICE_IDS.starter,
       name: 'Starter',
       price: '$29',
       features: ['1 AI Employee', '500 tasks/month', 'Email support', 'Basic analytics'],
@@ -14,6 +24,7 @@ export default function Billing() {
     },
     {
       id: 'growth',
+      priceId: PRICE_IDS.growth,
       name: 'Growth',
       price: '$99',
       features: ['3 AI Employees', '2,000 tasks/month', 'Priority support', 'Advanced analytics', 'CRM integrations'],
@@ -21,12 +32,30 @@ export default function Billing() {
     },
     {
       id: 'pro',
+      priceId: PRICE_IDS.pro,
       name: 'Pro',
       price: '$299',
       features: ['Unlimited AI Employees', 'Unlimited tasks', 'Dedicated support', 'Custom integrations', 'White-label option'],
       popular: false
     }
   ]
+
+  const handleSubscribe = async (priceId: string) => {
+    setLoading(priceId)
+    try {
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId, email: undefined }),
+      })
+      const data = await res.json()
+      if (data.url) window.location.href = data.url
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(null)
+    }
+  }
 
   const invoices = [
     { id: 'INV-001', date: 'Mar 1, 2026', amount: '$99.00', status: 'Paid' },
@@ -105,8 +134,12 @@ export default function Billing() {
                     Current Plan
                   </div>
                 ) : (
-                  <button className="w-full border border-gray-300 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition">
-                    Upgrade
+                  <button 
+                    onClick={() => handleSubscribe(plan.priceId)}
+                    disabled={loading === plan.priceId}
+                    className="w-full border border-gray-300 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading === plan.priceId ? 'Processing...' : 'Upgrade'}
                   </button>
                 )}
               </div>
