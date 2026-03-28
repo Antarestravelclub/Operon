@@ -130,7 +130,7 @@ export default function Landing() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-2">
-                <img src="/operon-logo.jpg" alt="Operon" className="h-14 w-auto" />
+                <img src="/operon-logo.jpg" alt="Operon" className="h-20 w-auto" />
               </Link>
             </div>
             <div className="flex items-center space-x-8">
