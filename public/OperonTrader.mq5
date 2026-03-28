@@ -92,9 +92,9 @@ void OpenTrade(ENUM_ORDER_TYPE type)
    }
    else
    {
-      pip = 10 * Point;
-      sl = (type == ORDER_TYPE_BUY) ? price - SL_Pips_EURUSD * pip : price + SL_Pips_EURUSD * pip;
-      tp = (type == ORDER_TYPE_BUY) ? price + TP_Pips_EURUSD * pip : price - TP_Pips_EURUSD * pip;
+      double pip2 = 10 * Point;
+      sl = (type == ORDER_TYPE_BUY) ? price - SL_Pips_EURUSD * pip2 : price + SL_Pips_EURUSD * pip2;
+      tp = (type == ORDER_TYPE_BUY) ? price + TP_Pips_EURUSD * pip2 : price - TP_Pips_EURUSD * pip2;
    }
    
    MqlTradeRequest req;
@@ -122,13 +122,13 @@ void OpenTrade(ENUM_ORDER_TYPE type)
 
 void ManageTrailingStop()
 {
+   double pip = 10 * Point;
    for(int i = PositionsTotal() - 1; i >= 0; i--)
    {
       ulong ticket = PositionGetTicket(i);
       if(!PositionSelectByTicket(ticket)) continue;
       if(PositionGetInteger(POSITION_MAGIC) != 12345) continue;
       
-      double pip = 10 * Point;
       double trail = 15 * pip;
       double price = PositionGetDouble(POSITION_PRICE_CURRENT);
       double sl = PositionGetDouble(POSITION_SL);
