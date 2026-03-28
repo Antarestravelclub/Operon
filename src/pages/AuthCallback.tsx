@@ -12,6 +12,12 @@ export default function AuthCallback() {
       // Save the code to localStorage
       localStorage.setItem('google_auth_code', code)
       
+      // Also save access token from URL params (if present)
+      const accessToken = searchParams.get('access_token')
+      if (accessToken) {
+        localStorage.setItem('google_access_token', accessToken)
+      }
+      
       // Save mock user to localStorage
       localStorage.setItem('operon_user', JSON.stringify({
         email: 'piffmex1@gmail.com',

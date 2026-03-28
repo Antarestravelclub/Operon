@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Zap, TrendingUp, MessageCircle, Clock, Plus, Mail, CheckCircle, User, Shield } from 'lucide-react'
+import SalesAssistant from '../components/SalesAssistant'
 
 export default function Dashboard() {
   // Get user email from localStorage
@@ -143,6 +144,12 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Sales Assistant Panel */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Sales Assistant</h2>
+          <SalesAssistant />
         </div>
 
         {/* Activity Feed */}
