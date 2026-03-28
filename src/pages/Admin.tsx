@@ -1,5 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { Shield, ArrowLeft, TrendingUp, Users, CreditCard, Ticket, Edit, Search, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Shield, ArrowLeft, TrendingUp, Users, CreditCard, Ticket, Edit, Search } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 export default function Admin() {
@@ -14,7 +14,7 @@ export default function Admin() {
   const [newPlan, setNewPlan] = useState('')
 
   const correctPin = '1234'
-  const superAdminEmail = 'piffmex1@gmail.com'
+  
 
   const promoCodes = [
     { code: 'OPERON20', description: '20% off first month', status: 'Active' },

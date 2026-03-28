@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard'
 import HireEmployee from './pages/HireEmployee'
 import EmployeeDetail from './pages/EmployeeDetail'
 import Billing from './pages/Billing'
+import Admin from './pages/Admin'
 
 function App() {
   // Simple auth check using localStorage
@@ -53,6 +54,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Billing />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute>
+              <Admin />
             </ProtectedRoute>
           } 
         />

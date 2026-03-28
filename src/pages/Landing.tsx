@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { TrendingUp, MessageCircle, ClipboardList, Check } from 'lucide-react'
+import { TrendingUp, MessageCircle, ClipboardList, Check, Shield } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 function TestimonialCard({ name, role, stars, quote }: { name: string, role: string, stars: number, quote: string }) {
@@ -138,6 +138,9 @@ export default function Landing() {
               <Link to="/#pricing" className="text-gray-600 hover:text-gray-900 transition">Pricing</Link>
               <Link to="/#about" className="text-gray-600 hover:text-gray-900 transition">About</Link>
               <Link to="/login" className="text-gray-600 hover:text-gray-900 transition px-3 py-2">Log In</Link>
+              <Link to="/admin" className="text-gray-400 hover:text-gray-600 transition p-2" title="Admin Panel">
+                <Shield className="h-5 w-5" />
+              </Link>
               <Link to="/signup" className="bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 transition">
                 Get Started
               </Link>

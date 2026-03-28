@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
-import { Zap, TrendingUp, MessageCircle, Clock, Plus, Mail, CheckCircle, User } from 'lucide-react'
+import { Zap, TrendingUp, MessageCircle, Clock, Plus, Mail, CheckCircle, User, Shield } from 'lucide-react'
 
 export default function Dashboard() {
   // Get user email from localStorage
   const userEmail = localStorage.getItem('operon_user') || 'user@example.com'
+  const isSuperAdmin = userEmail === 'piffmex1@gmail.com'
   
   const stats = [
     { label: 'Active AI Employees', value: '2', icon: TrendingUp, color: 'bg-violet-100 text-violet-600' },
@@ -62,11 +63,19 @@ export default function Dashboard() {
                 <Link to="/hire" className="text-gray-600 hover:text-gray-900 transition">Hire</Link>
                 <Link to="/billing" className="text-gray-600 hover:text-gray-900 transition">Billing</Link>
               </nav>
+              <Link to="/admin" className="text-gray-400 hover:text-gray-600 transition p-2" title="Admin Panel">
+                <Shield className="h-5 w-5" />
+              </Link>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-violet-100 rounded-full flex items-center justify-center">
                   <User className="h-4 w-4 text-violet-600" />
                 </div>
                 <span className="text-sm text-gray-600">{userEmail}</span>
+                {isSuperAdmin && (
+                  <span className="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">
+                    ⚡ Super Admin
+                  </span>
+                )}
               </div>
             </div>
           </div>
