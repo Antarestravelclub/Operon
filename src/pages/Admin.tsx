@@ -1,5 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { Shield, ArrowLeft, TrendingUp, Users, CreditCard, Ticket, Edit, Search, ChevronLeft } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Shield, ArrowLeft, TrendingUp, Users, CreditCard, Ticket, Edit, Search } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 export default function Admin() {
