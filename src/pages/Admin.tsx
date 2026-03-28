@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom'
-import { Shield, ArrowLeft, TrendingUp, Users, CreditCard, Ticket, Edit, Search } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Shield, ArrowLeft, TrendingUp, Users, CreditCard, Ticket, Edit, Search, ChevronLeft } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 export default function Admin() {
-  const navigate = useNavigate()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [pin, setPin] = useState('')
   const [showError, setShowError] = useState(false)
@@ -14,7 +13,6 @@ export default function Admin() {
   const [newPlan, setNewPlan] = useState('')
 
   const correctPin = '1234'
-  
 
   const promoCodes = [
     { code: 'OPERON20', description: '20% off first month', status: 'Active' },
