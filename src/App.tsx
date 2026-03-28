@@ -7,6 +7,7 @@ import HireEmployee from './pages/HireEmployee'
 import EmployeeDetail from './pages/EmployeeDetail'
 import Billing from './pages/Billing'
 import Admin from './pages/Admin'
+import Docs from './pages/Docs'
 
 function App() {
   // Simple auth check using localStorage
@@ -22,6 +23,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/docs" element={<Docs />} />
         <Route path="/login" element={<Auth />} />
         <Route path="/signup" element={<Auth />} />
         <Route path="/auth/callback" element={<AuthCallback />} />

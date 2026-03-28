@@ -162,6 +162,7 @@ export default function Landing() {
             <div className="flex items-center space-x-8">
               <Link to="/#features" className="text-gray-600 hover:text-gray-900 transition">Features</Link>
               <Link to="/#pricing" className="text-gray-600 hover:text-gray-900 transition">Pricing</Link>
+              <Link to="/docs" className="text-gray-600 hover:text-gray-900 transition">Docs</Link>
               <Link to="/#about" className="text-gray-600 hover:text-gray-900 transition">About</Link>
               <Link to="/login" className="text-gray-600 hover:text-gray-900 transition px-3 py-2">Log In</Link>
               <Link to="/admin" className="text-gray-400 hover:text-gray-600 transition p-2" title="Admin Panel">
@@ -510,6 +511,7 @@ export default function Landing() {
             <div className="flex space-x-8">
               <a href="#" className="hover:text-white transition">Product</a>
               <a href="#" className="hover:text-white transition">Pricing</a>
+              <Link to="/docs" className="hover:text-white transition">Docs</Link>
               <a href="#" className="hover:text-white transition">About</a>
               <a href="#" className="hover:text-white transition">Contact</a>
             </div>
