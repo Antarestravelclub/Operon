@@ -152,7 +152,7 @@ export default function Landing() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-violet-200 rounded-full filter blur-3xl opacity-30 translate-x-1/2 -translate-y-1/2" />
         {/* Watermark */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <img src="/operon-logo.jpg" alt="" className="w-96 h-96 object-contain opacity-[0.04] select-none" />
+          <img src="/operon-logo.jpg" alt="" className="w-[600px] h-[600px] object-contain opacity-[0.08] select-none" />
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
