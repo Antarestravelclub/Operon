@@ -1,5 +1,125 @@
 import { Link } from 'react-router-dom'
-import { Zap, TrendingUp, MessageCircle, ClipboardList, Zap as LightningBolt, Check } from 'lucide-react'
+import { TrendingUp, MessageCircle, ClipboardList, Check } from 'lucide-react'
+import { useState, useEffect } from 'react'
+
+function TestimonialCard({ name, role, stars, quote }: { name: string, role: string, stars: number, quote: string }) {
+  const initials = name.split(' ').map((n: string) => n[0]).join('');
+  
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
+      <div className="flex items-center mb-6">
+        <div className="w-12 h-12 bg-violet-600 rounded-full flex items-center justify-center mr-4">
+          <span className="text-white font-semibold text-sm">{initials}</span>
+        </div>
+        <div className="text-left">
+          <div className="font-semibold text-gray-900">{name}</div>
+          <div className="text-gray-500 text-sm">{role}</div>
+        </div>
+      </div>
+      <div className="flex text-yellow-400 mb-4">
+        {[...Array(stars)].map((_, i) => (
+          <span key={i} className="text-sm">★</span>
+        ))}
+      </div>
+      <p className="text-gray-600 italic">"{quote}"</p>
+    </div>
+  );
+}
+
+function ROICalculator() {
+  const [leads, setLeads] = useState(50);
+  const [emails, setEmails] = useState(20);
+
+  const hoursSavedValue = leads * 0.3 + emails * 0.1;
+  const hoursSaved = hoursSavedValue.toFixed(1);
+  const revenueRecovered = Math.round(hoursSavedValue * 150);
+  const roi = Math.round(((revenueRecovered - 99) / 99) * 100);
+
+  return (
+    <div className="bg-gray-50 rounded-2xl p-8">
+      <div className="space-y-8">
+        <div>
+          <label className="block text-left text-gray-700 font-medium mb-2">
+            How many leads per week? <span className="text-violet-600">{leads}</span>
+          </label>
+          <input
+            type="range"
+            min="10"
+            max="200"
+            value={leads}
+            onChange={(e) => setLeads(parseInt(e.target.value))}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-violet-600"
+          />
+        </div>
+        
+        <div>
+          <label className="block text-left text-gray-700 font-medium mb-2">
+            How many support emails per day? <span className="text-violet-600">{emails}</span>
+          </label>
+          <input
+            type="range"
+            min="5"
+            max="100"
+            value={emails}
+            onChange={(e) => setEmails(parseInt(e.target.value))}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-violet-600"
+          />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+          <div className="bg-white rounded-xl p-4 shadow-sm">
+            <div className="text-2xl font-bold text-violet-600">{hoursSaved} hrs</div>
+            <div className="text-gray-500 text-sm">Hours saved per week</div>
+          </div>
+          <div className="bg-white rounded-xl p-4 shadow-sm">
+            <div className="text-2xl font-bold text-violet-600">${revenueRecovered.toLocaleString()}</div>
+            <div className="text-gray-500 text-sm">Estimated revenue recovered</div>
+          </div>
+          <div className="bg-white rounded-xl p-4 shadow-sm">
+            <div className="text-2xl font-bold text-violet-600">{roi}%</div>
+            <div className="text-gray-500 text-sm">Your ROI</div>
+          </div>
+        </div>
+        
+        <Link to="/signup" className="inline-block bg-violet-600 text-white px-8 py-4 rounded-xl text-lg font-medium hover:bg-violet-700 transition shadow-lg shadow-violet-200 mt-4">
+          Start saving time today →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function TractionCounter({ targetValue, prefix = '', suffix = '', label }: { targetValue: number, prefix?: string, suffix?: string, label: string }) {
+  const [currentValue, setCurrentValue] = useState(0);
+
+  useEffect(() => {
+    const duration = 2000; // 2 seconds
+    const startTime = Date.now();
+    const startValue = 0;
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      setCurrentValue(Math.floor(startValue + (targetValue - startValue) * easeOutQuart));
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [targetValue]);
+
+  return (
+    <div className="text-center">
+      <div className="text-3xl md:text-4xl font-bold text-violet-600">
+        {prefix}{currentValue.toLocaleString()}{suffix}
+      </div>
+      <div className="text-gray-500 text-sm mt-1">{label}</div>
+    </div>
+  );
+}
 
 export default function Landing() {
   return (
@@ -10,8 +130,7 @@ export default function Landing() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-2">
-                <LightningBolt className="h-6 w-6 text-violet-600" />
-                <span className="text-xl font-bold text-gray-900">Operon</span>
+                <span className="text-xl font-bold text-gray-900">⚡ Operon</span>
               </Link>
             </div>
             <div className="flex items-center space-x-8">
@@ -66,6 +185,18 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Traction Counters Section */}
+      <section className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <TractionCounter targetValue={2400} suffix="+" label="Tasks Automated Today" />
+            <TractionCounter targetValue={847} label="Businesses Using Operon" />
+            <TractionCounter targetValue={23} suffix=" hrs" label="Saved Per Week (avg)" />
+            <TractionCounter targetValue={12400} prefix="$" label="Revenue Generated (avg/mo)" />
+          </div>
+        </div>
+      </section>
+
       {/* How It Works Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -87,6 +218,29 @@ export default function Landing() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Trusted By Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-8">Trusted by businesses like yours</h3>
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            {[
+              { icon: '🏠', name: 'Real Estate' },
+              { icon: '🦷', name: 'Healthcare' },
+              { icon: '🛍️', name: 'E-Commerce' },
+              { icon: '🍕', name: 'Restaurants' },
+              { icon: '💼', name: 'Consulting' },
+              { icon: '🏋️', name: 'Fitness Studios' }
+            ].map((item, i) => (
+              <div key={i} className="px-6 py-3 bg-gray-100 rounded-full text-gray-700 font-medium">
+                <span className="mr-2">{item.icon}</span>
+                {item.name}
+              </div>
+            ))}
+          </div>
+          <p className="text-gray-600">From solopreneurs to 50-person teams — Operon works for any business.</p>
         </div>
       </section>
 
@@ -154,6 +308,47 @@ export default function Landing() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
+            Loved by business owners
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <TestimonialCard
+              name="Sarah M."
+              role="Real Estate Agent, Austin TX"
+              stars={5}
+              quote="I hired the Sales Assistant and it followed up with 47 leads while I was showing houses. Closed 3 deals I would have missed."
+            />
+            <TestimonialCard
+              name="James T."
+              role="Restaurant Owner, Chicago"
+              stars={5}
+              quote="The Support Agent answers customer questions 24/7. My stress levels dropped immediately. Worth every penny."
+            />
+            <TestimonialCard
+              name="Maria K."
+              role="E-Commerce Store, Miami"
+              stars={5}
+              quote="Operon's Admin Assistant organizes my inbox and generates weekly reports. I save at least 20 hours a week."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ROI Calculator Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            See how much time Operon saves you
+          </h2>
+          <p className="text-gray-600 mb-12">Adjust the sliders to see your potential ROI</p>
+          
+          <ROICalculator />
         </div>
       </section>
 
@@ -274,8 +469,7 @@ export default function Landing() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
               <div className="flex items-center space-x-2 mb-2">
-                <Zap className="h-5 w-5 text-violet-400" />
-                <span className="text-xl font-bold text-white">Operon</span>
+                <span className="text-xl font-bold text-white">⚡ Operon</span>
               </div>
               <p className="text-sm">Your AI workforce, always working.</p>
             </div>
