@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Landing from './pages/Landing'
 import Auth from './pages/Auth'
+import AuthCallback from './pages/AuthCallback'
 import Dashboard from './pages/Dashboard'
 import HireEmployee from './pages/HireEmployee'
 import EmployeeDetail from './pages/EmployeeDetail'
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Auth />} />
         <Route path="/signup" element={<Auth />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route 
           path="/dashboard" 
           element={
