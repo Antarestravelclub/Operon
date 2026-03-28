@@ -130,7 +130,7 @@ export default function Landing() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-2">
-                <span className="text-xl font-bold text-gray-900">⚡ Operon</span>
+                <img src="/operon-logo.jpg" alt="Operon" className="h-8 w-auto" />
               </Link>
             </div>
             <div className="flex items-center space-x-8">
@@ -469,7 +469,7 @@ export default function Landing() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
               <div className="flex items-center space-x-2 mb-2">
-                <span className="text-xl font-bold text-white">⚡ Operon</span>
+                <img src="/operon-logo.jpg" alt="Operon" className="h-8 w-auto brightness-0 invert" />
               </div>
               <p className="text-sm">Your AI workforce, always working.</p>
             </div>
