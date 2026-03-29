@@ -38,13 +38,13 @@ export default function Dashboard() {
     }
   ]
 
-  const activities = [
+  const [activities, setActivities] = React.useState([
     { id: 1, text: 'Alex sent follow-up email to james@example.com', time: '2 min ago', user: 'Alex' },
     { id: 2, text: 'Sam resolved ticket #1042', time: '5 min ago', user: 'Sam' },
     { id: 3, text: 'Alex booked appointment with Sarah Chen', time: '15 min ago', user: 'Alex' },
     { id: 4, text: 'Sam replied to FAQ about pricing', time: '23 min ago', user: 'Sam' },
     { id: 5, text: 'Alex sent 5 outreach emails', time: '1 hour ago', user: 'Alex' },
-  ]
+  ])
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -155,8 +155,12 @@ export default function Dashboard() {
 
         {/* Activity Feed */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Recent Activity</h2>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">Recent Activity</h2>
+            <button onClick={() => setActivities([])} className="text-xs text-gray-400 hover:text-red-400 transition">Clear all</button>
+          </div>
           <div className="space-y-4">
+            {activities.length === 0 && <p className="text-gray-400 text-sm text-center py-6">No activity yet. Your AI employees are standing by!</p>}
             {activities.map((activity) => (
               <div key={activity.id} className="flex items-center space-x-4 py-3 border-b border-gray-100 last:border-0">
                 <div className="w-8 h-8 bg-violet-100 rounded-full flex items-center justify-center flex-shrink-0">
