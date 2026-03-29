@@ -136,10 +136,9 @@ export default function VoiceCommand({}: VoiceCommandProps) {
     }, 3000)
   }
 
-  const toggleListening = () => {
+  const toggleListening = async () => {
     if (!recognitionRef.current) {
       setResponse("Speech recognition is not supported in your browser. Please use Chrome or Edge.")
-      // Fire and forget - don't await this
       speak("Speech recognition is not supported in your browser. Please use Chrome or Edge.")
       return
     }
@@ -148,10 +147,22 @@ export default function VoiceCommand({}: VoiceCommandProps) {
       recognitionRef.current.stop()
       setIsListening(false)
     } else {
+      // Request microphone permission first (fixes iOS Safari)
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true })
+      } catch (err) {
+        setResponse("Microphone access denied. Please allow microphone access and try again.")
+        return
+      }
       setTranscript('')
       setResponse('')
       setIsListening(true)
-      recognitionRef.current.start()
+      try {
+        recognitionRef.current.start()
+      } catch(e) {
+        setIsListening(false)
+        setResponse("Could not start microphone. Please try again.")
+      }
     }
   }
 
