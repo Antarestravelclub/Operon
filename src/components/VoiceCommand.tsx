@@ -38,7 +38,7 @@ export default function VoiceCommand({}: VoiceCommandProps) {
     
     if (SpeechRecognition) {
       recognitionRef.current = new SpeechRecognition()
-      recognitionRef.current.continuous = false
+      recognitionRef.current.continuous = true
       recognitionRef.current.interimResults = true
       recognitionRef.current.lang = 'en-US'
 
