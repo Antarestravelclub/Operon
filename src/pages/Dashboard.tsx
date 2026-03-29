@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Zap, TrendingUp, MessageCircle, Clock, Plus, Mail, CheckCircle, User, Shield } from 'lucide-react'
 import SalesAssistant from '../components/SalesAssistant'
@@ -38,7 +39,7 @@ export default function Dashboard() {
     }
   ]
 
-  const [activities, setActivities] = React.useState([
+  const [activities, setActivities] = useState([
     { id: 1, text: 'Alex sent follow-up email to james@example.com', time: '2 min ago', user: 'Alex' },
     { id: 2, text: 'Sam resolved ticket #1042', time: '5 min ago', user: 'Sam' },
     { id: 3, text: 'Alex booked appointment with Sarah Chen', time: '15 min ago', user: 'Alex' },
