@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Zap, TrendingUp, MessageCircle, Clock, Plus, Mail, CheckCircle, User, Shield } from 'lucide-react'
 import SalesAssistant from '../components/SalesAssistant'
+import VoiceCommand from '../components/VoiceCommand'
 
 export default function Dashboard() {
   // Get user email from localStorage
@@ -170,6 +171,9 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
+      
+      {/* Voice Command Component */}
+      <VoiceCommand />
     </div>
   )
 }
