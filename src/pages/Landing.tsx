@@ -159,7 +159,7 @@ export default function Landing() {
                 <img src="/operon-logo.jpg" alt="Operon" className="h-12 md:h-20 w-auto" />
               </Link>
             </div>
-            <div className="flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-8">
               <Link to="/#features" className="text-gray-600 hover:text-gray-900 transition">Features</Link>
               <Link to="/#pricing" className="text-gray-600 hover:text-gray-900 transition">Pricing</Link>
               <Link to="/docs" className="text-gray-600 hover:text-gray-900 transition">Docs</Link>
@@ -171,6 +171,10 @@ export default function Landing() {
               <Link to="/signup" className="bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 transition">
                 Get Started
               </Link>
+            </div>
+            <div className="flex md:hidden items-center space-x-3">
+              <Link to="/login" className="text-gray-600 text-sm">Log In</Link>
+              <Link to="/signup" className="bg-violet-600 text-white px-3 py-1.5 rounded-lg text-sm">Get Started</Link>
             </div>
           </div>
         </div>
