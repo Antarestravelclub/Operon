@@ -185,8 +185,8 @@ export default function Landing() {
         <div className="absolute inset-0 bg-gradient-to-br from-violet-50 to-transparent pointer-events-none" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-violet-200 rounded-full filter blur-3xl opacity-30 translate-x-1/2 -translate-y-1/2" />
         {/* Watermark */}
-        <div className="absolute top-16 left-0 right-0 flex justify-center pointer-events-none select-none">
-          <img src="/operon-logo.jpg" alt="" className="w-[500px] h-[500px] object-contain" style={{ opacity: 0.15, mixBlendMode: 'multiply' }} />
+        <div className="absolute top-20 left-0 right-0 flex justify-center pointer-events-none select-none">
+          <img src="/operon-logo.jpg" alt="" className="w-[500px] h-[500px] object-contain" style={{ opacity: 0.2, mixBlendMode: 'multiply' }} />
         </div>
 
         
