@@ -66,6 +66,7 @@ export default function VoiceCommand({}: VoiceCommandProps) {
         console.error('Speech recognition error:', event.error)
         setIsListening(false)
         setResponse("Sorry, I encountered an error with the microphone. Please try again.")
+        // Fire and forget - don't await this since it's an error handler
         speak("Sorry, I encountered an error with the microphone. Please try again.")
       }
 
@@ -84,11 +85,23 @@ export default function VoiceCommand({}: VoiceCommandProps) {
     }
   }, [])
 
-  const speak = (text: string) => {
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.rate = 0.9
-    utterance.pitch = 1
-    window.speechSynthesis.speak(utterance)
+  const speak = async (text: string) => {
+    try {
+      const response = await fetch('/api/elevenlabs-tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      audio.play();
+    } catch (err) {
+      // Fallback to browser TTS
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9;
+      window.speechSynthesis.speak(utterance);
+    }
   }
 
   const processCommand = (transcript: string) => {
@@ -112,6 +125,7 @@ export default function VoiceCommand({}: VoiceCommandProps) {
     
     // Speak the response
     setTimeout(() => {
+      // Fire and forget - don't await this to avoid blocking
       speak(responseText)
       setIsProcessing(false)
     }, 300)
@@ -125,6 +139,7 @@ export default function VoiceCommand({}: VoiceCommandProps) {
   const toggleListening = () => {
     if (!recognitionRef.current) {
       setResponse("Speech recognition is not supported in your browser. Please use Chrome or Edge.")
+      // Fire and forget - don't await this
       speak("Speech recognition is not supported in your browser. Please use Chrome or Edge.")
       return
     }
