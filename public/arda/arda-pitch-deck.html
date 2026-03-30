@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiMar Tech | ARDA 2026 Pitch Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a1628;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .slide-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: linear-gradient(135deg, #0a1628 0%, #1a365d 100%);
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 80px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .slide-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .slide-subtitle {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #e2e8f0;
+        }
+        
+        .slide-event {
+            font-size: 24px;
+            color: #FFD700;
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+        }
+        
+        .content-list {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .content-list li {
+            font-size: 28px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .content-list li::before {
+            content: "•";
+            color: #FFD700;
+            position: absolute;
+            left: 0;
+            font-size: 36px;
+        }
+        
+        .numbered-list {
+            text-align: left;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .numbered-list li {
+            font-size: 28px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            padding-left: 50px;
+            position: relative;
+            list-style: none;
+        }
+        
+        .numbered-list li::before {
+            content: attr(data-number);
+            color: #FFD700;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .feature-box {
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid #FFD700;
+            padding: 25px 30px;
+            margin: 15px 0;
+            text-align: left;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .feature-title {
+            font-size: 22px;
+            color: #FFD700;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .feature-text {
+            font-size: 20px;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        
+        .stats-box {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .stat-number {
+            font-size: 56px;
+            font-weight: 700;
+            color: #FFD700;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 20px;
+            color: #a0aec0;
+            margin-top: 10px;
+        }
+        
+        .pricing-table {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+        
+        .pricing-item {
+            background: rgba(255,255,255,0.05);
+            padding: 20px 25px;
+            text-align: left;
+            border-left: 3px solid #FFD700;
+        }
+        
+        .pricing-item h4 {
+            color: #FFD700;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .pricing-item p {
+            font-size: 18px;
+            color: #e2e8f0;
+        }
+        
+        .bundle-box {
+            background: linear-gradient(135deg, #FFD700 0%, #DAA520 100%);
+            color: #0a1628;
+            padding: 25px 40px;
+            margin: 30px auto;
+            max-width: 500px;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .website-link {
+            color: #FFD700;
+            font-size: 22px;
+            text-decoration: none;
+            margin: 10px 0;
+            display: block;
+        }
+        
+        .website-link:hover {
+            text-decoration: underline;
+        }
+        
+        .contact-info {
+            font-size: 22px;
+            line-height: 2;
+            margin-top: 30px;
+        }
+        
+        .cta-box {
+            background: rgba(255,255,255,0.1);
+            padding: 40px 60px;
+            margin: 30px auto;
+            max-width: 700px;
+            border-radius: 10px;
+        }
+        
+        .cta-text {
+            font-size: 32px;
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .cta-offer {
+            font-size: 24px;
+            color: #e2e8f0;
+            margin-bottom: 15px;
+        }
+        
+        /* Navigation Controls */
+        .nav-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #FFD700;
+            color: #FFD700;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-btn:hover {
+            background: #FFD700;
+            color: #0a1628;
+        }
+        
+        .slide-counter {
+            font-size: 18px;
+            color: #FFD700;
+            font-weight: 600;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        /* Header branding */
+        .header-brand {
+            position: fixed;
+            top: 20px;
+            left: 30px;
+            font-size: 20px;
+            color: #FFD700;
+            font-weight: 600;
+            letter-spacing: 2px;
+            z-index: 1000;
+        }
+        
+        .header-tagline {
+            position: fixed;
+            top: 50px;
+            left: 30px;
+            font-size: 14px;
+            color: #a0aec0;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-brand">FiMar Tech</div>
+    <div class="header-tagline">The Complete AI Toolkit for Vacation Ownership Sales</div>
+    
+    <div class="slide-container">
+        <!-- Slide 1 -->
+        <div class="slide active" id="slide1">
+            <div class="slide-title">FiMar Tech</div>
+            <div class="slide-subtitle">"The Complete AI Toolkit for Vacation Ownership Sales"</div>
+            <div class="slide-event">ARDA 2026 | LAS VEGAS</div>
+        </div>
+        
+        <!-- Slide 2 -->
+        <div class="slide" id="slide2">
+            <h2 class="slide-title">The Problem</h2>
+            <ul class="content-list">
+                <li><strong>70%</strong> of new sales reps fail within 90 days</li>
+                <li>Companies spend <strong>$15,000+</strong> per rep on hiring and training</li>
+                <li><strong>Most leads never get followed up</strong> after initial contact</li>
+                <li>Manual training is <strong>inconsistent and expensive</strong></li>
+            </ul>
+        </div>
+        
+        <!-- Slide 3 -->
+        <div class="slide" id="slide3">
+            <h2 class="slide-title">The Solution</h2>
+            <div class="slide-subtitle">FiMar Tech's 3-Product Ecosystem</div>
+            <ul class="numbered-list">
+                <li data-number="1.">APEX Index — <em>Hire smarter</em></li>
+                <li data-number="2.">Vida Rep Academy — <em>Train faster</em></li>
+                <li data-number="3.">Operon AI — <em>Close more</em></li>
+            </ul>
+        </div>
+        
+        <!-- Slide 4 -->
+        <div class="slide" id="slide4">
+            <h2 class="slide-title">APEX Index</h2>
+            <div class="slide-subtitle">"Stop guessing. Start knowing."</div>
+            <div class="feature-box">
+                <div class="feature-title">AI-Powered Sales Talent Assessment</div>
+                <div class="feature-text">
+                    • Specifically designed for vacation ownership<br>
+                    • Scores candidates on closing mindset, resilience, communication, motivation<br>
+                    • <strong>Reduces bad hires by up to 60%</strong>
+                </div>
+            </div>
+            <a href="https://apex-index.com" class="website-link">apex-index.com</a>
+        </div>
+        
+        <!-- Slide 5 -->
+        <div class="slide" id="slide5">
+            <h2 class="slide-title">Vida Rep Academy</h2>
+            <div class="slide-subtitle">"Your 30-day digital training program"</div>
+            <div class="feature-box">
+                <div class="feature-title">Structured Day-by-Day Training</div>
+                <div class="feature-text">
+                    • Tour process, sales process, objection handling<br>
+                    • Admin dashboard for managers<br>
+                    • Track rep progress in real time<br>
+                    • <strong>White-label available</strong>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 6 -->
+        <div class="slide" id="slide6">
+            <h2 class="slide-title">Operon AI</h2>
+            <div class="slide-subtitle">"Your reps' AI-powered sales assistant"</div>
+            <div class="feature-box">
+                <div class="feature-title">24/7 Lead Management</div>
+                <div class="feature-text">
+                    • Automatically follows up with every lead<br>
+                    • Sends personalized emails 24/7<br>
+                    • Books appointments, never lets a lead go cold<br>
+                    • Voice commands: "Send a follow-up to John Smith"
+                </div>
+            </div>
+            <a href="https://myoperon.io" class="website-link">myoperon.io</a>
+        </div>
+        
+        <!-- Slide 7 -->
+        <div class="slide" id="slide7">
+            <h2 class="slide-title">The Math</h2>
+            <div class="stats-box">
+                <div class="stat-item">
+                    <span class="stat-number">$20,000</span>
+                    <span class="stat-label">Average timeshare sale</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">$40,000</span>
+                    <span class="stat-label">Additional revenue per rep (2 extra deals/month)</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">13,000%</span>
+                    <span class="stat-label">ROI on your investment</span>
+                </div>
+            </div>
+            <div class="feature-text" style="text-align: center; margin-top: 30px;">
+                FiMar Tech cost: <strong style="color: #FFD700;">$299/month</strong>
+            </div>
+        </div>
+        
+        <!-- Slide 8 -->
+        <div class="slide" id="slide8">
+            <h2 class="slide-title">Pricing</h2>
+            <div class="pricing-table">
+                <div class="pricing-item">
+                    <h4>APEX Index</h4>
+                    <p>$199-499/assessment or $999/mo unlimited</p>
+                </div>
+                <div class="pricing-item">
+                    <h4>Vida Rep Academy</h4>
+                    <p>$499/mo per company</p>
+                </div>
+                <div class="pricing-item">
+                    <h4>Operon AI</h4>
+                    <p>$99/mo per rep</p>
+                </div>
+                <div class="pricing-item">
+                    <h4>Complete Bundle</h4>
+                    <p>$999/mo (Save 40%)</p>
+                </div>
+            </div>
+            <div class="bundle-box">$999/month for all 3 (save 40%)</div>
+        </div>
+        
+        <!-- Slide 9 -->
+        <div class="slide" id="slide9">
+            <h2 class="slide-title">About FiMar Tech</h2>
+            <div class="feature-box" style="text-align: center;">
+                <div class="feature-title">Founded by Mark Piff</div>
+                <div class="feature-text">
+                    30+ years in vacation ownership industry<br>
+                    Built by industry insiders<br>
+                    Based in Cancun, Mexico<br>
+                    Serving North American resorts
+                </div>
+            </div>
+            <div class="contact-info">
+                <strong>Email:</strong> mark@fimartech.com<br>
+                <strong>Phone:</strong> 1-866-593-CALM (Solace)
+            </div>
+        </div>
+        
+        <!-- Slide 10 -->
+        <div class="slide" id="slide10">
+            <h2 class="slide-title">Call to Action</h2>
+            <div class="cta-box">
+                <div class="cta-text">"Book a free demo at our booth today"</div>
+                <div class="cta-offer">Special ARDA Offer: <strong>3 months free</strong> when you sign up this week</div>
+            </div>
+            <div style="margin-top: 20px;">
+                <a href="https://apex-index.com" class="website-link">apex-index.com</a>
+                <a href="https://myoperon.io" class="website-link">myoperon.io</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-container">
+        <button class="nav-btn" id="prevBtn">‹</button>
+        <div class="slide-counter" id="slideCounter">1 / 10</div>
+        <button class="nav-btn" id="nextBtn">›</button>
+    </div>
+    
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 10;
+        
+        function showSlide(slideNum) {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Show requested slide
+            document.getElementById('slide' + slideNum).classList.add('active');
+            
+            // Update counter
+            document.getElementById('slideCounter').textContent = slideNum + ' / ' + totalSlides;
+            
+            currentSlide = slideNum;
+        }
+        
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            }
+        }
+        
+        function prevSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            }
+        }
+        
+        // Button event listeners
+        document.getElementById('nextBtn').addEventListener('click', nextSlide);
+        document.getElementById('prevBtn').addEventListener('click', prevSlide);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                prevSlide();
+            } else if (e.key === 'Home') {
+                showSlide(1);
+            } else if (e.key === 'End') {
+                showSlide(totalSlides);
+            }
+        });
+        
+        // Initialize
+        showSlide(1);
+    </script>
+</body>
+</html>
