@@ -19,6 +19,7 @@ int OnInit()
    ArraySetAsSeries(b1,true);
    ArraySetAsSeries(b2,true);
    ArraySetAsSeries(b3,true);
+   Print("OperonTrader LIVE!");
    return(INIT_SUCCEEDED);
 }
 
@@ -27,6 +28,24 @@ void OnDeinit(const int reason)
    IndicatorRelease(h1);
    IndicatorRelease(h2);
    IndicatorRelease(h3);
+}
+
+void DoBuy()
+{
+   double a=SymbolInfoDouble(_Symbol,SYMBOL_ASK);
+   double sl=a-SL*Point;
+   double tp=a+TP*Point;
+   ct.Buy(0.01,_Symbol,a,sl,tp,"OT");
+   Print("BUY executed!");
+}
+
+void DoSell()
+{
+   double b=SymbolInfoDouble(_Symbol,SYMBOL_BID);
+   double sl=b+SL*Point;
+   double tp=b-TP*Point;
+   ct.Sell(0.01,_Symbol,b,sl,tp,"OT");
+   Print("SELL executed!");
 }
 
 void OnTick()
@@ -38,10 +57,8 @@ void OnTick()
    if(iTime(_Symbol,PERIOD_M15,0)==t) return;
    t=iTime(_Symbol,PERIOD_M15,0);
    if(PositionsTotal()>=2) return;
-   double a=SymbolInfoDouble(_Symbol,SYMBOL_ASK);
-   double b=SymbolInfoDouble(_Symbol,SYMBOL_BID);
-   if(b1[1]<b2[1]&&b1[0]>b2[0]&&b3[0]>50&&b3[0]<70)
-      ct.Buy(0.01,_Symbol,a,a-SL*Point,a+TP*Point);
-   if(b1[1]>b2[1]&&b1[0]<b2[0]&&b3[0]<50&&b3[0]>30)
-      ct.Sell(0.01,_Symbol,b,b+SL*Point,b-TP*Point);
+   bool buy=(b1[1]<b2[1]&&b1[0]>b2[0]&&b3[0]>50&&b3[0]<70);
+   bool sel=(b1[1]>b2[1]&&b1[0]<b2[0]&&b3[0]<50&&b3[0]>30);
+   if(buy) DoBuy();
+   if(sel) DoSell();
 }
