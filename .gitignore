@@ -23,3 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+.env
+create_stripe_products.py

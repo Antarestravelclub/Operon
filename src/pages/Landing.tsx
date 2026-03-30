@@ -207,7 +207,7 @@ export default function Landing() {
                 See How It Works
               </button>
             </div>
-            <div className="mt-12 flex items-center justify-center gap-4">
+            <div className="mt-32 flex items-center justify-center gap-4">
               <span className="text-gray-600">Trusted by 500+ small businesses</span>
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4, 5].map((i) => (
