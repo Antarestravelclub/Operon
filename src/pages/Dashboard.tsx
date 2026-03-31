@@ -154,6 +154,56 @@ export default function Dashboard() {
           <SalesAssistant />
         </div>
 
+        {/* Follow-Up System Section */}
+        <div className="mb-8">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900">Follow-Up System</h2>
+                <p className="text-sm text-gray-500 mt-1">Automated sales follow-up for your team</p>
+              </div>
+              <div className="flex items-center space-x-4">
+                <Link
+                  to="/rep/onboarding"
+                  className="px-4 py-2 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700 transition"
+                >
+                  Set up your rep team
+                </Link>
+                <Link
+                  to="/rep/dashboard"
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition"
+                >
+                  View all sales
+                </Link>
+              </div>
+            </div>
+            
+            {/* Quick Stats */}
+            {(() => {
+              const sales = JSON.parse(localStorage.getItem('operon_sales') || '[]')
+              const reps = JSON.parse(localStorage.getItem('operon_reps') || '[]')
+              const activeFollowUps = sales.filter((s: any) => !s.status?.followUpComplete).length
+              
+              return (
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="bg-gray-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-gray-900">{reps.length}</p>
+                    <p className="text-sm text-gray-600">Reps Onboarded</p>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-gray-900">{sales.length}</p>
+                    <p className="text-sm text-gray-600">Total Sales</p>
+                  </div>
+                  <div className="bg-gray-50 rounded-xl p-4 text-center">
+                    <p className="text-2xl font-bold text-gray-900">{activeFollowUps}</p>
+                    <p className="text-sm text-gray-600">Active Follow-Ups</p>
+                  </div>
+                </div>
+              )
+            })()}
+          </div>
+        </div>
+
         {/* Activity Feed */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <div className="flex justify-between items-center mb-6">

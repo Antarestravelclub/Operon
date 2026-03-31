@@ -1,64 +1,159 @@
 #include <Trade\Trade.mqh>
-#property version "1.00"
+#property version "3.00"
+#property description "OperonTrader v3 - EMA Cross + RSI Filter"
 
-input int FastEMA=8;
-input int SlowEMA=21;
-input int RSI=14;
-input double SL=300;
-input double TP=600;
+//--- Inputs
+input group "=== EMA Settings ==="
+input int      FastEMA     = 8;
+input int      SlowEMA     = 21;
 
-CTrade ct;
-int h1,h2,h3;
-double b1[],b2[],b3[];
+input group "=== RSI Settings ==="
+input int      RSIPeriod   = 14;
+input int      RSIOverbought = 65;   // Was 70 - relaxed for more signals
+input int      RSIOversold   = 35;   // Was 30 - relaxed for more signals
+
+input group "=== Risk Settings ==="
+input double   LotSize     = 0.01;
+input double   SL_Points   = 300;   // Stop Loss in points
+input double   TP_Points   = 600;   // Take Profit in points (2:1 R:R)
+input int      MaxTrades   = 2;     // Max open trades at once
+
+input group "=== Trade Filter ==="
+input bool     UseSessionFilter = true;  // Only trade London/NY session
+input int      SessionStartHour = 7;     // UTC hour to start trading
+input int      SessionEndHour   = 20;    // UTC hour to stop trading
+input int      MagicNumber      = 88888;
+
+//--- Global handles
+CTrade trade;
+int hFast, hSlow, hRSI;
+double fastBuf[], slowBuf[], rsiBuf[];
 
 int OnInit()
 {
-   h1=iMA(_Symbol,PERIOD_M15,FastEMA,0,MODE_EMA,PRICE_CLOSE);
-   h2=iMA(_Symbol,PERIOD_M15,SlowEMA,0,MODE_EMA,PRICE_CLOSE);
-   h3=iRSI(_Symbol,PERIOD_M15,RSI,PRICE_CLOSE);
-   ArraySetAsSeries(b1,true);
-   ArraySetAsSeries(b2,true);
-   ArraySetAsSeries(b3,true);
-   Print("OperonTrader LIVE!");
+   hFast = iMA(_Symbol, PERIOD_M15, FastEMA, 0, MODE_EMA, PRICE_CLOSE);
+   hSlow = iMA(_Symbol, PERIOD_M15, SlowEMA, 0, MODE_EMA, PRICE_CLOSE);
+   hRSI  = iRSI(_Symbol, PERIOD_M15, RSIPeriod, PRICE_CLOSE);
+   
+   ArraySetAsSeries(fastBuf, true);
+   ArraySetAsSeries(slowBuf, true);
+   ArraySetAsSeries(rsiBuf,  true);
+   
+   trade.SetExpertMagicNumber(MagicNumber);
+   trade.SetDeviationInPoints(10);
+   
+   Print("OperonTrader v3 initialized on ", _Symbol);
+   Print("SL=", SL_Points, " pts | TP=", TP_Points, " pts | Lot=", LotSize);
+   
    return(INIT_SUCCEEDED);
 }
 
 void OnDeinit(const int reason)
 {
-   IndicatorRelease(h1);
-   IndicatorRelease(h2);
-   IndicatorRelease(h3);
+   IndicatorRelease(hFast);
+   IndicatorRelease(hSlow);
+   IndicatorRelease(hRSI);
+}
+
+bool IsSessionActive()
+{
+   if(!UseSessionFilter) return true;
+   MqlDateTime dt;
+   TimeToStruct(TimeGMT(), dt);
+   return (dt.hour >= SessionStartHour && dt.hour < SessionEndHour);
+}
+
+int CountMyTrades()
+{
+   int count = 0;
+   for(int i = 0; i < PositionsTotal(); i++)
+   {
+      if(PositionGetSymbol(i) == _Symbol && 
+         PositionGetInteger(POSITION_MAGIC) == MagicNumber)
+         count++;
+   }
+   return count;
 }
 
 void DoBuy()
 {
-   double a=SymbolInfoDouble(_Symbol,SYMBOL_ASK);
-   double sl=a-SL*Point;
-   double tp=a+TP*Point;
-   ct.Buy(0.01,_Symbol,a,sl,tp,"OT");
-   Print("BUY executed!");
+   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   double point = SymbolInfoDouble(_Symbol, SYMBOL_POINT);
+   double sl = ask - SL_Points * point;
+   double tp = ask + TP_Points * point;
+   
+   // Normalize prices
+   sl = NormalizeDouble(sl, _Digits);
+   tp = NormalizeDouble(tp, _Digits);
+   
+   if(trade.Buy(LotSize, _Symbol, ask, sl, tp, "OperonTrader v3"))
+      Print("✅ BUY opened | Ask=", ask, " SL=", sl, " TP=", tp);
+   else
+      Print("❌ BUY failed | Error=", GetLastError());
 }
 
 void DoSell()
 {
-   double b=SymbolInfoDouble(_Symbol,SYMBOL_BID);
-   double sl=b+SL*Point;
-   double tp=b-TP*Point;
-   ct.Sell(0.01,_Symbol,b,sl,tp,"OT");
-   Print("SELL executed!");
+   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   double point = SymbolInfoDouble(_Symbol, SYMBOL_POINT);
+   double sl = bid + SL_Points * point;
+   double tp = bid - TP_Points * point;
+   
+   sl = NormalizeDouble(sl, _Digits);
+   tp = NormalizeDouble(tp, _Digits);
+   
+   if(trade.Sell(LotSize, _Symbol, bid, sl, tp, "OperonTrader v3"))
+      Print("✅ SELL opened | Bid=", bid, " SL=", sl, " TP=", tp);
+   else
+      Print("❌ SELL failed | Error=", GetLastError());
 }
 
 void OnTick()
 {
-   CopyBuffer(h1,0,0,3,b1);
-   CopyBuffer(h2,0,0,3,b2);
-   CopyBuffer(h3,0,0,3,b3);
-   static datetime t=0;
-   if(iTime(_Symbol,PERIOD_M15,0)==t) return;
-   t=iTime(_Symbol,PERIOD_M15,0);
-   if(PositionsTotal()>=2) return;
-   bool buy=(b1[1]<b2[1]&&b1[0]>b2[0]&&b3[0]>50&&b3[0]<70);
-   bool sel=(b1[1]>b2[1]&&b1[0]<b2[0]&&b3[0]<50&&b3[0]>30);
-   if(buy) DoBuy();
-   if(sel) DoSell();
+   // Only act on new M15 candle
+   static datetime lastBar = 0;
+   datetime currentBar = iTime(_Symbol, PERIOD_M15, 0);
+   if(currentBar == lastBar) return;
+   lastBar = currentBar;
+   
+   // Check session
+   if(!IsSessionActive()) return;
+   
+   // Check max trades
+   if(CountMyTrades() >= MaxTrades) return;
+   
+   // Get indicator values
+   if(CopyBuffer(hFast, 0, 0, 3, fastBuf) < 3) return;
+   if(CopyBuffer(hSlow, 0, 0, 3, slowBuf) < 3) return;
+   if(CopyBuffer(hRSI,  0, 0, 3, rsiBuf)  < 3) return;
+   
+   double fastPrev = fastBuf[1];
+   double slowPrev = slowBuf[1];
+   double fastCurr = fastBuf[0];
+   double slowCurr = slowBuf[0];
+   double rsi      = rsiBuf[0];
+   
+   // BUY signal: EMA8 crosses above EMA21 + RSI not overbought
+   bool buySignal = (fastPrev < slowPrev) && 
+                    (fastCurr > slowCurr) && 
+                    (rsi > 50) && 
+                    (rsi < RSIOverbought);
+   
+   // SELL signal: EMA8 crosses below EMA21 + RSI not oversold
+   bool sellSignal = (fastPrev > slowPrev) && 
+                     (fastCurr < slowCurr) && 
+                     (rsi < 50) && 
+                     (rsi > RSIOversold);
+   
+   if(buySignal)
+   {
+      Print("📈 BUY signal | EMA8=", fastCurr, " EMA21=", slowCurr, " RSI=", rsi);
+      DoBuy();
+   }
+   
+   if(sellSignal)
+   {
+      Print("📉 SELL signal | EMA8=", fastCurr, " EMA21=", slowCurr, " RSI=", rsi);
+      DoSell();
+   }
 }

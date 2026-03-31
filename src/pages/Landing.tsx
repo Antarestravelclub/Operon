@@ -155,8 +155,9 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Link to="/" className="flex items-center space-x-2">
+              <Link to="/" className="flex items-center space-x-3">
                 <img src="/operon-logo.jpg" alt="Operon" className="h-12 md:h-20 w-auto" />
+                <span className="text-xs text-gray-500 hidden md:block">Your AI Workforce Platform</span>
               </Link>
             </div>
             <div className="hidden md:flex items-center space-x-8">
@@ -192,6 +193,9 @@ export default function Landing() {
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
           <div className="text-center max-w-4xl mx-auto">
+            <span className="inline-block bg-violet-100 text-violet-700 text-sm font-medium px-4 py-1 rounded-full mb-6">
+              Your AI Workforce Platform
+            </span>
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
               Hire your first AI employee in under 2 minutes.
             </h1>
@@ -502,6 +506,73 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Follow-Up Automation Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <span className="inline-block bg-violet-100 text-violet-700 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4">New Feature</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Never Lose a Sale After the Close</h2>
+            <p className="text-xl text-gray-500 max-w-2xl mx-auto">Most sales fall apart not at the pitch — but in the silence after signing. Operon automates every touchpoint so your clients feel remembered, valued, and excited.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left: Features */}
+            <div className="space-y-6">
+              {[
+                { icon: "📧", title: "Welcome Email in 1 Hour", desc: "Sent automatically from your rep's own email address — warm, personal, and on-brand." },
+                { icon: "📞", title: "Voice Clone Calls", desc: "Your rep's cloned voice (powered by ElevenLabs) calls every client on Day 1. They think it's a real call." },
+                { icon: "🤖", title: "AI FAQ Autoresponder", desc: "Clients text questions 24/7. AI answers instantly. Reps only get notified for escalations." },
+                { icon: "📬", title: "7-Day Email Sequence", desc: "Automated nurture emails from the rep's address — booking tips, benefits reminders, check-ins." },
+                { icon: "🎁", title: "Referral Ask on Day 45", desc: "Happy clients get a personalized referral request at exactly the right moment." },
+              ].map((f) => (
+                <div key={f.title} className="flex gap-4 items-start">
+                  <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">{f.icon}</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">{f.title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Right: Stats + CTA */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Rep does 3 things.</h3>
+              <h3 className="text-xl font-bold text-violet-600 mb-6">AI does the rest.</h3>
+              <div className="space-y-4 mb-8">
+                {[
+                  { step: "1", text: "Fill intake form after sale", time: "3 min" },
+                  { step: "2", text: "Photo the contract", time: "30 sec" },
+                  { step: "3", text: "Record voice sample once", time: "5 min (forever)" },
+                ].map((s) => (
+                  <div key={s.step} className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl">
+                    <div className="w-8 h-8 bg-violet-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">{s.step}</div>
+                    <span className="text-gray-700 text-sm flex-1">{s.text}</span>
+                    <span className="text-violet-600 text-xs font-semibold">{s.time}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-3 gap-4 mb-8 text-center">
+                <div className="bg-violet-50 rounded-xl p-3">
+                  <div className="text-2xl font-bold text-violet-600">7</div>
+                  <div className="text-xs text-gray-500">Touchpoints</div>
+                </div>
+                <div className="bg-violet-50 rounded-xl p-3">
+                  <div className="text-2xl font-bold text-violet-600">45</div>
+                  <div className="text-xs text-gray-500">Days covered</div>
+                </div>
+                <div className="bg-violet-50 rounded-xl p-3">
+                  <div className="text-2xl font-bold text-violet-600">$65</div>
+                  <div className="text-xs text-gray-500">Per rep/mo</div>
+                </div>
+              </div>
+              <a href="/signup" className="block w-full text-center bg-violet-600 text-white py-4 rounded-xl font-semibold hover:bg-violet-700 transition">Get Started Free →</a>
+              <p className="text-center text-xs text-gray-400 mt-3">No credit card required</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-400 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -509,8 +580,9 @@ export default function Landing() {
             <div className="mb-6 md:mb-0">
               <div className="flex items-center space-x-2 mb-2">
                 <img src="/operon-logo.jpg" alt="Operon" className="h-8 w-auto brightness-0 invert" />
+                <span className="text-white font-semibold">Operon</span>
               </div>
-              <p className="text-sm">Your AI workforce, always working.</p>
+              <p className="text-sm text-violet-400">Your AI Workforce Platform</p>
             </div>
             <div className="flex space-x-8">
               <a href="#" className="hover:text-white transition">Product</a>
