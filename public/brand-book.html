@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Standards Guide - Mark Anthony Piff</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* SOLACE BRAND COLORS */
+            --solace-bg: #f0f4f0;
+            --solace-text: #2d3d2d;
+            --solace-body: #4a5f4a;
+            --solace-muted: #5a6b5a;
+            --solace-accent: #6b9b6b;
+            --solace-gold: #c9a96e;
+            --solace-dark: #2d4a2d;
+            
+            /* OPERON BRAND COLORS */
+            --operon-primary: #7c3aed;
+            --operon-secondary: #6d28d9;
+            --operon-accent: #00d4aa;
+            --operon-dark: #1a1a2e;
+            
+            /* APEX INDEX BRAND COLORS */
+            --apex-navy-dark: #0a0f14;
+            --apex-navy-medium: #0f1720;
+            --apex-navy-light: #1a2332;
+            --apex-blue: #33ccff;
+            --apex-blue-dark: #2aa8d9;
+            --apex-gold: #d4a574;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .page {
+            min-height: 100vh;
+            padding: 60px 40px;
+        }
+
+        .cover-page {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .cover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .cover-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 3rem;
+        }
+
+        .brand-logos {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .brand-logo-item {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-logo-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .logo-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .solace-logo {
+            background: linear-gradient(135deg, var(--solace-accent), var(--solace-dark));
+            color: white;
+        }
+
+        .operon-logo {
+            background: linear-gradient(135deg, var(--operon-primary), var(--operon-secondary));
+            color: white;
+        }
+
+        .apex-logo {
+            background: linear-gradient(135deg, var(--apex-blue), var(--apex-blue-dark));
+            color: white;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .brand-domain {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* SOLACE SECTION */
+        .solace-section {
+            background: var(--solace-bg);
+            color: var(--solace-text);
+        }
+
+        .section-header {
+            background: var(--solace-dark);
+            color: white;
+            padding: 2rem 3rem;
+            margin: -60px -40px 2rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .brand-tagline {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .color-palette {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .color-palette h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--solace-dark);
+        }
+
+        .color-swatches {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .color-swatch {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        .swatch-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .swatch-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .swatch-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .swatch-hex {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            font-family: monospace;
+        }
+
+        .typography-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+
+        .typography-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--solace-dark);
+        }
+
+        .font-sample {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+
+        .font-sample h4 {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .playfair-sample {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            line-height: 1.2;
+            color: var(--solace-text);
+        }
+
+        .inter-sample {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--solace-body);
+            line-height: 1.7;
+        }
+
+        .guidelines-section {
+            margin-top: 2rem;
+        }
+
+        .guidelines-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .guideline-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .guideline-box h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--solace-dark);
+        }
+
+        .guideline-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .guideline-box li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .guideline-box li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--solace-accent);
+        }
+
+        .do-dont-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .do-box {
+            background: #e8f5e8;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--solace-accent);
+        }
+
+        .do-box h5 {
+            color: var(--solace-accent);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .dont-box {
+            background: #fff5f5;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .dont-box h5 {
+            color: #e74c3c;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .promo-codes {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .promo-codes h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--solace-dark);
+        }
+
+        .promo-code-list {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .promo-code {
+            background: var(--solace-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* OPERON SECTION */
+        .operon-section {
+            background: var(--operon-dark);
+            color: white;
+        }
+
+        .operon-section .section-header {
+            background: var(--operon-primary);
+        }
+
+        .operon-section .color-palette h3,
+        .operon-section .typography-section h3,
+        .operon-section .guideline-box h4 {
+            color: var(--operon-primary);
+        }
+
+        .operon-section .color-swatch {
+            background: #2a2a4a;
+        }
+
+        .operon-section .font-sample {
+            background: #2a2a4a;
+            border-color: #3a3a5a;
+        }
+
+        .operon-section .guideline-box {
+            background: #2a2a4a;
+        }
+
+        .pricing-box {
+            background: linear-gradient(135deg, var(--operon-primary), var(--operon-secondary));
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .pricing-box h5 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-item {
+            margin: 0.5rem 0;
+            opacity: 0.9;
+        }
+
+        /* APEX SECTION */
+        .apex-section {
+            background: var(--apex-navy-dark);
+            color: white;
+        }
+
+        .apex-section .section-header {
+            background: var(--apex-navy-medium);
+        }
+
+        .apex-section .section-header h2 {
+            color: var(--apex-blue);
+        }
+
+        .apex-section .color-palette h3,
+        .apex-section .typography-section h3,
+        .apex-section .guideline-box h4 {
+            color: var(--apex-blue);
+        }
+
+        .apex-section .color-swatch {
+            background: var(--apex-navy-medium);
+            border-color: var(--apex-navy-light);
+        }
+
+        .apex-section .font-sample {
+            background: var(--apex-navy-medium);
+            border-color: var(--apex-navy-light);
+        }
+
+        .apex-section .font-sample h4 {
+            color: var(--apex-blue);
+        }
+
+        .apex-section .guideline-box {
+            background: var(--apex-navy-medium);
+            border-color: var(--apex-navy-light);
+        }
+
+        /* SHARED STANDARDS SECTION */
+        .shared-section {
+            background: #f8f9fa;
+            padding: 3rem 2rem;
+            margin: 2rem -40px -60px;
+        }
+
+        .shared-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .shared-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .shared-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .shared-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .shared-item h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .shared-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .powered-by-badge {
+            background: linear-gradient(135deg, var(--operon-primary), var(--operon-secondary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            .page {
+                page-break-after: always;
+                padding: 40px;
+            }
+
+            .cover-page {
+                page-break-after: always;
+            }
+
+            .shared-section {
+                page-break-before: always;
+            }
+
+            .section-header {
+                margin: -40px -40px 2rem;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .page {
+                padding: 30px 20px;
+            }
+
+            .cover-title {
+                font-size: 2.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .guidelines-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .shared-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-logos {
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <section class="page cover-page">
+        <div class="cover-content">
+            <h1 class="cover-title">Brand Standards Guide</h1>
+            <p class="cover-subtitle">Comprehensive guidelines for Mark Anthony Piff's portfolio brands</p>
+
+            <div class="brand-logos">
+                <div class="brand-logo-item">
+                    <div class="logo-placeholder solace-logo">WE CARE</div>
+                    <div class="brand-name">Solace Wellness</div>
+                    <div class="brand-domain">solace-wellness.io</div>
+                </div>
+                <div class="brand-logo-item">
+                    <div class="logo-placeholder operon-logo">⚡</div>
+                    <div class="brand-name">Operon</div>
+                    <div class="brand-domain">myoperon.io</div>
+                </div>
+                <div class="brand-logo-item">
+                    <div class="logo-placeholder apex-logo">APEX</div>
+                    <div class="brand-name">APEX Index</div>
+                    <div class="brand-domain">apex-index.com</div>
+                </div>
+            </div>
+
+            <p style="opacity: 0.7; margin-top: 2rem;">© 2024 Mark Anthony Piff | All brands under Antarestravelclub GitHub org</p>
+        </div>
+    </section>
+
+    <!-- SOLACE WELLNESS SECTION -->
+    <section class="page solace-section">
+        <div class="section-header">
+            <h2>Solace Wellness</h2>
+            <div class="brand-tagline">"We Care"</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="color-palette">
+                <h3>Color Palette</h3>
+                <div class="color-swatches">
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #f0f4f0;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Background</span>
+                            <span class="swatch-hex">#f0f4f0</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #2d3d2d;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Text</span>
+                            <span class="swatch-hex">#2d3d2d</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #4a5f4a;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Body</span>
+                            <span class="swatch-hex">#4a5f4a</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #5a6b5a;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Muted</span>
+                            <span class="swatch-hex">#5a6b5a</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #6b9b6b;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Accent Green</span>
+                            <span class="swatch-hex">#6b9b6b</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #c9a96e;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Gold</span>
+                            <span class="swatch-hex">#c9a96e</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #2d4a2d;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Dark Green</span>
+                            <span class="swatch-hex">#2d4a2d</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="typography-section">
+                <h3>Typography</h3>
+                <div class="font-sample">
+                    <h4>Playfair Display (Headings/Serif)</h4>
+                    <div class="playfair-sample">We Care — Wellness for Mind & Soul</div>
+                </div>
+                <div class="font-sample">
+                    <h4>Inter (Body)</h4>
+                    <div class="inter-sample">Solace Wellness provides compassionate support through our network of certified Wellness Coaches. We believe in healing through connection and understanding, never through clinical approaches.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="guidelines-section">
+            <div class="guidelines-grid">
+                <div class="guideline-box">
+                    <h4>Voice & Tone</h4>
+                    <ul>
+                        <li>Warm and empathetic</li>
+                        <li>Supportive without being clinical</li>
+                        <li>Encouraging and positive</li>
+                        <li>Professional yet approachable</li>
+                        <li>Respectful of privacy and boundaries</li>
+                    </ul>
+                </div>
+                <div class="guideline-box">
+                    <h4>Button Style</h4>
+                    <ul>
+                        <li>Rounded corners (border-radius)</li>
+                        <li>Sage green background: #6b9b6b</li>
+                        <li>White text color</li>
+                        <li>Hover state with slight opacity change</li>
+                        <li>Generous padding for touch targets</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="do-dont-grid">
+                <div class="do-box">
+                    <h5>✅ DO</h5>
+                    <ul>
+                        <li>Say "Wellness Coach" instead of "therapist"</li>
+                        <li>Use palm fronds as subtle watermark</li>
+                        <li>Keep backgrounds light on main pages</li>
+                        <li>Use rounded, sage green buttons</li>
+                    </ul>
+                </div>
+                <div class="dont-box">
+                    <h5>❌ DON'T</h5>
+                    <ul>
+                        <li>Use dark backgrounds on main pages</li>
+                        <li>Say "therapist" — use "Wellness Coach"</li>
+                        <li>Use clinical or medical terminology</li>
+                        <li>Overwhelm with too many design elements</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="promo-codes">
+                <h4>Promo Codes</h4>
+                <div class="promo-code-list">
+                    <span class="promo-code">SOLACE25</span>
+                    <span class="promo-code">WELCOME50</span>
+                    <span class="promo-code">MENTALHEALTH</span>
+                    <span class="promo-code">WECARE</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OPERON SECTION -->
+    <section class="page operon-section">
+        <div class="section-header">
+            <h2>Operon</h2>
+            <div class="brand-tagline">"Your AI Workforce Platform"</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="color-palette">
+                <h3>Color Palette</h3>
+                <div class="color-swatches">
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #7c3aed;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Primary Purple</span>
+                            <span class="swatch-hex">#7c3aed</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #6d28d9;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Secondary Purple</span>
+                            <span class="swatch-hex">#6d28d9</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #00d4aa;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Teal Accent</span>
+                            <span class="swatch-hex">#00d4aa</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #1a1a2e;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Dark Background</span>
+                            <span class="swatch-hex">#1a1a2e</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="typography-section">
+                <h3>Typography</h3>
+                <div class="font-sample">
+                    <h4>Inter (Primary)</h4>
+                    <div class="inter-sample">Operon — Your AI Workforce Platform</div>
+                </div>
+                <div class="font-sample">
+                    <h4>System Fonts</h4>
+                    <div class="inter-sample">Professional, clean typography for maximum readability and modern aesthetics.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="guidelines-section">
+            <div class="guidelines-grid">
+                <div class="guideline-box">
+                    <h4>Voice & Tone</h4>
+                    <ul>
+                        <li>Professional and B2B-focused</li>
+                        <li>Confident and results-driven</li>
+                        <li>Direct and efficient</li>
+                        <li>Innovation-forward messaging</li>
+                        <li>Data-backed claims</li>
+                    </ul>
+                </div>
+                <div class="guideline-box">
+                    <h4>Branding Guidelines</h4>
+                    <ul>
+                        <li>Always use "Your AI Workforce Platform"</li>
+                        <li>Never say "FiMar Tech"</li>
+                        <li>Logo must be Operon_Button PNG</li>
+                        <li>Purple primary with teal accents</li>
+                        <li>Dark dashboard, white landing pages</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pricing-box">
+                <h5>Pricing</h5>
+                <div class="pricing-item">$39 per rep per month + $1,900 setup fee</div>
+                <div class="pricing-item">Bundle: $4,500 all-inclusive package</div>
+                <div class="pricing-item" style="margin-top: 1rem; opacity: 0.8;">Admin PIN: 1234</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- APEX INDEX SECTION -->
+    <section class="page apex-section">
+        <div class="section-header">
+            <h2>APEX Index</h2>
+            <div class="brand-tagline">Sales talent assessment for vacation ownership industry</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="color-palette">
+                <h3>Color Palette</h3>
+                <div class="color-swatches">
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #0a0f14;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Navy Dark</span>
+                            <span class="swatch-hex">#0a0f14</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #0f1720;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Navy Medium</span>
+                            <span class="swatch-hex">#0f1720</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #1a2332;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Navy Light</span>
+                            <span class="swatch-hex">#1a2332</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #33ccff;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Electric Blue</span>
+                            <span class="swatch-hex">#33ccff</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #2aa8d9;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Blue Dark</span>
+                            <span class="swatch-hex">#2aa8d9</span>
+                        </div>
+                    </div>
+                    <div class="color-swatch">
+                        <div class="swatch-box" style="background: #d4a574;"></div>
+                        <div class="swatch-info">
+                            <span class="swatch-name">Gold Accent</span>
+                            <span class="swatch-hex">#d4a574</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="typography-section">
+                <h3>Typography</h3>
+                <div class="font-sample">
+                    <h4>Montserrat (Headings)</h4>
+                    <div class="playfair-sample" style="font-family: 'Inter', sans-serif;">APEX Index</div>
+                </div>
+                <div class="font-sample">
+                    <h4>Inter (Body)</h4>
+                    <div class="inter-sample">Professional data-driven assessment platform for hiring in the vacation ownership industry.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="guidelines-section">
+            <div class="guidelines-grid">
+                <div class="guideline-box">
+                    <h4>Voice & Tone</h4>
+                    <ul>
+                        <li>Data-driven and analytical</li>
+                        <li>Professional and authoritative</li>
+                        <li>Hiring-focused messaging</li>
+                        <li>Industry-specific expertise</li>
+                        <li>Results-oriented communication</li>
+                    </ul>
+                </div>
+                <div class="guideline-box">
+                    <h4>Brand Elements</h4>
+                    <ul>
+                        <li>Navy foundation with electric blue accent</li>
+                        <li>Dark theme default</li>
+                        <li>Montserrat for headings</li>
+                        <li>Inter for body text</li>
+                        <li>Gold accent for highlights</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pricing-box" style="background: linear-gradient(135deg, var(--apex-blue), var(--apex-blue-dark));">
+                <h5>Pricing</h5>
+                <div class="pricing-item">$799 per month + $1,500 setup fee</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHARED STANDARDS -->
+    <section class="shared-section">
+        <div class="shared-content">
+            <h3 class="shared-title">Shared Standards Across All Brands</h3>
+            <div class="shared-grid">
+                <div class="shared-item">
+                    <h4>Powered by Operon Badge</h4>
+                    <p>All Solace Wellness and APEX Index pages should display "Powered by Operon" badge</p>
+                </div>
+                <div class="shared-item">
+                    <h4>Admin PIN</h4>
+                    <p><strong>1234</strong> across all platforms (Solace, Operon, APEX)</p>
+                </div>
+                <div class="shared-item">
+                    <h4>Instagram</h4>
+                    <p><strong>@solacewellnessio</strong></p>
+                </div>
+            </div>
+            <div class="shared-grid" style="margin-top: 1.5rem;">
+                <div class="shared-item">
+                    <h4>GitHub Organization</h4>
+                    <p>All repos under <strong>Antarestravelclub</strong> GitHub org</p>
+                </div>
+                <div class="shared-item">
+                    <h4>Google Fonts</h4>
+                    <p>Playfair Display + Inter (loaded for all brands)</p>
+                </div>
+                <div class="shared-item">
+                    <h4>Print Ready</h4>
+                    <p>Both screen and print-optimized styling included</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <div class="powered-by-badge">⚡ Powered by Operon ⚡</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Add print functionality
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+        });
+    </script>
+</body>
+</html>

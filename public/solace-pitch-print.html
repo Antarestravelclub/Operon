@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solace Wellness - Business Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafcfa;
+            color: #2d3d2d;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background: white;
+            min-height: 297mm; /* A4 height */
+            position: relative;
+        }
+
+        /* Header with Logo */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #6b9b6b;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-badge {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2d4a2d 0%, #6b9b6b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #2d4a2d;
+        }
+
+        .page-number {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Footer */
+        .page-footer {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 2rem;
+            right: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e8ede8;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: #2d4a2d;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #3d5a3d;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: #4d6a4d;
+        }
+
+        .subtitle {
+            color: #6b9b6b;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+            page-break-inside: avoid;
+        }
+
+        .section.introduction {
+            page-break-after: always;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: #2d4a2d;
+            color: white;
+            padding: 0.8rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #e8ede8;
+        }
+
+        tr:nth-child(even) {
+            background: #f8faf8;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+
+        /* Stat boxes for print */
+        .stat-grid-print {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-box-print {
+            background: #f0f4f0;
+            border-left: 3px solid #6b9b6b;
+            padding: 1rem;
+        }
+
+        .stat-box-print.gold {
+            border-left-color: #c9a96e;
+            background: #f9f5f0;
+        }
+
+        .stat-number-print {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d4a2d;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-label-print {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.3rem;
+        }
+
+        /* Callout for print */
+        .callout-print {
+            background: #f0f4f0;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #c9a96e;
+        }
+
+        .callout-print strong {
+            color: #2d4a2d;
+        }
+
+        /* Quote box */
+        .quote-box {
+            font-style: italic;
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            background: #f8faf8;
+            border-left: 3px solid #6b9b6b;
+            color: #4d6a4d;
+        }
+
+        /* Divider */
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, #6b9b6b 0%, #c9a96e 50%, #6b9b6b 100%);
+            margin: 2rem 0;
+        }
+
+        /* Page break control */
+        .avoid-break {
+            page-break-inside: avoid;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .page {
+                min-height: auto;
+                padding: 1.5rem 2rem;
+                box-shadow: none;
+            }
+
+            .page-footer {
+                position: fixed;
+                bottom: 1rem;
+                left: 0;
+                right: 0;
+            }
+
+            /* Remove background colors for better print */
+            .stat-box-print {
+                background: #f0f0f0 !important;
+            }
+
+            .callout-print {
+                background: #f5f5f5 !important;
+            }
+
+            /* Page breaks */
+            .section {
+                page-break-inside: avoid;
+            }
+
+            .section-break {
+                page-break-after: always;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            table {
+                page-break-inside: auto;
+            }
+
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+
+            /* Hide navigation and interactive elements */
+            .nav-dots, .footer-badge {
+                display: none !important;
+            }
+        }
+
+        /* Screen display tweaks */
+        @media screen {
+            .page {
+                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+                margin: 2rem auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+        <!-- Header -->
+        <div class="page-header">
+            <div class="logo">
+                <div class="logo-badge">SW</div>
+                <div class="logo-text">Solace Wellness</div>
+            </div>
+            <div class="page-number">Page 1</div>
+        </div>
+
+        <!-- Section 1: Cover & Executive Summary -->
+        <div class="section introduction">
+            <h1>Solace Wellness</h1>
+            <p class="subtitle">Executive Summary & Business Plan</p>
+
+            <div style="margin: 2rem 0;">
+                <p><strong>Prepared for:</strong> Business Coach Review & Strategic Planning</p>
+                <p><strong>Date:</strong> April 2026</p>
+                <p><strong>Status:</strong> LIVE OPERATIONAL PLATFORM (Revenue Generating)</p>
+                <p><strong>Website:</strong> solace-wellness.io</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <h3>Executive Overview</h3>
+            <p>
+                <strong>Solace Wellness</strong> is a fully deployed, AI-powered wellness coaching platform delivering 24/7 emotional support through voice AI technology. Unlike 95% of health-tech startups that remain as concepts or MVPs, <strong>Solace Wellness is LIVE</strong> with an operational product, existing user base, and active revenue streams.
+            </p>
+
+            <p style="margin-top: 1rem;">
+                <strong>The Problem:</strong> Traditional therapy costs $150-$300/session with 2-6 week waitlists. BetterHelp charges $240-$400/month. Millions cannot afford or access timely mental health support.
+            </p>
+
+            <p style="margin-top: 1rem;">
+                <strong>The Solution:</strong> Enterprise-grade voice AI coaching at 20-40x below competitor pricing, available instantly 24/7 in three languages.
+            </p>
+
+            <div class="stat-grid-print" style="margin-top: 2rem;">
+                <div class="stat-box-print">
+                    <div class="stat-number-print">$9.99</div>
+                    <div class="stat-label-print">Starting Monthly Price</div>
+                </div>
+                <div class="stat-box-print gold">
+                    <div class="stat-number-print">40x</div>
+                    <div class="stat-label-print">Cheaper than Competitors</div>
+                </div>
+                <div class="stat-box-print">
+                    <div class="stat-number-print">$460B</div>
+                    <div class="stat-label-print">Global Market Size</div>
+                </div>
+                <div class="stat-box-print gold">
+                    <div class="stat-number-print">7.2x</div>
+                    <div class="stat-label-print">LTV/CAC Ratio</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Footer -->
+        <div class="page-footer">
+            Solace Wellness | solace-wellness.io | Confidential
+        </div>
+    </div>
+
+    <!-- Page 2 -->
+    <div class="page section-break">
+        <div class="page-header">
+            <div class="logo">
+                <div class="logo-badge">SW</div>
+                <div class="logo-text">Solace Wellness</div>
+            </div>
+            <div class="page-number">Page 2</div>
+        </div>
+
+        <!-- Section 2: What We've Built -->
+        <div class="section">
+            <h2>What We've Built (Differentiator: Production-Ready)</h2>
+            
+            <div class="avoid-break">
+                <h3>Core Platform</h3>
+                <ul>
+                    <li><strong>Live Web Application:</strong> React/TypeScript deployed at solace-wellness.io</li>
+                    <li><strong>AI Voice Engine:</strong> ElevenLabs "Sarah" voice - warm, empathetic conversations</li>
+                    <li><strong>Content Library:</strong> 24 wellness topics (anxiety, depression, grief, trauma, relationships, addiction, caregiving)</li>
+                    <li><strong>Multilingual:</strong> Native English, French, Spanish support</li>
+                    <li><strong>Phone Infrastructure:</strong> Twilio AI line 1-866-593-CALM (US) + Canadian number</li>
+                </ul>
+            </div>
+
+            <div class="avoid-break">
+                <h3>Business Infrastructure</h3>
+                <ul>
+                    <li><strong>Payment Stack:</strong> Stripe integration with 6 subscription tiers + annual plans</li>
+                    <li><strong>User Management:</strong> Supabase database with profiles, referral codes, charity selection</li>
+                    <li><strong>Session Management:</strong> 15-min free trial, hour-based subscription model</li>
+                    <li><strong>Engagement Features:</strong> Pause button, timer, upgrade prompts</li>
+                    <li><strong>Growth Engine:</strong> Referral system with unique codes and QR codes</li>
+                </ul>
+            </div>
+
+            <div class="callout-print">
+                <p><strong>Brand Design:</strong> Sage green aesthetic with palm frond watermark</p>
+                <p><strong>Compliance:</strong> "Powered by Operon" AI workforce platform badge</p>
+                <p><strong>Social Content:</strong> 25 posts, 5 TikTok scripts, Instagram graphics ready</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Revenue & Retention -->
+        <div class="section avoid-break">
+            <h2>Revenue & Retention</h2>
+            
+            <ul>
+                <li><strong>Charity Model:</strong> 2% of every subscription to user-selected mental health charities (10 partners) - drives emotional loyalty</li>
+                <li><strong>Vacation Giveaway:</strong> Partnership with MarketingBoost.com (Cancun, Paris, Vegas trips) - acquisition driver</li>
+                <li><strong>Promo Codes:</strong> SOLACE25, WELCOME50, MENTALHEALTH, WECARE</li>
+                <li><strong>Content Assets:</strong> Video library, guided journeys, 5 books by Chental Wilson</li>
+                <li><strong>Email Marketing:</strong> Brevo integration ready</li>
+                <li><strong>Operations:</strong> Admin dashboard with full analytics and user management</li>
+            </ul>
+        </div>
+
+        <!-- Page Footer -->
+        <div class="page-footer">
+            Solace Wellness | solace-wellness.io | Confidential
+        </div>
+    </div>
+
+    <!-- Page 3 -->
+    <div class="page section-break">
+        <div class="page-header">
+            <div class="logo">
+                <div class="logo-badge">SW</div>
+                <div class="logo-text">Solace Wellness</div>
+            </div>
+            <div class="page-number">Page 3</div>
+        </div>
+
+        <!-- Section 4: Pricing Strategy -->
+        <div class="section">
+            <h2>Pricing Strategy</h2>
+            <p class="subtitle">At $9.99/month, Solace is 40x cheaper than BetterHelp's $400/month entry point.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tier</th>
+                        <th>Monthly</th>
+                        <th>Annual (20% off)</th>
+                        <th>Support Hours</th>
+                        <th>Target Market</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Free Trial</strong></td>
+                        <td>$0</td>
+                        <td>N/A</td>
+                        <td>15 min</td>
+                        <td>Conversion funnel</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Basic</strong></td>
+                        <td>$9.99</td>
+                        <td>$95.88</td>
+                        <td>3 hrs</td>
+                        <td>Individual users</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Premium</strong></td>
+                        <td>$19.99</td>
+                        <td>$191.88</td>
+                        <td>10 hrs</td>
+                        <td>Power users</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Family</strong></td>
+                        <td>$49.99</td>
+                        <td>$479.88</td>
+                        <td>20 hrs shared</td>
+                        <td>Families/groups</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 5: Market Opportunity -->
+        <div class="section avoid-break">
+            <h2>Market Opportunity</h2>
+            
+            <div class="avoid-break">
+                <h3>Total Addressable Market</h3>
+                <ul>
+                    <li><strong>Global Mental Health Apps:</strong> $460B (2024), projected to reach $623B by 2032</li>
+                    <li><strong>US Addressable:</strong> 1 in 5 Americans experience mental illness (52M+ people)</li>
+                    <li><strong>Traditional Therapy Gap:</strong> 60% of those needing care cite cost/access as barriers</li>
+                </ul>
+            </div>
+
+            <div class="avoid-break">
+                <h3>Competitive Landscape</h3>
+                <ul>
+                    <li><strong>Traditional Therapy:</strong> $150-$300/session, 2-6 week waitlists</li>
+                    <li><strong>BetterHelp:</strong> $240-$400/month (FTC fined $7.8M for privacy violations)</li>
+                    <li><strong>Talkspace:</strong> $276-$400/month</li>
+                    <li><strong>Solace Wellness:</strong> $9.99-$49.99/month, <strong>instant access</strong>, privacy-first</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Page Footer -->
+        <div class="page-footer">
+            Solace Wellness | solace-wellness.io | Confidential
+        </div>
+    </div>
+
+    <!-- Page 4 -->
+    <div class="page section-break">
+        <div class="page-header">
+            <div class="logo">
+                <div class="logo-badge">SW</div>
+                <div class="logo-text">Solace Wellness</div>
+            </div>
+            <div class="page-number">Page 4</div>
+        </div>
+
+        <!-- Section 6: Revenue Model & Unit Economics -->
+        <div class="section">
+            <h2>Revenue Model & Unit Economics</h2>
+
+            <h3>Primary Revenue Streams</h3>
+            <ol>
+                <li><strong>SaaS Subscriptions:</strong> Recurring monthly/annual revenue</li>
+                <li><strong>Referral Growth:</strong> Viral coefficient via unique codes + QR sharing</li>
+                <li><strong>B2B Partnerships:</strong> White-label for employers, insurers, resorts</li>
+            </ol>
+
+            <h3>Unit Economics (Conservative Estimates)</h3>
+            <div class="stat-grid-print">
+                <div class="stat-box-print">
+                    <div class="stat-number-print">$15-25</div>
+                    <div class="stat-label-print">CAC (Customer Acquisition Cost)</div>
+                </div>
+                <div class="stat-box-print">
+                    <div class="stat-number-print">$15</div>
+                    <div class="stat-label-print">Blended MRR per user</div>
+                </div>
+                <div class="stat-box-print">
+                    <div class="stat-number-print">$180+</div>
+                    <div class="stat-label-print">LTV (12-month avg retention)</div>
+                </div>
+                <div class="stat-box-print gold">
+                    <div class="stat-number-print">7.2x</div>
+                    <div class="stat-label-print">LTV/CAC Ratio</div>
+                </div>
+            </div>
+
+            <div class="avoid-break">
+                <h3>Secondary Revenue Drivers</h3>
+                <ul>
+                    <li><strong>MarketingBoost Partnership:</strong> $7 per vacation certificate activation</li>
+                    <li><strong>Charity Model:</strong> Non-revenue but drives retention (emotional moat)</li>
+                    <li><strong>B2B Sales:</strong> $500-2,000/month per corporate account</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Page Footer -->
+        <div class="page-footer">
+            Solace Wellness | solace-wellness.io | Confidential
+        </div>
+    </div>
+
+    <!-- Page 5 -->
+    <div class="page section-break">
+        <div class="page-header">
+            <div class="logo">
+                <div class="logo-badge">SW</div>
+                <div class="logo-text">Solace Wellness</div>
+            </div>
+            <div class="page-number">Page 5</div>
+        </div>
+
+        <!-- Section 7: Competitive Advantages -->
+        <div class="section">
+            <h2>Competitive Advantages (Moats)</h2>
+            
+            <ol>
+                <li><strong>Price Leadership:</strong> 20-40x cheaper than incumbents</li>
+                <li><strong>Instant Access:</strong> Zero waitlists, 24/7 availability</li>
+                <li><strong>Voice AI Experience:</strong> Human-feeling conversations (ElevenLabs Sarah)</li>
+                <li><strong>Privacy-First:</strong> End-to-end encrypted, no data selling (vs. BetterHelp's $7.8M fine)</li>
+                <li><strong>Emotional Loyalty:</strong> Charity model creates brand connection</li>
+                <li><strong>Market Expansion:</strong> Multilingual (EN/FR/ES) unlocks new demographics</li>
+                <li><strong>Acquisition Innovation:</strong> Vacation giveaways = unique hook</li>
+                <li><strong>Accessibility:</strong> Phone line for non-technical users</li>
+            </ol>
+        </div>
+
+        <!-- Section 8: Founder -->
+        <div class="section avoid-break">
+            <h2>Founder & Vision</h2>
+            
+            <div class="quote-box">
+                <p><strong>Mark Anthony Piff</strong><br>
+                Founder & CEO</p>
+                <p style="margin-top: 1rem; font-style: normal;">
+                    • 30+ years vacation ownership industry experience<br>
+                    • Based in Playa del Carmen, Mexico<br>
+                    • Built entire platform with AI assistance from scratch<br>
+                    • <strong>Mission:</strong> Make mental health support accessible regardless of income
+                </p>
+            </div>
+        </div>
+
+        <!-- Page Footer -->
+        <div class="page-footer">
+            Solace Wellness | solace-wellness.io | Confidential
+        </div>
+    </div>
+
+    <!-- Page 6 -->
+    <div class="page section-break">
+        <div class="page-header">
+            <div class="logo">
+                <div class="logo-badge">SW</div>
+                <div class="logo-text">Solace Wellness</div>
+            </div>
+            <div class="page-number">Page 6</div>
+        </div>
+
+        <!-- Section 9: Growth Plan -->
+        <div class="section">
+            <h2>Strategic Growth Plan</h2>
+
+            <div class="avoid-break">
+                <h3>Immediate Priorities (Next 90 Days)</h3>
+                <div class="callout-print">
+                    <p><strong>1. Paid Acquisition Strategy</strong><br>
+                    • Meta Ads: $5,000-10,000/month test budget targeting anxiety/depression keywords<br>
+                    • TikTok Influencers: Mental health creators (10K-100K followers) at $500-2,000/post<br>
+                    • Content Marketing: SEO-optimized blog posts on 24 wellness topics</p>
+                </div>
+
+                <div class="callout-print">
+                    <p><strong>2. Influencer & Partnership Program</strong><br>
+                    • Micro-influencers: 20-30 mental health advocates<br>
+                    • Celebrity endorsement: Approach wellness-focused public figures<br>
+                    • Affiliate program: 30% recurring commission for referrals</p>
+                </div>
+
+                <div class="callout-print">
+                    <p><strong>3. B2B Channel Development</strong><br>
+                    • Employers: Pitch HR departments (EAP replacement) - $5-10 per employee/month<br>
+                    • Insurance: Demonstrate ROI for preventative care<br>
+                    • Resorts/Hotels: Wellness amenity for guests (Playa del Carmen pilot)</p>
+                </div>
+
+                <div class="callout-print">
+                    <p><strong>4. Funding Strategy</strong><br>
+                    • Seed Round Target: $250K-500K for 12-18 months runway<br>
+                    • Use of Funds: 40% Marketing, 30% Product Development, 20% Content, 10% Operations</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Footer -->
+        <div class="page-footer">
+            Solace Wellness | solace-wellness.io | Confidential
+        </div>
+    </div>
+
+    <!-- Page 7 -->
+    <div class="page section-break">
+        <div class="page-header">
+            <div class="logo">
+                <div class="logo-badge">SW</div>
+                <div class="logo-text">Solace Wellness</div>
+            </div>
+            <div class="page-number">Page 7</div>
+        </div>
+
+        <!-- Section 10: Scale Phase -->
+        <div class="section">
+            <h2>Scale Phase (Months 4-12)</h2>
+
+            <div class="avoid-break">
+                <h3>Growth Targets</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Period</th>
+                            <th>Subscribers</th>
+                            <th>MRR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Q2 Goal (Months 1-3)</td>
+                            <td>500 paying subscribers</td>
+                            <td>$7,500 MRR</td>
+                        </tr>
+                        <tr>
+                            <td>Q3 Goal (Months 4-6)</td>
+                            <td>2,000 paying subscribers</td>
+                            <td>$30,000 MRR</td>
+                        </tr>
+                        <tr>
+                            <td>Q4 Goal (Months 7-12)</td>
+                            <td>5,000 paying subscribers</td>
+                            <td>$75,000 MRR</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="avoid-break">
+                <h3>Product Roadmap</h3>
+                <ul>
+                    <li><strong>Mobile Apps:</strong> iOS/Android native apps (currently PWA only)</li>
+                    <li><strong>Advanced AI:</strong> Custom fine-tuned models for deeper personalization</li>
+                    <li><strong>Corporate Portal:</strong> B2B dashboard for HR/management</li>
+                    <li><strong>Insurance Integration:</strong> FHIR-compliant data sharing</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 11: Investment Thesis -->
+        <div class="section avoid-break">
+            <h2>Investment Thesis</h2>
+
+            <div class="avoid-break">
+                <h3>Why Invest Now?</h3>
+                <ol>
+                    <li><strong>De-Risked:</strong> Platform built, deployed, and operational</li>
+                    <li><strong>Market Timing:</strong> Mental health awareness at all-time high post-pandemic</li>
+                    <li><strong>Unit Economics:</strong> Strong LTV/CAC ratio with recurring revenue</li>
+                    <li><strong>Mission-Driven:</strong> Social impact component drives viral growth</li>
+                    <li><strong>Scalable Tech:</strong> Cloud-native, AI-first architecture</li>
+                </ol>
+            </div>
+
+            <div class="avoid-break">
+                <h3>Expected Returns (Conservative)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>ARR</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Year 1</td>
+                            <td>$500K ARR</td>
+                            <td>1,700 subscribers blended</td>
+                        </tr>
+                        <tr>
+                            <td>Year 2</td>
+                            <td>$2.5M ARR</td>
+                            <td>8,500 subscribers + B2B</td>
+                        </tr>
+                        <tr>
+                            <td>Year 3</td>
+                            <td>$10M ARR</td>
+                            <td>35,000 subscribers + enterprise</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="margin-top: 1rem;"><strong>Exit Potential:</strong> Acquisition by healthcare conglomerate (UnitedHealth, Teladoc) or strategic buyer (BetterHelp, Talkspace) at 8-10x revenue multiple.</p>
+            </div>
+        </div>
+
+        <!-- Page Footer -->
+        <div class="page-footer">
+            Solace Wellness | solace-wellness.io | Confidential
+        </div>
+    </div>
+
+    <!-- Page 8 (Final) -->
+    <div class="page">
+        <div class="page-header">
+            <div class="logo">
+                <div class="logo-badge">SW</div>
+                <div class="logo-text">Solace Wellness</div>
+            </div>
+            <div class="page-number">Page 8</div>
+        </div>
+
+        <!-- Section 12: Summary & Next Steps -->
+        <div class="section">
+            <h2>Summary & Next Steps</h2>
+
+            <div class="avoid-break">
+                <h3>Current Status</h3>
+                <div class="callout-print">
+                    <p><strong>Revenue-generating product ready for scale</strong> — Platform built, deployed, and operational with existing user base and active revenue streams.</p>
+                </div>
+            </div>
+
+            <div class="avoid-break">
+                <h3>Immediate Needs</h3>
+                <ul>
+                    <li><strong>Strategic Coaching:</strong> GTM strategy, paid acquisition, B2B sales</li>
+                    <li><strong>Funding:</strong> Seeking $250K-500K seed for aggressive user acquisition</li>
+                    <li><strong>Timeline:</strong> 90 days to 1,000 paying subscribers</li>
+                </ul>
+            </div>
+
+            <div class="avoid-break">
+                <h3>Contact Information</h3>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><strong>Platform</strong></td>
+                            <td>solace-wellness.io (live now)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phone</strong></td>
+                            <td>1-866-593-CALM (operational)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Founder</strong></td>
+                            <td>Mark Anthony Piff — MarkAnthonyPiff@solace-wellness.io</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section">
+            <div class="quote-box" style="text-align: center; font-size: 1.1rem;">
+                <p><strong>🏆 Summary</strong></p>
+                <p style="margin-top: 0.5rem;">
+                    Solace Wellness is not a pitch deck concept—it's a working product. While competitors are still building, we're acquiring users and generating revenue.
+                </p>
+                <p style="margin-top: 1rem; font-style: normal; font-weight: 600;">
+                    The question isn't "Can we build it?" (We did.)<br>
+                    The question is "How fast can we scale?" (That's where strategic coaching comes in.)
+                </p>
+                <p style="margin-top: 1rem; color: #c9a96e;">
+                    Investment ready. Coach ready. Growth ready.
+                </p>
+            </div>
+        </div>
+
+        <!-- Page Footer -->
+        <div class="page-footer">
+            Solace Wellness | solace-wellness.io | Confidential
+        </div>
+    </div>
+
+</body>
+</html>

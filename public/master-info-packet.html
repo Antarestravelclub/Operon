@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Information Packet — Mark Anthony Piff</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; background:#f8f8f8; color:#2d3d2d; }
+.toc { position:sticky; top:0; background:#2d3d2d; padding:12px 30px; display:flex; gap:20px; flex-wrap:wrap; z-index:100; }
+.toc a { color:#c9a96e; font-size:12px; font-weight:600; text-decoration:none; letter-spacing:1px; text-transform:uppercase; }
+.toc a:hover { color:#fff; }
+.cover { background:linear-gradient(135deg,#2d4a2d 0%,#1a2e1a 100%); min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:60px; position:relative; }
+.cover h1 { font-family:'Playfair Display',serif; font-size:56px; color:#fff; margin-bottom:12px; }
+.cover .sub { font-size:18px; color:#c9a96e; letter-spacing:3px; text-transform:uppercase; margin-bottom:20px; }
+.brands { display:flex; gap:24px; flex-wrap:wrap; justify-content:center; margin-top:40px; }
+.brand-pill { background:rgba(255,255,255,0.1); border:1px solid rgba(201,169,110,0.4); border-radius:50px; padding:14px 28px; color:#fff; }
+.brand-pill .name { font-family:'Playfair Display',serif; font-size:18px; }
+.brand-pill .domain { font-size:12px; color:#c9a96e; margin-top:4px; }
+.confidential { position:absolute; top:30px; right:30px; background:rgba(201,169,110,0.2); border:1px solid #c9a96e; color:#c9a96e; padding:6px 16px; border-radius:20px; font-size:11px; letter-spacing:2px; text-transform:uppercase; }
+.section { padding:60px; max-width:1200px; margin:0 auto; }
+.section-header { padding:50px 60px 30px; }
+.section-header.solace { background:linear-gradient(135deg,#2d4a2d,#3d5a3d); }
+.section-header.operon { background:linear-gradient(135deg,#3b1e7c,#5b2d9c); }
+.section-header.apex { background:linear-gradient(135deg,#0a1628,#1a2e50); }
+.section-header.trading { background:linear-gradient(135deg,#1a1a2e,#2d2d4a); }
+.section-header.shared { background:linear-gradient(135deg,#2d3d2d,#1a2a1a); }
+.section-header.directory { background:linear-gradient(135deg,#1a1a1a,#2d2d2d); }
+.section-header h2 { font-family:'Playfair Display',serif; font-size:42px; color:#fff; }
+.section-header p { color:rgba(255,255,255,0.7); margin-top:8px; font-size:16px; }
+.section-tag { display:inline-block; padding:4px 14px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; }
+.tag-solace { background:#6b9b6b; color:#fff; }
+.tag-operon { background:#7c3aed; color:#fff; }
+.tag-apex { background:#33ccff; color:#000; }
+.tag-trading { background:#c9a96e; color:#000; }
+.tag-shared { background:#4a5f4a; color:#fff; }
+.tag-dir { background:#c9a96e; color:#000; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:24px; }
+.grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin-top:24px; }
+.card { background:#fff; border-radius:16px; padding:28px; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.card h3 { font-size:15px; font-weight:700; margin-bottom:12px; color:#2d3d2d; }
+.card li, .card p { font-size:13px; color:#5a6b5a; line-height:1.9; }
+.card ul { padding-left:16px; }
+.swatches { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+.swatch { border-radius:10px; overflow:hidden; width:90px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+.swatch-color { height:52px; }
+.swatch-info { padding:6px 8px; background:#fff; }
+.swatch-name { font-size:9px; font-weight:600; color:#2d3d2d; }
+.swatch-hex { font-size:9px; color:#888; font-family:monospace; }
+.price-table { width:100%; border-collapse:collapse; margin-top:16px; }
+.price-table th { background:#2d3d2d; color:#fff; padding:10px 14px; text-align:left; font-size:12px; }
+.price-table td { padding:10px 14px; font-size:12px; border-bottom:1px solid #eee; color:#4a5f4a; }
+.price-table tr:hover td { background:#f5f9f5; }
+.do-dont { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:24px; }
+.do-box { background:#f0f7f0; border-left:4px solid #6b9b6b; border-radius:0 12px 12px 0; padding:20px; }
+.dont-box { background:#fff5f5; border-left:4px solid #e74c3c; border-radius:0 12px 12px 0; padding:20px; }
+.do-box h4 { color:#6b9b6b; margin-bottom:10px; font-size:13px; }
+.dont-box h4 { color:#e74c3c; margin-bottom:10px; font-size:13px; }
+.do-box li, .dont-box li { font-size:12px; line-height:2.1; color:#4a5f4a; }
+.stats { display:flex; gap:14px; flex-wrap:wrap; margin-top:24px; }
+.stat-box { background:#fff; border-radius:12px; padding:18px 22px; text-align:center; flex:1; min-width:110px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+.stat-box .num { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; }
+.stat-box .lbl { font-size:10px; color:#888; text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+.stat-solace .num { color:#6b9b6b; }
+.stat-operon .num { color:#7c3aed; }
+.stat-apex .num { color:#33ccff; }
+.stat-trading .num { color:#c9a96e; }
+.tech-row { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid #f0f0f0; }
+.tech-row:last-child { border-bottom:none; }
+.tech-icon { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+.tech-label { font-size:12px; font-weight:600; color:#2d3d2d; }
+.tech-value { font-size:11px; color:#888; font-family:monospace; }
+.footer { background:#2d3d2d; padding:30px 60px; text-align:center; color:#8aaa8a; font-size:12px; }
+.mb24 { margin-bottom:24px; }
+@media print { .toc { display:none; } .section { padding:30px; } body { background:#fff; } }
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <a href="#cover">🏠 Home</a>
+  <a href="#solace">🌿 Solace</a>
+  <a href="#operon">⚡ Operon</a>
+  <a href="#apex">📊 APEX</a>
+  <a href="#trading">📈 Trading</a>
+  <a href="#shared">🔗 Standards</a>
+  <a href="#directory">📁 Directory</a>
+</nav>
+
+<div class="cover" id="cover">
+  <span class="confidential">Confidential</span>
+  <div class="section-tag tag-shared" style="margin-bottom:16px;">April 2026</div>
+  <h1>Master Information Packet</h1>
+  <div class="sub">Mark Anthony Piff — Founder</div>
+  <p style="color:rgba(255,255,255,0.6);max-width:580px;font-size:15px;">Complete brand standards, product details, technical references, and operational guidelines for all business ventures.</p>
+  <div class="brands">
+    <div class="brand-pill"><div class="name">🌿 Solace Wellness</div><div class="domain">solace-wellness.io</div></div>
+    <div class="brand-pill"><div class="name">⚡ Operon</div><div class="domain">myoperon.io</div></div>
+    <div class="brand-pill"><div class="name">📊 APEX Index</div><div class="domain">apex-index.com</div></div>
+    <div class="brand-pill"><div class="name">📈 OperonTrader</div><div class="domain">MT5 Expert Advisor</div></div>
+  </div>
+</div>
+
+<!-- SOLACE -->
+<div id="solace">
+  <div class="section-header solace">
+    <span class="section-tag tag-solace">Section 1</span>
+    <h2>🌿 Solace Wellness</h2>
+    <p>AI-powered wellness coaching platform — "We Care"</p>
+  </div>
+  <div class="section">
+    <div class="stats">
+      <div class="stat-box stat-solace"><div class="num">24</div><div class="lbl">Wellness Topics</div></div>
+      <div class="stat-box stat-solace"><div class="num">$9.99</div><div class="lbl">Starting Price</div></div>
+      <div class="stat-box stat-solace"><div class="num">12</div><div class="lbl">Charity Partners</div></div>
+      <div class="stat-box stat-solace"><div class="num">3</div><div class="lbl">Languages</div></div>
+      <div class="stat-box stat-solace"><div class="num">15 min</div><div class="lbl">Free Trial</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>🎨 Brand Identity</h3>
+        <ul>
+          <li><strong>Tagline:</strong> "We Care"</li>
+          <li><strong>Domain:</strong> solace-wellness.io</li>
+          <li><strong>Instagram:</strong> @solacewellnessio</li>
+          <li><strong>Phone US:</strong> 1-866-593-CALM</li>
+          <li><strong>Phone CA:</strong> 778-651-6789</li>
+          <li><strong>Fonts:</strong> Playfair Display + Inter</li>
+          <li><strong>Voice:</strong> ElevenLabs Sarah (ID: EXAVITQu4vr4xnSDxMaL)</li>
+          <li><strong>Languages:</strong> English, French, Spanish</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🎨 Color Palette</h3>
+        <div class="swatches">
+          <div class="swatch"><div class="swatch-color" style="background:#f0f4f0;border:1px solid #ddd"></div><div class="swatch-info"><div class="swatch-name">Background</div><div class="swatch-hex">#f0f4f0</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#2d3d2d"></div><div class="swatch-info"><div class="swatch-name">Text</div><div class="swatch-hex">#2d3d2d</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#6b9b6b"></div><div class="swatch-info"><div class="swatch-name">Accent</div><div class="swatch-hex">#6b9b6b</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#c9a96e"></div><div class="swatch-info"><div class="swatch-name">Gold</div><div class="swatch-hex">#c9a96e</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#2d4a2d"></div><div class="swatch-info"><div class="swatch-name">Dark Green</div><div class="swatch-hex">#2d4a2d</div></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#4a5f4a"></div><div class="swatch-info"><div class="swatch-name">Body</div><div class="swatch-hex">#4a5f4a</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>💰 Pricing & Stripe Price IDs</h3>
+        <table class="price-table">
+          <tr><th>Plan</th><th>Price</th><th>Stripe ID</th></tr>
+          <tr><td>Basic Monthly</td><td>$9.99/mo</td><td style="font-family:monospace;font-size:10px;">price_1TFspW78GJC5elzIVslxKo1C</td></tr>
+          <tr><td>Basic Annual</td><td>$79.99/yr</td><td style="font-family:monospace;font-size:10px;">price_1TFspW78GJC5elzIRgAYFbNR</td></tr>
+          <tr><td>Premium Monthly</td><td>$19.99/mo</td><td style="font-family:monospace;font-size:10px;">price_1TFspX78GJC5elzINLAtufFG</td></tr>
+          <tr><td>Premium Annual</td><td>$109/yr</td><td style="font-family:monospace;font-size:10px;">price_1TFspX78GJC5elzIR0cduVVS</td></tr>
+          <tr><td>Family Monthly</td><td>$49.99/mo</td><td style="font-family:monospace;font-size:10px;">price_1TFspY78GJC5elzI2dgCr6wE</td></tr>
+          <tr><td>Family Annual</td><td>$349.99/yr</td><td style="font-family:monospace;font-size:10px;">price_1TFspY78GJC5elzI4wLKu5K7</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>🎟️ Promo Codes</h3>
+        <table class="price-table">
+          <tr><th>Code</th><th>Discount</th></tr>
+          <tr><td>SOLACE25</td><td>25% off</td></tr>
+          <tr><td>WELCOME50</td><td>50% off</td></tr>
+          <tr><td>MENTALHEALTH</td><td>20% off</td></tr>
+          <tr><td>WECARE</td><td>1 month free</td></tr>
+        </table>
+        <h3 style="margin-top:20px;">💚 Charity Donation Stripe Link</h3>
+        <p style="margin-top:8px;font-family:monospace;font-size:11px;word-break:break-all;color:#2d3d2d;">https://buy.stripe.com/fZu8wIeUaaBk2Bf2W95ZC00</p>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <h3>🏥 12 Charity Partners</h3>
+        <ul>
+          <li>NAMI</li><li>Mental Health America</li><li>Crisis Text Line</li>
+          <li>Jack.org</li><li>CMHA</li><li>Movember Foundation</li>
+          <li>RAINN</li><li>WHO Mental Health</li><li>Boys Town</li>
+          <li>988 Lifeline</li><li>Stand Up 2 Cancer</li><li>💜 National DV Hotline</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⚙️ Tech Stack</h3>
+        <div class="tech-row"><div class="tech-icon" style="background:#f0f4f0;">🐙</div><div><div class="tech-label">GitHub</div><div class="tech-value">Antarestravelclub/instant-coach-glow</div></div></div>
+        <div class="tech-row"><div class="tech-icon" style="background:#000;color:#fff;font-size:12px;font-weight:bold;">▲</div><div><div class="tech-label">Vercel</div><div class="tech-value">solace-wellness.io</div></div></div>
+        <div class="tech-row"><div class="tech-icon" style="background:#3ecf8e;">🗄</div><div><div class="tech-label">Supabase</div><div class="tech-value">coeefdzjujqgfhxglksm</div></div></div>
+        <div class="tech-row"><div class="tech-icon" style="background:#0057ff;">📧</div><div><div class="tech-label">Brevo</div><div class="tech-value">Email marketing</div></div></div>
+        <div class="tech-row"><div class="tech-icon" style="background:#f0f4f0;">🏖</div><div><div class="tech-label">MarketingBoost</div><div class="tech-value">$7/cert activation</div></div></div>
+        <div class="tech-row"><div class="tech-icon" style="background:#ff9900;">📚</div><div><div class="tech-label">Amazon Affiliate</div><div class="tech-value">solacewellnes-20</div></div></div>
+      </div>
+      <div class="card">
+        <h3>🔐 Admin Access</h3>
+        <ul>
+          <li><strong>URL:</strong> solace-wellness.io/admin</li>
+          <li><strong>PIN:</strong> 1234</li>
+          <li><strong>Super Admin:</strong> markpiff@vidavacations.com</li>
+          <li><strong>Super Admin:</strong> admin@solace-wellness.io</li>
+          <li><strong>ElevenLabs:</strong> Creator plan</li>
+          <li><strong>Twilio SID:</strong> AC6b590f5d833...</li>
+          <li><strong>Supabase Auth:</strong> Email confirm OFF</li>
+        </ul>
+      </div>
+    </div>
+    <div class="do-dont">
+      <div class="do-box"><h4>✅ DO</h4><ul>
+        <li>Say "Wellness Coach" — never "therapist"</li>
+        <li>Use sage green (#f0f4f0) background</li>
+        <li>Use palm frond watermark on all pages</li>
+        <li>Add "Powered by Operon" badge</li>
+        <li>Playfair Display for all headings</li>
+        <li>Warm, empathetic tone always</li>
+      </ul></div>
+      <div class="dont-box"><h4>❌ DON'T</h4><ul>
+        <li>Never say "therapist" or "therapy app"</li>
+        <li>Never use dark backgrounds on main pages</li>
+        <li>Never use old CAD Stripe price IDs</li>
+        <li>Never remove the crisis footer bar</li>
+        <li>Never share or sell user session data</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- OPERON -->
+<div id="operon">
+  <div class="section-header operon">
+    <span class="section-tag tag-operon">Section 2</span>
+    <h2>⚡ Operon</h2>
+    <p>Your AI Workforce Platform — myoperon.io</p>
+  </div>
+  <div class="section">
+    <div class="stats">
+      <div class="stat-box stat-operon"><div class="num">$39</div><div class="lbl">Per Rep/Month</div></div>
+      <div class="stat-box stat-operon"><div class="num">$4,500</div><div class="lbl">Bundle All-In</div></div>
+      <div class="stat-box stat-operon"><div class="num">3</div><div class="lbl">SaaS Tiers</div></div>
+      <div class="stat-box stat-operon"><div class="num">90%+</div><div class="lbl">Est. Margin</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>🎨 Brand Identity</h3>
+        <ul>
+          <li><strong>Tagline:</strong> "Your AI Workforce Platform"</li>
+          <li><strong>Domain:</strong> myoperon.io</li>
+          <li><strong>Email:</strong> mark@myoperon.io</li>
+          <li><strong>Font:</strong> Inter</li>
+          <li><strong>Primary:</strong> Purple #7c3aed</li>
+          <li><strong>Logo:</strong> Operon_Button PNG (purple + lightning + teal)</li>
+          <li><strong>Badge file:</strong> operon-badge.png</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💰 Pricing</h3>
+        <table class="price-table">
+          <tr><th>Product</th><th>Monthly</th><th>Setup</th></tr>
+          <tr><td>Operon (per rep)</td><td>$39/rep</td><td>$1,900</td></tr>
+          <tr><td>APEX Index</td><td>$799</td><td>$1,500</td></tr>
+          <tr><td>Vida Rep Academy</td><td>$499</td><td>$2,500</td></tr>
+          <tr><td>Starter SaaS</td><td>$29</td><td>—</td></tr>
+          <tr><td>Growth SaaS</td><td>$99</td><td>—</td></tr>
+          <tr><td>Pro SaaS</td><td>$299</td><td>—</td></tr>
+          <tr><td><strong>Bundle All-In</strong></td><td colspan="2"><strong>$4,500</strong></td></tr>
+        </table>
+        <p style="margin-top:8px;font-size:11px;color:#888;">ARDA special offer: 1 month free</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>🛠️ Products & Pages</h3>
+        <ul>
+          <li><strong>/rep/onboarding</strong> — 4-step rep profile setup</li>
+          <li><strong>/rep/intake</strong> — Sale intake + contract photo upload</li>
+          <li><strong>/rep/dashboard</strong> — Sales list + notes modal</li>
+          <li><strong>/admin</strong> — Admin dashboard (PIN: 1234)</li>
+          <li><strong>ARDA Materials:</strong> arda-materials.vercel.app</li>
+          <li>Pitch decks, quiz (30 q), contract, workflow, revenue tracker</li>
+          <li><strong>OperonTrader:</strong> myoperon.io/OperonTrader.mq5</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⚙️ Tech Stack</h3>
+        <div class="tech-row"><div class="tech-icon" style="background:#f5f3ff;">🐙</div><div><div class="tech-label">GitHub</div><div class="tech-value">Antarestravelclub/Operon</div></div></div>
+        <div class="tech-row"><div class="tech-icon" style="background:#000;color:#fff;font-size:12px;font-weight:bold;">▲</div><div><div class="tech-label">Vercel</div><div class="tech-value">myoperon.io</div></div></div>
+        <div class="tech-row"><div class="tech-icon" style="background:#4285f4;color:#fff;font-size:12px;font-weight:bold;">G</div><div><div class="tech-label">Google OAuth</div><div class="tech-value">361319245597-tv7io54dr4v...</div></div></div>
+        <div class="tech-row"><div class="tech-icon" style="background:#f0f4f0;">🤖</div><div><div class="tech-label">OpenAI</div><div class="tech-value">sk-proj-jktC0-... (Operon key)</div></div></div>
+      </div>
+    </div>
+    <div class="do-dont">
+      <div class="do-box"><h4>✅ DO</h4><ul>
+        <li>Always say "Your AI Workforce Platform"</li>
+        <li>Use Operon_Button PNG as the logo</li>
+        <li>Broad-market positioning (not just VO)</li>
+        <li>ARDA offer = 1 month free only</li>
+      </ul></div>
+      <div class="dont-box"><h4>❌ DON'T</h4><ul>
+        <li>Never say "FiMar Tech" — completely dropped</li>
+        <li>Never use a different logo file</li>
+        <li>Never offer 3 months free</li>
+        <li>Never niche to vacation ownership only</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+
+<!-- APEX -->
+<div id="apex">
+  <div class="section-header apex">
+    <span class="section-tag tag-apex">Section 3</span>
+    <h2>📊 APEX Index</h2>
+    <p>Sales talent assessment — vacation ownership industry</p>
+  </div>
+  <div class="section">
+    <div class="stats">
+      <div class="stat-box stat-apex"><div class="num">30</div><div class="lbl">Questions</div></div>
+      <div class="stat-box stat-apex"><div class="num">$799</div><div class="lbl">Per Month</div></div>
+      <div class="stat-box stat-apex"><div class="num">$1,500</div><div class="lbl">Setup Fee</div></div>
+      <div class="stat-box stat-apex"><div class="num">4</div><div class="lbl">Hire Ratings</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>🎨 Brand Identity</h3>
+        <ul>
+          <li><strong>Domain:</strong> apex-index.com</li>
+          <li><strong>Colors:</strong> Navy + Electric Blue #33ccff</li>
+          <li><strong>Fonts:</strong> Montserrat (headings) + Inter (body)</li>
+          <li><strong>Target:</strong> Vacation ownership sales managers</li>
+          <li><strong>Tone:</strong> Data-driven, professional, results-focused</li>
+          <li><strong>GitHub:</strong> Antarestravelclub/apexindex</li>
+          <li><strong>Admin PIN:</strong> 1234</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⚙️ Features</h3>
+        <ul>
+          <li>30-question psychometric assessment (trimmed from 68)</li>
+          <li>🟢 Strong Hire / 🟡 Conditional / 🟠 Caution / 🔴 No Hire</li>
+          <li>Side-by-side candidate comparison</li>
+          <li>Multi-team analytics dashboard</li>
+          <li>Existing assessment data preserved (same question IDs)</li>
+          <li>"Powered by Operon" badge on all pages</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRADING -->
+<div id="trading">
+  <div class="section-header trading">
+    <span class="section-tag tag-trading">Section 4</span>
+    <h2>📈 OperonTrader</h2>
+    <p>MetaTrader 5 Expert Advisor — Live on XM VPS 24/7</p>
+  </div>
+  <div class="section">
+    <div class="stats">
+      <div class="stat-box stat-trading"><div class="num">3</div><div class="lbl">Markets</div></div>
+      <div class="stat-box stat-trading"><div class="num">M15</div><div class="lbl">Timeframe</div></div>
+      <div class="stat-box stat-trading"><div class="num">88888</div><div class="lbl">Magic Number</div></div>
+      <div class="stat-box stat-trading"><div class="num">7–20</div><div class="lbl">UTC Session</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>⚙️ Account & Configuration</h3>
+        <ul>
+          <li><strong>Version:</strong> v5 (Clean Compile Edition)</li>
+          <li><strong>Broker:</strong> XM Global</li>
+          <li><strong>Account:</strong> 62625897</li>
+          <li><strong>Password:</strong> Antares2026!</li>
+          <li><strong>Server:</strong> XMGlobal-MT5 2</li>
+          <li><strong>VPS:</strong> XM free VPS ($25/mo)</li>
+          <li><strong>Markets:</strong> EURUSD M15, GOLD M15, BTCUSD M15</li>
+          <li><strong>Download:</strong> myoperon.io/OperonTrader.mq5</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>📊 Strategy</h3>
+        <ul>
+          <li><strong>Entry Signal:</strong> EMA 9/21 crossover</li>
+          <li><strong>Trend Filter:</strong> H1 200 EMA</li>
+          <li><strong>Confirmation:</strong> RSI 45–55 range</li>
+          <li><strong>Stop Loss:</strong> ATR × 1.5</li>
+          <li><strong>Take Profit:</strong> ATR × 3.0 → R:R = 1:2</li>
+          <li><strong>Trailing:</strong> Breakeven +150pts, trail at +250pts</li>
+          <li><strong>Lots:</strong> 0.01 per trade</li>
+          <li><strong>Max Trades:</strong> 1 per symbol at a time</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SHARED -->
+<div id="shared">
+  <div class="section-header shared">
+    <span class="section-tag tag-shared">Section 5</span>
+    <h2>🔗 Shared Standards</h2>
+    <p>Rules that apply across ALL projects</p>
+  </div>
+  <div class="section">
+    <div class="grid-3">
+      <div class="card">
+        <h3>🐙 GitHub Standards</h3>
+        <ul>
+          <li><strong>Org:</strong> Antarestravelclub</li>
+          <li><strong>Git Author:</strong> Antarestravelclub</li>
+          <li><strong>Git Email:</strong> mpiffmx@yahoo.com</li>
+          <li><strong>Solace:</strong> instant-coach-glow</li>
+          <li><strong>Operon:</strong> Operon (capital O)</li>
+          <li><strong>APEX:</strong> apexindex</li>
+          <li><strong>VRA:</strong> vida-rep-academy-9d6cda93</li>
+          <li><strong>Check-In:</strong> secure-checkin-confirm</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🔐 Universal Access</h3>
+        <ul>
+          <li><strong>Admin PIN:</strong> 1234 (all platforms)</li>
+          <li><strong>Stripe:</strong> Live mode, USD only</li>
+          <li><strong>ElevenLabs:</strong> Creator plan, Sarah voice</li>
+          <li><strong>Twilio:</strong> US + CA numbers active</li>
+          <li><strong>OpenAI:</strong> Active (Solace + Operon)</li>
+          <li><strong>Brevo:</strong> Email campaigns</li>
+          <li><strong>MarketingBoost:</strong> Paid subscription</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🏷️ Branding Rules</h3>
+        <ul>
+          <li>"Powered by Operon" on ALL projects</li>
+          <li>Badge links to myoperon.io</li>
+          <li>Operon_Button PNG always as logo</li>
+          <li>All materials use "Operon" not "FiMar"</li>
+          <li>USD pricing only — no CAD</li>
+          <li>Never expose API keys in repos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DIRECTORY -->
+<div id="directory">
+  <div class="section-header directory">
+    <span class="section-tag tag-dir">Section 6</span>
+    <h2>📁 Quick Reference Directory</h2>
+    <p>All domains, repos, contacts and links in one place</p>
+  </div>
+  <div class="section">
+    <div class="card mb24">
+      <h3>🌐 Live Domains & Repos</h3>
+      <table class="price-table">
+        <tr><th>Brand</th><th>Live URL</th><th>GitHub Repo</th></tr>
+        <tr><td>Solace Wellness</td><td>solace-wellness.io</td><td>Antarestravelclub/instant-coach-glow</td></tr>
+        <tr><td>Operon</td><td>myoperon.io</td><td>Antarestravelclub/Operon</td></tr>
+        <tr><td>APEX Index</td><td>apex-index.com</td><td>Antarestravelclub/apexindex</td></tr>
+        <tr><td>Vida Rep Academy</td><td>vida-rep-academy.vercel.app</td><td>Antarestravelclub/vida-rep-academy-9d6cda93</td></tr>
+        <tr><td>ARDA Sales Materials</td><td>arda-materials.vercel.app</td><td>—</td></tr>
+        <tr><td>Secure Check-In</td><td>secure-checkin-confirm.vercel.app</td><td>Antarestravelclub/secure-checkin-confirm</td></tr>
+      </table>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>👤 Contact Information</h3>
+        <table class="price-table">
+          <tr><th>Field</th><th>Details</th></tr>
+          <tr><td>Name</td><td>Mark Anthony Piff</td></tr>
+          <tr><td>Location</td><td>Playa del Carmen, Mexico (CST / UTC-6)</td></tr>
+          <tr><td>Gmail</td><td>piffmex1@gmail.com</td></tr>
+          <tr><td>Work Email</td><td>markpiff@vidavacations.com</td></tr>
+          <tr><td>Operon Email</td><td>mark@myoperon.io</td></tr>
+          <tr><td>Instagram</td><td>@solacewellnessio</td></tr>
+          <tr><td>Industry</td><td>Vacation ownership — 30+ years</td></tr>
+          <tr><td>Wife</td><td>Fiona</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>📞 Phone Numbers</h3>
+        <table class="price-table">
+          <tr><th>Service</th><th>Number</th><th>Notes</th></tr>
+          <tr><td>Solace US (Twilio)</td><td>1-866-593-2256</td><td>AI voice line (CALM)</td></tr>
+          <tr><td>Solace CA (Twilio)</td><td>778-651-6789</td><td>AI voice line</td></tr>
+          <tr><td>BBVA Bank</td><td>800-226-2663</td><td>Card issues</td></tr>
+        </table>
+        <h3 style="margin-top:20px;">🔑 Key Service IDs</h3>
+        <table class="price-table" style="margin-top:8px;">
+          <tr><th>Service</th><th>ID / Reference</th></tr>
+          <tr><td>Supabase (Solace)</td><td style="font-family:monospace;font-size:10px;">coeefdzjujqgfhxglksm</td></tr>
+          <tr><td>Supabase (Check-In)</td><td style="font-family:monospace;font-size:10px;">kbizbykfqxkshvynesdo</td></tr>
+          <tr><td>Twilio SID</td><td style="font-family:monospace;font-size:10px;">AC6b590f5d83387102ba3d64...</td></tr>
+          <tr><td>ElevenLabs Sarah</td><td style="font-family:monospace;font-size:10px;">EXAVITQu4vr4xnSDxMaL</td></tr>
+          <tr><td>Amazon Affiliate</td><td style="font-family:monospace;font-size:10px;">solacewellnes-20</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p style="font-family:'Playfair Display',serif;font-size:16px;color:#c9a96e;margin-bottom:8px;">Master Information Packet</p>
+  <p>Mark Anthony Piff · April 2026</p>
+  <p style="margin-top:6px;">Solace Wellness · Operon · APEX Index · OperonTrader</p>
+  <p style="margin-top:8px;color:#4a6a4a;font-size:11px;">Confidential — Do not distribute</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #f0f4f0;
+    }
+
+    .container {
+      width: 1080px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP QUOTE BANNER ── */
+    .top-banner {
+      background: #f0f4f0;
+      padding: 30px 80px;
+      text-align: center;
+      border-bottom: 2px solid #c9a96e;
+      flex-shrink: 0;
+    }
+
+    .top-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 600;
+      color: #2d3d2d;
+      line-height: 1.3;
+    }
+
+    .top-quote .wecare {
+      font-style: italic;
+      color: #c9a96e;
+      font-weight: 700;
+    }
+
+    /* ── COMPARISON AREA ── */
+    .comparison {
+      flex: 1;
+      display: flex;
+      position: relative;
+    }
+
+    /* VS Badge */
+    .vs-badge {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 68px;
+      height: 68px;
+      background: #f0f4f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: #2d3d2d;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 20;
+      border: 3px solid #c9a96e;
+    }
+
+    /* ── BOTH SIDES SHARE THIS STRUCTURE ── */
+    .side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 36px 44px 30px;
+      position: relative;
+    }
+
+    .bh-side {
+      background: linear-gradient(160deg, #f0f0f0 0%, #d8d8d8 100%);
+    }
+
+    .solace-side {
+      background: #2d4a2d;
+    }
+
+    /* Palm fronds - rising from bottom */
+    .palm-left {
+      position: absolute;
+      bottom: -20px; left: -50px;
+      width: 320px;
+      opacity: 0.55;
+      transform: rotate(-30deg);
+      filter: saturate(1.2) brightness(0.75) hue-rotate(5deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .palm-right {
+      position: absolute;
+      bottom: -20px; right: -50px;
+      width: 300px;
+      opacity: 0.50;
+      transform: rotate(150deg) scaleY(-1);
+      filter: saturate(1.2) brightness(0.75) hue-rotate(5deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .solace-side::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(107,155,107,0.25) 0%, transparent 70%);
+    }
+
+    /* LOGO ROW — same height on both sides */
+    .logo-row {
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .bh-logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 18px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .solace-logo {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+    }
+
+    /* BRAND NAME — same height */
+    .brand-name {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+
+    .bh-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #444444;
+      letter-spacing: -0.5px;
+    }
+
+    .solace-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+
+    /* TAGLINE */
+    .brand-tag {
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .bh-tag {
+      font-size: 12px;
+      color: #888888;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .solace-tag {
+      font-size: 12px;
+      color: #c9a96e;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* PRICE — perfectly aligned */
+    .price-block {
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .bh-price {
+      font-family: 'Inter', sans-serif;
+      font-size: 52px;
+      font-weight: 800;
+      color: #333333;
+      line-height: 1;
+      letter-spacing: -3px;
+    }
+
+    .solace-price {
+      font-family: 'Inter', sans-serif;
+      font-size: 52px;
+      font-weight: 800;
+      color: #c9a96e;
+      line-height: 1;
+      letter-spacing: -3px;
+      text-shadow: 0 2px 16px rgba(201,169,110,0.35);
+    }
+
+    .per-month {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 4px;
+      margin-bottom: 20px;
+    }
+
+    .bh-per { color: #777777; }
+    .solace-per { color: #c8dcc8; }
+
+    /* DIVIDER LINE */
+    .divider {
+      width: 100%;
+      height: 1px;
+      margin-bottom: 16px;
+    }
+
+    .bh-divider { background: rgba(0,0,0,0.12); }
+    .solace-divider { background: rgba(255,255,255,0.15); }
+
+    /* FEATURES BOX — mirrored */
+    .features {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .bh-feature { color: #444444; }
+    .solace-feature { color: #d4e6d4; }
+
+    .icon-bad {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #cccccc;
+      color: #666666;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .icon-good {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #c9a96e;
+      color: #ffffff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── BOTTOM BANNER ── */
+    .bottom-banner {
+      background: #2d4a2d;
+      padding: 18px 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 3px solid #c9a96e;
+      flex-shrink: 0;
+    }
+
+    .bottom-logo {
+      width: 46px; height: 46px;
+      object-fit: contain;
+    }
+
+    .bottom-center {
+      flex: 1;
+      text-align: center;
+    }
+
+    .bottom-tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-style: italic;
+      color: #ffffff;
+    }
+
+    .bottom-url {
+      font-size: 12px;
+      color: #8aaa8a;
+      letter-spacing: 1px;
+      margin-top: 3px;
+    }
+
+    .bottom-right {
+      text-align: right;
+    }
+
+    .bottom-wecare {
+      font-family: "Playfair Display", serif;
+      font-size: 26px;
+      font-weight: 700;
+      font-style: italic;
+      color: #c9a96e;
+      letter-spacing: 0.5px;
+    }
+
+    .bottom-ftc {
+      font-size: 9px;
+      color: #6b8b6b;
+      margin-top: 2px;
+      max-width: 200px;
+      text-align: right;
+      line-height: 1.3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- TOP QUOTE -->
+    <div class="top-banner">
+      <div class="top-quote">
+        "Price shouldn't be the reason not to have someone listen and help." <span class="wecare">— We Care</span>
+      </div>
+    </div>
+
+    <!-- COMPARISON -->
+    <div class="comparison">
+      <div class="vs-badge">VS</div>
+
+      <!-- BetterHelp -->
+      <div class="side bh-side">
+        <!-- Logo -->
+        <div class="logo-row">
+          <img src="http://localhost:9191/bh-logo.png" class="bh-logo" alt="BetterHelp" />
+        </div>
+        <!-- Brand -->
+        <div class="brand-name"><span class="bh-name">BetterHelp</span></div>
+        <div class="brand-tag"><span class="bh-tag">Online Therapy</span></div>
+        <!-- Price -->
+        <div class="price-block">
+          <div class="bh-price">$240–$400</div>
+        </div>
+        <div class="per-month bh-per">per month</div>
+        <!-- Divider -->
+        <div class="divider bh-divider"></div>
+        <!-- Features -->
+        <div class="features">
+          <div class="feature bh-feature"><div class="icon-bad">✗</div>Therapist may change anytime</div>
+          <div class="feature bh-feature"><div class="icon-bad">✗</div>1 video session per week only</div>
+          <div class="feature bh-feature"><div class="icon-bad">✗</div>No free trial available</div>
+          <div class="feature bh-feature"><div class="icon-bad">✗</div>Sold user data to advertisers*</div>
+        </div>
+      </div>
+
+      <!-- Solace -->
+      <div class="side solace-side">
+        <img src="http://localhost:9191/palm-frond.png" class="palm-left" alt="" />
+        <img src="http://localhost:9191/palm-frond.png" class="palm-right" alt="" />
+        <!-- Logo -->
+        <div class="logo-row">
+          <img src="http://localhost:9191/solace-sticker.png" class="solace-logo" alt="Solace" />
+        </div>
+        <!-- Brand -->
+        <div class="brand-name"><span class="solace-name">Solace Wellness</span></div>
+        <div class="brand-tag"><span class="solace-tag">We Care</span></div>
+        <!-- Price -->
+        <div class="price-block">
+          <div class="solace-price">$9.99–$49.99</div>
+        </div>
+        <div class="per-month solace-per">per month</div>
+        <!-- Divider -->
+        <div class="divider solace-divider"></div>
+        <!-- Features -->
+        <div class="features">
+          <div class="feature solace-feature"><div class="icon-good">✓</div>AI Wellness Coach available 24/7</div>
+          <div class="feature solace-feature"><div class="icon-good">✓</div>Unlimited messages & voice sessions</div>
+          <div class="feature solace-feature"><div class="icon-good">✓</div>15 min FREE trial — no credit card</div>
+          <div class="feature solace-feature"><div class="icon-good">✓</div>Your data is private. Always.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM BANNER -->
+    <div class="bottom-banner">
+      <img src="http://localhost:9191/solace-sticker.png" class="bottom-logo" alt="Solace" />
+      <div class="bottom-center">
+        <div class="bottom-tagline">Your wellness. Your pace. Your price.</div>
+        <div class="bottom-url">solace-wellness.io</div>
+      </div>
+      <div class="bottom-right">
+        <div class="bottom-wecare">We Care 💚</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

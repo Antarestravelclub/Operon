@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources & Materials — Operon</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; background:#0a0a0f; color:#fff; }
+nav { background:rgba(10,10,15,0.95); border-bottom:1px solid rgba(124,58,237,0.2); padding:16px 40px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
+nav .logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+nav .logo img { width:36px; height:36px; }
+nav .logo span { color:#fff; font-weight:700; font-size:18px; }
+nav a.back { color:#a78bfa; font-size:14px; text-decoration:none; }
+nav a.back:hover { color:#fff; }
+
+.hero { padding:60px 40px 40px; text-align:center; background:radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.2) 0%, transparent 60%); }
+.hero .tag { display:inline-block; background:rgba(124,58,237,0.15); border:1px solid rgba(124,58,237,0.4); border-radius:20px; padding:6px 16px; font-size:11px; color:#a78bfa; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:48px; color:#fff; margin-bottom:12px; }
+.hero p { font-size:16px; color:#9ca3af; max-width:500px; margin:0 auto; }
+
+.section { padding:50px 40px; max-width:1100px; margin:0 auto; }
+.section-title { font-size:11px; font-weight:700; color:#a78bfa; letter-spacing:2px; text-transform:uppercase; margin-bottom:20px; padding-bottom:10px; border-bottom:1px solid rgba(124,58,237,0.2); }
+
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px; margin-bottom:50px; }
+
+.card { background:#111118; border:1px solid rgba(124,58,237,0.15); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:12px; transition:border-color 0.2s, transform 0.2s; }
+.card:hover { border-color:rgba(124,58,237,0.5); transform:translateY(-2px); }
+.card .icon { font-size:32px; }
+.card h3 { font-size:16px; font-weight:700; color:#fff; }
+.card p { font-size:13px; color:#6b7280; line-height:1.6; flex:1; }
+.card .btn { display:block; text-align:center; padding:10px; border-radius:8px; font-size:13px; font-weight:600; text-decoration:none; margin-top:4px; }
+.btn-purple { background:#7c3aed; color:#fff; }
+.btn-green { background:#6b9b6b; color:#fff; }
+.btn-gold { background:#c9a96e; color:#1a1a1a; }
+.btn-outline { background:transparent; color:#a78bfa; border:1px solid rgba(124,58,237,0.4); }
+.btn:hover { opacity:0.85; }
+
+.coming-soon { opacity:0.5; pointer-events:none; }
+.coming-soon .btn { background:#1f1f2e; color:#4b5563; cursor:not-allowed; }
+
+footer { background:#0a0a0f; border-top:1px solid rgba(124,58,237,0.15); padding:30px 40px; text-align:center; color:#4b5563; font-size:12px; margin-top:40px; }
+footer span { color:#7c3aed; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <img src="/operon-badge.png" alt="Operon" />
+    <span>Operon</span>
+  </a>
+  <a href="/" class="back">← Back to Platform</a>
+</nav>
+
+<div class="hero">
+  <div class="tag">Internal Resources</div>
+  <h1>Materials & Documents</h1>
+  <p>All brand assets, pitch decks, business plans, and sales materials in one place.</p>
+</div>
+
+<div class="section">
+
+  <!-- BRAND & IDENTITY -->
+  <div class="section-title">🏷️ Brand & Identity</div>
+  <div class="grid">
+    <div class="card">
+      <div class="icon">📋</div>
+      <h3>Master Info Packet</h3>
+      <p>Complete reference for all 3 brands — colors, pricing, Stripe IDs, tech stack, contacts, do's & don'ts.</p>
+      <a href="/master-info-packet.html" target="_blank" class="btn btn-purple">Open Document →</a>
+    </div>
+    <div class="card">
+      <div class="icon">🎨</div>
+      <h3>Brand Book</h3>
+      <p>Visual brand standards for Solace, Operon, and APEX — fonts, color swatches, guidelines.</p>
+      <a href="/brand-book.html" target="_blank" class="btn btn-outline">Open Brand Book →</a>
+    </div>
+  </div>
+
+  <!-- SOLACE WELLNESS -->
+  <div class="section-title">🌿 Solace Wellness</div>
+  <div class="grid">
+    <div class="card">
+      <div class="icon">🖥️</div>
+      <h3>Pitch Deck</h3>
+      <p>Full interactive presentation for investors and business coaches. Sage green branded, stat boxes, market data.</p>
+      <a href="/solace-pitch.html" target="_blank" class="btn btn-green">Open Presentation →</a>
+    </div>
+    <div class="card">
+      <div class="icon">🖨️</div>
+      <h3>Business Plan (Print)</h3>
+      <p>Clean A4 format. Open in browser → File → Print → Save as PDF. Professional document format.</p>
+      <a href="/solace-pitch-print.html" target="_blank" class="btn btn-outline">Open & Print →</a>
+    </div>
+    <div class="card">
+      <div class="icon">📝</div>
+      <h3>Business Plan (Word)</h3>
+      <p>Fully editable .docx file. Open in Microsoft Word or Google Docs and customize as needed.</p>
+      <a href="/solace-business-plan.docx" download class="btn btn-green">Download .docx →</a>
+    </div>
+    <div class="card">
+      <div class="icon">📊</div>
+      <h3>BetterHelp Comparison</h3>
+      <p>Instagram-ready 1080×1080 comparison graphic. "We Care" — price shouldn't stop people getting help.</p>
+      <a href="/solace-vs-betterhelp.html" target="_blank" class="btn btn-outline">View Graphic →</a>
+    </div>
+  </div>
+
+  <!-- OPERON / ARDA -->
+  <div class="section-title">⚡ Operon & ARDA Sales Materials</div>
+  <div class="grid">
+    <div class="card">
+      <div class="icon">📁</div>
+      <h3>ARDA Master Directory</h3>
+      <p>All 15+ ARDA sales tools — pitch decks, quiz, contract, workflow, revenue tracker, training manual.</p>
+      <a href="https://arda-materials.vercel.app" target="_blank" class="btn btn-purple">Open ARDA Hub →</a>
+    </div>
+    <div class="card">
+      <div class="icon">📈</div>
+      <h3>Revenue Tracker</h3>
+      <p>4-tab tracker for Operon revenue, costs, resort pipeline, and projections.</p>
+      <a href="https://arda-materials.vercel.app/operon-revenue-tracker.html" target="_blank" class="btn btn-outline">Open Tracker →</a>
+    </div>
+    <div class="card">
+      <div class="icon">🎯</div>
+      <h3>Vida Follow-Up Workflow</h3>
+      <p>Vidanta-branded follow-up automation workflow with teal colors and resort watermark.</p>
+      <a href="https://arda-materials.vercel.app/vida-followup-workflow.html" target="_blank" class="btn btn-outline">View Workflow →</a>
+    </div>
+    <div class="card">
+      <div class="icon">📄</div>
+      <h3>Digital Contract</h3>
+      <p>Stylus-signature digital contract with PDF download for ARDA/resort clients.</p>
+      <a href="https://arda-materials.vercel.app/signup-contract.html" target="_blank" class="btn btn-outline">Open Contract →</a>
+    </div>
+  </div>
+
+  <!-- TRADING -->
+  <div class="section-title">📈 OperonTrader</div>
+  <div class="grid">
+    <div class="card">
+      <div class="icon">🤖</div>
+      <h3>OperonTrader v5 EA</h3>
+      <p>MT5 Expert Advisor for EURUSD, GOLD, BTCUSD M15. ATR stops, 200 EMA trend filter, trailing stop.</p>
+      <a href="/download.html" target="_blank" class="btn btn-gold">Download Page →</a>
+    </div>
+    <div class="card">
+      <div class="icon">⬇️</div>
+      <h3>Direct EA Download</h3>
+      <p>Download OperonTrader.mq5 directly. Copy to MetaTrader 5 Experts folder, compile with F7.</p>
+      <a href="/OperonTrader.mq5" download class="btn btn-outline">Download .mq5 →</a>
+    </div>
+  </div>
+
+  <!-- SOCIAL -->
+  <div class="section-title">📱 Social Media & Marketing</div>
+  <div class="grid">
+    <div class="card">
+      <div class="icon">🎬</div>
+      <h3>TikTok Scripts</h3>
+      <p>5 CapCut-ready TikTok scripts for Solace Wellness. Use with Creatify AI for automated video creation.</p>
+      <a href="https://solace-wellness.io/admin" target="_blank" class="btn btn-green">View in Solace Admin →</a>
+    </div>
+    <div class="card coming-soon">
+      <div class="icon">📸</div>
+      <h3>Instagram Pack</h3>
+      <p>25 social posts, reel scripts, and graphics for Solace Wellness. Coming soon.</p>
+      <span class="btn">Coming Soon</span>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>⚡ <span>Operon</span> · Your AI Workforce Platform · myoperon.io</p>
+  <p style="margin-top:6px;">All materials confidential — © 2026 Operon</p>
+</footer>
+
+</body>
+</html>
