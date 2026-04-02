@@ -219,7 +219,7 @@ const Landing = () => {
       tagline: 'Hire smarter. Train faster. Close more.',
       products: ['APEX Index — Talent Assessment', 'Vida Rep Academy — Rep Training'],
       cta: 'View Products',
-      ctaLink: '/pricing',
+      ctaLink: 'https://apex-index.com',
       external: false,
     },
     {
@@ -286,7 +286,7 @@ const Landing = () => {
         <div style={{ display: 'flex', gap: 32 }}>
           <a href="#ecosystem" style={{ color: '#9ca3af', fontSize: 14, textDecoration: 'none' }}>Ecosystem</a>
           <a href="#platform" style={{ color: '#9ca3af', fontSize: 14, textDecoration: 'none' }}>Platform</a>
-          <a href="#pricing" style={{ color: '#9ca3af', fontSize: 14, textDecoration: 'none' }}>Pricing</a>
+          
         </div>
         <button
           onClick={() => navigate('/rep/onboarding')}
@@ -496,117 +496,6 @@ const Landing = () => {
           <p className="text-gray-600 mb-12">Adjust the sliders to see your potential ROI</p>
           
           <ROICalculator />
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
-            Simple, transparent pricing
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Starter */}
-            <div className="border border-gray-200 rounded-2xl p-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Starter</h3>
-              <div className="mb-6">
-                <span className="text-4xl font-bold text-gray-900">$29</span>
-                <span className="text-gray-600">/mo</span>
-              </div>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  1 AI Employee
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  500 tasks/month
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  Email support
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  Basic analytics
-                </li>
-              </ul>
-              <button onClick={() => handleSubscribe(PRICE_IDS.starter)} disabled={loading === PRICE_IDS.starter} className="block w-full text-center border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed">
-                {loading === PRICE_IDS.starter ? 'Processing...' : 'Start Free Trial'}
-              </button>
-            </div>
-
-            {/* Growth */}
-            <div className="border-2 border-violet-600 rounded-2xl p-8 relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-violet-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                MOST POPULAR
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Growth</h3>
-              <div className="mb-6">
-                <span className="text-4xl font-bold text-gray-900">$99</span>
-                <span className="text-gray-600">/mo</span>
-              </div>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  3 AI Employees
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  2,000 tasks/month
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  Priority support
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  Advanced analytics
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  CRM integrations
-                </li>
-              </ul>
-              <button onClick={() => handleSubscribe(PRICE_IDS.growth)} disabled={loading === PRICE_IDS.growth} className="block w-full text-center bg-violet-600 text-white px-6 py-3 rounded-lg hover:bg-violet-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
-                {loading === PRICE_IDS.growth ? 'Processing...' : 'Start Free Trial'}
-              </button>
-            </div>
-
-            {/* Pro */}
-            <div className="border border-gray-200 rounded-2xl p-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Pro</h3>
-              <div className="mb-6">
-                <span className="text-4xl font-bold text-gray-900">$299</span>
-                <span className="text-gray-600">/mo</span>
-              </div>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  Unlimited AI Employees
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  Unlimited tasks
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  Dedicated support
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  Custom integrations
-                </li>
-                <li className="flex items-center text-gray-600">
-                  <Check className="h-5 w-5 text-green-500 mr-3" />
-                  White-label option
-                </li>
-              </ul>
-              <button onClick={() => handleSubscribe(PRICE_IDS.pro)} disabled={loading === PRICE_IDS.pro} className="block w-full text-center border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed">
-                {loading === PRICE_IDS.pro ? 'Processing...' : 'Start Free Trial'}
-              </button>
-            </div>
-          </div>
         </div>
       </section>
 
