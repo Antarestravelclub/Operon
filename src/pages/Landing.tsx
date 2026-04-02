@@ -1,6 +1,6 @@
-import { useState } from 'react';
+
 import { Link, useNavigate } from 'react-router-dom';
-import { TrendingUp, MessageCircle, ClipboardList, Check } from 'lucide-react';
+import { TrendingUp, MessageCircle, ClipboardList } from 'lucide-react';
 
 function TestimonialCard({ name, role, stars, quote }: { name: string, role: string, stars: number, quote: string }) {
   const initials = name.split(' ').map((n: string) => n[0]).join('');
@@ -177,13 +177,6 @@ const AIIcon = () => (
 );
 const Landing = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState<string | false>(false);
-
-  const PRICE_IDS = {
-    starter: 'price_1TG2Xe78GJC5elzIdznAvtC3',
-    growth: 'price_1TG2Xf78GJC5elzI3GbCRbNt',
-    pro: 'price_1TG2Xg78GJC5elzIiWGrCMuP'
-  };
 
   const handleSubscribe = async (priceId: string) => {
     setLoading(priceId);
