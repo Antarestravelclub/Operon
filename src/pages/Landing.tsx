@@ -272,11 +272,8 @@ const Landing = () => {
 
       {/* HERO */}
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '120px 40px 80px', background: 'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.3) 0%, rgba(10,10,15,1) 60%)' }}>
-        <img src="/operon-badge.png" alt="Operon" style={{ width: 160, height: 160, marginBottom: 24, filter: 'drop-shadow(0 0 40px rgba(124,58,237,0.7))' }} />
-        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 42, fontWeight: 800, color: '#ffffff', marginBottom: 8, letterSpacing: -1 }}>Operon</div>
-        <div style={{ display: 'inline-block', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.4)', borderRadius: 20, padding: '6px 16px', marginBottom: 24, fontSize: 12, color: '#a78bfa', letterSpacing: 2, textTransform: 'uppercase' as const }}>
-          AI Workforce Platform
-        </div>
+        <img src="/operon-badge.png" alt="Operon" style={{ width: 180, height: 180, marginBottom: 32, borderRadius: '50%', filter: 'drop-shadow(0 0 40px rgba(124,58,237,0.7))' }} />
+
         <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 800, color: '#ffffff', lineHeight: 1.1, marginBottom: 20, maxWidth: 800 }}>
           Your AI Workforce<br />
           <span style={{ background: 'linear-gradient(135deg, #7c3aed, #14b8a6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Platform</span>
