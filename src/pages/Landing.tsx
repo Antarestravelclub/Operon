@@ -327,7 +327,7 @@ const Landing = () => {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
             {categories.map((cat) => (
-              <div key={cat.title} style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', borderTop: `4px solid ${cat.color}`, transition: 'transform 0.2s', display: 'flex', flexDirection: 'column' as const }}>
+              <div key={cat.title} style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', border: '1px solid #e5e7eb', borderTop: `4px solid ${cat.color}`, transition: 'transform 0.2s', display: 'flex', flexDirection: 'column' as const }}>
                 <div style={{ padding: '28px 28px 0' }}>
                   <div style={{ marginBottom: 16 }}>{cat.icon}</div>
                   <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0a0a0f', marginBottom: 6 }}>{cat.title}</h3>
