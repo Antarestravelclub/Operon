@@ -1,382 +1,373 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
-// Category colors
-const CATEGORY_COLORS = {
-  health: '#6b9b6b',
-  sales: '#3b82f6',
-  travel: '#0d9488',
-  loyalty: '#c9a96e',
-  marketplace: '#f97316',
-  trading: '#eab308'
-}
+// Inline SVG icon components
+const HealthIcon = () => (
+  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" fill="#6b9b6b" opacity="0.2"/>
+    <path d="M14 20c0-4.4 3.6-8 8-8 2.4 0 4.5 1 6 2.6C29.5 13 31.6 12 34 12c4.4 0 8 3.6 8 8 0 2.8-1.4 5.3-3.5 6.8L24 36l-14.5-9.2C7.4 25.3 6 22.8 6 20z" fill="#6b9b6b" stroke="#4a8a4a" strokeWidth="1.5"/>
+    <polyline points="10,26 14,22 17,28 20,20 23,26 26,24" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
+  </svg>
+);
 
-function StatsBar() {
+const SalesIcon = () => (
+  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" fill="#3b82f6" opacity="0.2"/>
+    <circle cx="24" cy="24" r="18" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
+    <circle cx="24" cy="24" r="11" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
+    <circle cx="24" cy="24" r="5" fill="#3b82f6"/>
+    <line x1="36" y1="12" x2="26" y2="22" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round"/>
+    <path d="M34 10l4 2-2 4" stroke="#60a5fa" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const TravelIcon = () => (
+  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" fill="#0d9488" opacity="0.2"/>
+    <line x1="24" y1="38" x2="24" y2="18" stroke="#0d9488" strokeWidth="2.5" strokeLinecap="round"/>
+    <path d="M24 20 Q18 12 10 14 Q16 18 20 22" fill="#14b8a6"/>
+    <path d="M24 20 Q30 12 38 14 Q32 18 28 22" fill="#14b8a6"/>
+    <path d="M24 25 Q20 17 14 19 Q19 22 22 26" fill="#0d9488" opacity="0.7"/>
+    <line x1="8" y1="37" x2="40" y2="37" stroke="#0d9488" strokeWidth="2" opacity="0.5"/>
+  </svg>
+);
+
+const LoyaltyIcon = () => (
+  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" fill="#c9a96e" opacity="0.2"/>
+    <rect x="7" y="15" width="34" height="22" rx="4" fill="none" stroke="#c9a96e" strokeWidth="1.5"/>
+    <rect x="7" y="15" width="34" height="22" rx="4" fill="#c9a96e" opacity="0.15"/>
+    <line x1="7" y1="22" x2="41" y2="22" stroke="#c9a96e" strokeWidth="2"/>
+    <rect x="11" y="26" width="8" height="5" rx="1" fill="#c9a96e" opacity="0.6"/>
+    <path d="M30 28l1 2.5h2.5l-2 1.5 0.8 2.5L30 33l-2.3 1.5 0.8-2.5-2-1.5H29z" fill="#f59e0b"/>
+  </svg>
+);
+
+const MarketplaceIcon = () => (
+  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" fill="#f97316" opacity="0.2"/>
+    <path d="M14 18 Q24 10 34 18" stroke="#f97316" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+    <path d="M32 16l4 4-4 2" stroke="#f97316" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M34 30 Q24 38 14 30" stroke="#f97316" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+    <path d="M16 32l-4-4 4-2" stroke="#f97316" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="24" cy="24" r="5" fill="#f97316" opacity="0.3" stroke="#f97316" strokeWidth="1.5"/>
+    <text x="24" y="27" textAnchor="middle" fill="#f97316" fontSize="7" fontWeight="bold">$</text>
+  </svg>
+);
+
+const TradingIcon = () => (
+  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" fill="#eab308" opacity="0.2"/>
+    <rect x="9" y="27" width="5" height="9" rx="1" fill="#ef4444"/>
+    <line x1="11.5" y1="23" x2="11.5" y2="27" stroke="#ef4444" strokeWidth="1.5"/>
+    <line x1="11.5" y1="36" x2="11.5" y2="39" stroke="#ef4444" strokeWidth="1.5"/>
+    <rect x="17" y="19" width="5" height="13" rx="1" fill="#22c55e"/>
+    <line x1="19.5" y1="14" x2="19.5" y2="19" stroke="#22c55e" strokeWidth="1.5"/>
+    <line x1="19.5" y1="32" x2="19.5" y2="37" stroke="#22c55e" strokeWidth="1.5"/>
+    <rect x="25" y="22" width="5" height="11" rx="1" fill="#22c55e"/>
+    <line x1="27.5" y1="17" x2="27.5" y2="22" stroke="#22c55e" strokeWidth="1.5"/>
+    <path d="M35 18 Q37 12 39 10 Q39 15 37 17 Q38 17 39 15 Q37 19 35 18z" fill="#7c3aed"/>
+  </svg>
+);
+
+const Landing = () => {
+  const navigate = useNavigate();
+
+  const categories = [
+    {
+      icon: <HealthIcon />,
+      title: 'Health & Wellness',
+      color: '#6b9b6b',
+      tagline: 'AI-powered emotional support, available 24/7',
+      products: ['Solace Wellness — AI Wellness Coaching'],
+      cta: 'Visit Solace',
+      ctaLink: 'https://solace-wellness.io',
+      external: true,
+    },
+    {
+      icon: <SalesIcon />,
+      title: 'Sales & Talent',
+      color: '#3b82f6',
+      tagline: 'Hire smarter. Train faster. Close more.',
+      products: ['APEX Index — Talent Assessment', 'Vida Rep Academy — Rep Training'],
+      cta: 'View Products',
+      ctaLink: '/pricing',
+      external: false,
+    },
+    {
+      icon: <TravelIcon />,
+      title: 'Travel & Hospitality',
+      color: '#0d9488',
+      tagline: 'Premium resort sales tools & travel experiences',
+      products: ['Antares Travel Club', 'ARDA Sales Materials'],
+      cta: 'Explore',
+      ctaLink: 'https://arda-materials.vercel.app',
+      external: true,
+    },
+    {
+      icon: <LoyaltyIcon />,
+      title: 'Loyalty & Rewards',
+      color: '#c9a96e',
+      tagline: 'Digital loyalty card programs for modern businesses',
+      products: ['LaraLuca Loyalty', 'Bubble Twins Loyalty'],
+      cta: 'Coming Soon',
+      ctaLink: null,
+      external: false,
+    },
+    {
+      icon: <MarketplaceIcon />,
+      title: 'Marketplace',
+      color: '#f97316',
+      tagline: 'Community platform for buying, selling & trading',
+      products: ['Buy / Sell / Trade Platform'],
+      cta: 'Coming Soon',
+      ctaLink: null,
+      external: false,
+    },
+    {
+      icon: <TradingIcon />,
+      title: 'Trading & Finance',
+      color: '#eab308',
+      tagline: 'Automated trading on forex, gold & crypto',
+      products: ['OperonTrader MT5 — EURUSD, GOLD, BTC'],
+      cta: 'Download EA',
+      ctaLink: '/download.html',
+      external: false,
+    },
+  ];
+
   return (
-    <div style={{ backgroundColor: '#1a0a2e' }} className="py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div style={{ color: '#a78bfa' }} className="text-3xl md:text-4xl font-bold">6+</div>
-            <div style={{ color: '#888' }} className="text-sm mt-1">Products</div>
+    <div style={{ fontFamily: 'Inter, system-ui, sans-serif', background: '#0a0a0f', minHeight: '100vh' }}>
+
+      {/* NAV */}
+      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(124,58,237,0.2)', padding: '16px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <img src="/operon-badge.png" alt="Operon" style={{ width: 36, height: 36 }} />
+          <span style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>Operon</span>
+        </div>
+        <div style={{ display: 'flex', gap: 32 }}>
+          <a href="#ecosystem" style={{ color: '#9ca3af', fontSize: 14, textDecoration: 'none' }}>Ecosystem</a>
+          <a href="#platform" style={{ color: '#9ca3af', fontSize: 14, textDecoration: 'none' }}>Platform</a>
+          <a href="#pricing" style={{ color: '#9ca3af', fontSize: 14, textDecoration: 'none' }}>Pricing</a>
+        </div>
+        <button
+          onClick={() => navigate('/rep/onboarding')}
+          style={{ background: '#7c3aed', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
+        >
+          Get Started →
+        </button>
+      </nav>
+
+      {/* HERO */}
+      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '120px 40px 80px', background: 'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.3) 0%, rgba(10,10,15,1) 60%)' }}>
+        <img src="/operon-badge.png" alt="Operon" style={{ width: 100, height: 100, marginBottom: 32, filter: 'drop-shadow(0 0 30px rgba(124,58,237,0.6))' }} />
+        <div style={{ display: 'inline-block', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.4)', borderRadius: 20, padding: '6px 16px', marginBottom: 24, fontSize: 12, color: '#a78bfa', letterSpacing: 2, textTransform: 'uppercase' as const }}>
+          AI Workforce Platform
+        </div>
+        <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 800, color: '#ffffff', lineHeight: 1.1, marginBottom: 20, maxWidth: 800 }}>
+          Your AI Workforce<br />
+          <span style={{ background: 'linear-gradient(135deg, #7c3aed, #14b8a6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Platform</span>
+        </h1>
+        <p style={{ fontSize: 20, color: '#9ca3af', marginBottom: 40, maxWidth: 560 }}>
+          One platform. Multiple solutions. Infinite possibilities.
+        </p>
+        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' as const, justifyContent: 'center' }}>
+          <a href="#ecosystem" style={{ background: '#7c3aed', color: '#fff', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, textDecoration: 'none', display: 'inline-block' }}>
+            Explore Our Ecosystem →
+          </a>
+          <button
+            onClick={() => window.location.href = 'mailto:mark@myoperon.io'}
+            style={{ background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, cursor: 'pointer' }}
+          >
+            Book a Demo
+          </button>
+        </div>
+      </section>
+
+      {/* STATS BAR */}
+      <div style={{ background: '#1a0a2e', padding: '30px 40px', display: 'flex', justifyContent: 'center', gap: 60, flexWrap: 'wrap' as const, borderTop: '1px solid rgba(124,58,237,0.3)', borderBottom: '1px solid rgba(124,58,237,0.3)' }}>
+        {[
+          { num: '6+', label: 'Products' },
+          { num: '3', label: 'Industries' },
+          { num: 'AI', label: 'Powered' },
+          { num: '24/7', label: 'Active' },
+          { num: '100%', label: 'Yours' },
+        ].map(s => (
+          <div key={s.label} style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 32, fontWeight: 800, color: '#a78bfa' }}>{s.num}</div>
+            <div style={{ fontSize: 12, color: '#6b7280', textTransform: 'uppercase' as const, letterSpacing: 1 }}>{s.label}</div>
           </div>
-          <div>
-            <div style={{ color: '#a78bfa' }} className="text-3xl md:text-4xl font-bold">3</div>
-            <div style={{ color: '#888' }} className="text-sm mt-1">Industries</div>
+        ))}
+      </div>
+
+      {/* ECOSYSTEM */}
+      <section id="ecosystem" style={{ background: '#f9fafb', padding: '80px 40px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <div style={{ display: 'inline-block', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 20, padding: '6px 16px', marginBottom: 16, fontSize: 12, color: '#7c3aed', letterSpacing: 2, textTransform: 'uppercase' as const }}>
+              Our Ecosystem
+            </div>
+            <h2 style={{ fontSize: 42, fontWeight: 800, color: '#0a0a0f', marginBottom: 12 }}>Everything under one roof</h2>
+            <p style={{ fontSize: 18, color: '#6b7280', maxWidth: 520, margin: '0 auto' }}>
+              Six categories. Dozens of solutions. One platform to power them all.
+            </p>
           </div>
-          <div>
-            <div style={{ color: '#a78bfa' }} className="text-3xl md:text-4xl font-bold">AI-Powered</div>
-            <div style={{ color: '#888' }} className="text-sm mt-1">Technology</div>
-          </div>
-          <div>
-            <div style={{ color: '#a78bfa' }} className="text-3xl md:text-4xl font-bold">24/7</div>
-            <div style={{ color: '#888' }} className="text-sm mt-1">Active</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
+            {categories.map((cat) => (
+              <div key={cat.title} style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', borderTop: `4px solid ${cat.color}`, transition: 'transform 0.2s', display: 'flex', flexDirection: 'column' as const }}>
+                <div style={{ padding: '28px 28px 0' }}>
+                  <div style={{ marginBottom: 16 }}>{cat.icon}</div>
+                  <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0a0a0f', marginBottom: 6 }}>{cat.title}</h3>
+                  <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 16, lineHeight: 1.6 }}>{cat.tagline}</p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 20px' }}>
+                    {cat.products.map(p => (
+                      <li key={p} style={{ fontSize: 13, color: '#4b5563', padding: '4px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: cat.color, display: 'inline-block', flexShrink: 0 }} />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div style={{ padding: '0 28px 28px', marginTop: 'auto' }}>
+                  {cat.ctaLink ? (
+                    cat.external ? (
+                      <a href={cat.ctaLink} target="_blank" rel="noopener noreferrer"
+                        style={{ display: 'block', textAlign: 'center', background: cat.color, color: '#fff', padding: '12px', borderRadius: 8, fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
+                        {cat.cta} →
+                      </a>
+                    ) : (
+                      <a href={cat.ctaLink}
+                        style={{ display: 'block', textAlign: 'center', background: cat.color, color: '#fff', padding: '12px', borderRadius: 8, fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
+                        {cat.cta} →
+                      </a>
+                    )
+                  ) : (
+                    <div style={{ textAlign: 'center', background: '#f3f4f6', color: '#9ca3af', padding: '12px', borderRadius: 8, fontWeight: 600, fontSize: 14 }}>
+                      {cat.cta}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
-    </div>
-  )
-}
+      </section>
 
-function CategoryCard({ icon, title, products, tagline, color, ctaLink, comingSoon }: {
-  icon: string
-  title: string
-  products: string[]
-  tagline: string
-  color: string
-  ctaLink?: string
-  comingSoon?: boolean
-}) {
-  return (
-    <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
-      {/* Top colored border */}
-      <div style={{ backgroundColor: color }} className="h-1" />
-      
-      <div className="p-6">
-        {/* Icon */}
-        <div className="text-4xl mb-4">{icon}</div>
-        
-        {/* Title */}
-        <h3 className="text-xl font-bold text-gray-900 mb-3">{title}</h3>
-        
-        {/* Product list */}
-        <ul className="space-y-1 mb-4">
-          {products.map((product, i) => (
-            <li key={i} className="text-sm text-gray-600 flex items-center">
-              <span style={{ color }} className="mr-2">•</span>
-              {product}
-            </li>
-          ))}
-        </ul>
-        
-        {/* Tagline */}
-        <p className="text-gray-500 text-sm mb-4">{tagline}</p>
-        
-        {/* CTA or Coming Soon */}
-        {comingSoon ? (
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium px-3 py-1 bg-gray-100 text-gray-500 rounded-full">
-              Coming Soon
-            </span>
-          </div>
-        ) : ctaLink ? (
-          <a
-            href={ctaLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center text-sm font-medium transition"
-            style={{ color }}
-          >
-            Visit →
-          </a>
-        ) : null}
-      </div>
-    </div>
-  )
-}
-
-function FeaturedSolace() {
-  return (
-    <div style={{ backgroundColor: '#1a2e1a' }} className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Left: Content */}
+      {/* FEATURED SOLACE */}
+      <section style={{ background: '#0f1f0f', padding: '80px 40px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
           <div>
-            <div className="inline-block px-4 py-1 bg-green-900/50 text-green-300 text-sm font-medium rounded-full mb-4">
+            <div style={{ display: 'inline-block', background: 'rgba(107,155,107,0.2)', border: '1px solid #6b9b6b', borderRadius: 20, padding: '6px 16px', marginBottom: 20, fontSize: 12, color: '#6b9b6b', letterSpacing: 2, textTransform: 'uppercase' as const }}>
               Featured Product
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Solace Wellness</h2>
-            <p className="text-green-200 text-lg mb-6">
-              AI wellness coaching, 24/7. Personalized mental health support that's always available.
+            <h2 style={{ fontSize: 40, fontWeight: 800, color: '#fff', marginBottom: 16 }}>Solace Wellness</h2>
+            <p style={{ fontSize: 18, color: '#c8dcc8', marginBottom: 24, lineHeight: 1.7, fontStyle: 'italic' }}>
+              "Price shouldn't be the reason not to have someone listen and help."
             </p>
-            <div className="space-y-3 mb-8">
-              <div className="flex items-center text-green-100">
-                <span className="text-green-400 mr-3">✓</span>
-                AI-powered therapy sessions
-              </div>
-              <div className="flex items-center text-green-100">
-                <span className="text-green-400 mr-3">✓</span>
-                Mood tracking & insights
-              </div>
-              <div className="flex items-center text-green-100">
-                <span className="text-green-400 mr-3">✓</span>
-                24/7 availability
-              </div>
-            </div>
-            <a
-              href="https://solace-wellness.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg font-medium hover:bg-green-700 transition"
-            >
-              Visit Solace Wellness →
+            <p style={{ fontSize: 15, color: '#8aaa8a', marginBottom: 32 }}>
+              AI-powered wellness coaching with ElevenLabs voice AI. 24 topics. 3 languages. Available 24/7.
+            </p>
+            <a href="https://solace-wellness.io" target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-block', background: '#6b9b6b', color: '#fff', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, textDecoration: 'none' }}>
+              Try Free for 15 Minutes →
             </a>
           </div>
-          
-          {/* Right: Price comparison */}
-          <div className="bg-white/10 rounded-2xl p-8 backdrop-blur-sm">
-            <h3 className="text-white text-lg mb-4 font-semibold">Pricing Comparison</h3>
-            <div className="flex items-center justify-between mb-6">
-              <div className="text-center">
-                <div className="text-green-400 text-4xl font-bold">$9.99</div>
-                <div className="text-green-200 text-sm">Solace Wellness</div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 20, padding: 40, border: '1px solid rgba(107,155,107,0.3)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: 24 }}>
+                <div>
+                  <div style={{ fontSize: 14, color: '#8aaa8a', marginBottom: 8 }}>BetterHelp</div>
+                  <div style={{ fontSize: 48, fontWeight: 800, color: '#6b7280' }}>$400</div>
+                  <div style={{ fontSize: 13, color: '#4b5563' }}>per month</div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', fontSize: 24, fontWeight: 800, color: '#c9a96e' }}>VS</div>
+                <div>
+                  <div style={{ fontSize: 14, color: '#6b9b6b', marginBottom: 8 }}>Solace</div>
+                  <div style={{ fontSize: 48, fontWeight: 800, color: '#c9a96e' }}>$9.99</div>
+                  <div style={{ fontSize: 13, color: '#8aaa8a' }}>per month</div>
+                </div>
               </div>
-              <div className="text-gray-400 text-2xl">vs</div>
-              <div className="text-center">
-                <div className="text-gray-300 text-4xl font-bold">$240-400</div>
-                <div className="text-gray-400 text-sm">Traditional Therapy</div>
-              </div>
+              <div style={{ fontSize: 13, color: '#6b7280' }}>We Care 💚</div>
             </div>
-            <p className="text-green-200 text-center text-sm">
-              Save up to 96% with AI-powered wellness support
-            </p>
           </div>
         </div>
-      </div>
-    </div>
-  )
-}
+      </section>
 
-function OperonPlatform() {
-  return (
-    <div style={{ backgroundColor: '#0f0a1a' }} className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">The Operon Platform</h2>
-        <p className="text-gray-400 text-lg mb-12 max-w-2xl mx-auto">
-          Complete B2B solution for teams looking to scale their sales and operations
-        </p>
-        
-        {/* Feature cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-white/5 rounded-xl p-8 hover:bg-white/10 transition">
-            <div className="w-12 h-12 bg-violet-600/30 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <span className="text-xl">👤</span>
-            </div>
-            <h3 className="text-white font-semibold mb-2">Rep Onboarding</h3>
-            <p className="text-gray-400 text-sm">Get new reps trained and productive faster</p>
+      {/* OPERON PLATFORM */}
+      <section id="platform" style={{ background: '#0f0a1a', padding: '80px 40px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ display: 'inline-block', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.4)', borderRadius: 20, padding: '6px 16px', marginBottom: 20, fontSize: 12, color: '#a78bfa', letterSpacing: 2, textTransform: 'uppercase' as const }}>
+            The Platform
           </div>
-          <div className="bg-white/5 rounded-xl p-8 hover:bg-white/10 transition">
-            <div className="w-12 h-12 bg-violet-600/30 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <span className="text-xl">🤖</span>
-            </div>
-            <h3 className="text-white font-semibold mb-2">Follow-Up Automation</h3>
-            <p className="text-gray-400 text-sm">Never miss a touchpoint with clients</p>
-          </div>
-          <div className="bg-white/5 rounded-xl p-8 hover:bg-white/10 transition">
-            <div className="w-12 h-12 bg-violet-600/30 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <span className="text-xl">📊</span>
-            </div>
-            <h3 className="text-white font-semibold mb-2">Sales Analytics</h3>
-            <p className="text-gray-400 text-sm">Real-time insights into your sales pipeline</p>
-          </div>
-        </div>
-        
-        {/* Pricing */}
-        <div className="flex flex-wrap justify-center gap-6 mb-10">
-          <div className="text-center">
-            <div className="text-white text-2xl font-bold">$39<span className="text-gray-400 text-sm font-normal">/rep/mo</span></div>
-          </div>
-          <div className="text-gray-600">·</div>
-          <div className="text-center">
-            <div className="text-white text-2xl font-bold">$1,900<span className="text-gray-400 text-sm font-normal"> setup</span></div>
-          </div>
-          <div className="text-gray-600">·</div>
-          <div className="text-center">
-            <div className="text-white text-2xl font-bold">$4,500<span className="text-gray-400 text-sm font-normal"> bundle</span></div>
-          </div>
-        </div>
-        
-        <a
-          href="/signup"
-          className="inline-block bg-violet-600 text-white px-8 py-4 rounded-lg font-medium hover:bg-violet-700 transition"
-        >
-          Get Started Today
-        </a>
-      </div>
-    </div>
-  )
-}
-
-export default function Landing() {
-  const navigate = useNavigate()
-
-  return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section style={{ backgroundColor: '#0a0a0f' }} className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        {/* Purple gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-transparent" />
-        
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          {/* Logo */}
-          <img
-            src="/operon-badge.png"
-            alt="Operon"
-            className="w-[100px] h-[100px] mx-auto mb-12 object-contain"
-          />
-          
-          {/* H1 */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white mb-6 leading-tight">
-            Your AI Workforce Platform
-          </h1>
-          
-          {/* Subtitle */}
-          <p className="text-xl md:text-2xl text-gray-400 mb-12">
-            One platform. Multiple solutions. Infinite possibilities.
+          <h2 style={{ fontSize: 42, fontWeight: 800, color: '#fff', marginBottom: 16 }}>The Operon Platform</h2>
+          <p style={{ fontSize: 18, color: '#9ca3af', marginBottom: 50, maxWidth: 500, margin: '0 auto 50px' }}>
+            AI-powered tools that work together to grow your sales team.
           </p>
-          
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => navigate('/solutions')}
-              className="bg-[#7c3aed] text-white px-8 py-4 rounded-lg font-semibold hover:bg-purple-700 transition text-lg"
-            >
-              Explore Our Solutions →
-            </button>
-            <button
-              onClick={() => navigate('/demo')}
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white/10 transition text-lg"
-            >
-              Book a Demo
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 50 }}>
+            {[
+              { icon: '🚀', title: 'Rep Onboarding', desc: '4-step automated onboarding. Profile, voice, email setup — done in minutes.' },
+              { icon: '🔁', title: 'Follow-Up Automation', desc: 'Never lose a sale after the close. AI-powered follow-up sequences.' },
+              { icon: '📊', title: 'Sales Analytics', desc: 'Track every deal, rep performance, and revenue in real time.' },
+            ].map(f => (
+              <div key={f.title} style={{ background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', borderRadius: 16, padding: 28, textAlign: 'left' }}>
+                <div style={{ fontSize: 36, marginBottom: 16 }}>{f.icon}</div>
+                <h3 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 8 }}>{f.title}</h3>
+                <p style={{ fontSize: 14, color: '#9ca3af', lineHeight: 1.6 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div id="pricing" style={{ background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 16, padding: 40, display: 'inline-block' }}>
+            <div style={{ display: 'flex', gap: 40, flexWrap: 'wrap' as const, justifyContent: 'center', marginBottom: 24 }}>
+              <div style={{ textAlign: 'center' }}><div style={{ fontSize: 32, fontWeight: 800, color: '#a78bfa' }}>$39</div><div style={{ fontSize: 13, color: '#6b7280' }}>per rep / month</div></div>
+              <div style={{ textAlign: 'center' }}><div style={{ fontSize: 32, fontWeight: 800, color: '#a78bfa' }}>$1,900</div><div style={{ fontSize: 13, color: '#6b7280' }}>setup fee</div></div>
+              <div style={{ textAlign: 'center' }}><div style={{ fontSize: 32, fontWeight: 800, color: '#c9a96e' }}>$4,500</div><div style={{ fontSize: 13, color: '#6b7280' }}>full bundle (all-in)</div></div>
+            </div>
+            <button onClick={() => navigate('/rep/onboarding')} style={{ background: '#7c3aed', color: '#fff', border: 'none', borderRadius: 10, padding: '14px 32px', fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>
+              Get Started Today →
             </button>
           </div>
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <StatsBar />
-
-      {/* Categories - Our Ecosystem */}
-      <section style={{ backgroundColor: '#f8f8f8' }} className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Ecosystem</h2>
-            <p className="text-gray-500 text-lg">Everything you need, built under one roof</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <CategoryCard
-              icon="💚"
-              title="Health & Wellness"
-              products={['Solace Wellness → solace-wellness.io']}
-              tagline="AI wellness coaching, 24/7"
-              color={CATEGORY_COLORS.health}
-              ctaLink="https://solace-wellness.io"
-            />
-            
-            <CategoryCard
-              icon="💼"
-              title="Sales & Talent"
-              products={['APEX Index', 'Vida Rep Academy']}
-              tagline="Hire smarter, train faster"
-              color={CATEGORY_COLORS.sales}
-            />
-            
-            <CategoryCard
-              icon="🏖️"
-              title="Travel & Hospitality"
-              products={['Antares Travel Club', 'ARDA Materials']}
-              tagline="Resort sales tools"
-              color={CATEGORY_COLORS.travel}
-            />
-            
-            <CategoryCard
-              icon="🎁"
-              title="Loyalty & Rewards"
-              products={['LaraLuca', 'Bubble Twins']}
-              tagline="Digital loyalty programs"
-              color={CATEGORY_COLORS.loyalty}
-              comingSoon={true}
-            />
-            
-            <CategoryCard
-              icon="🛒"
-              title="Marketplace"
-              products={['Buy/Sell/Trade']}
-              tagline="Community marketplace"
-              color={CATEGORY_COLORS.marketplace}
-              comingSoon={true}
-            />
-            
-            <CategoryCard
-              icon="📈"
-              title="Trading & Finance"
-              products={['OperonTrader MT5']}
-              tagline="Automated forex trading"
-              color={CATEGORY_COLORS.trading}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Solace Section */}
-      <FeaturedSolace />
-
-      {/* Operon B2B Platform Section */}
-      <OperonPlatform />
-
-      {/* Footer */}
-      <footer style={{ backgroundColor: '#0a0a0f' }} className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-12">
-            {/* Logo & Tagline */}
-            <div className="md:col-span-2">
-              <img
-                src="/operon-badge.png"
-                alt="Operon"
-                className="w-12 h-12 mb-4"
-              />
-              <p className="text-gray-400 mb-4">
-                Your AI Workforce Platform — One platform. Multiple solutions. Infinite possibilities.
-              </p>
-              <p className="text-gray-500 text-sm">
-                © 2026 Operon. All rights reserved.
+      {/* FOOTER */}
+      <footer style={{ background: '#0a0a0f', borderTop: '1px solid rgba(124,58,237,0.2)', padding: '50px 40px 30px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 40, marginBottom: 40 }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+                <img src="/operon-badge.png" alt="Operon" style={{ width: 36, height: 36 }} />
+                <span style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>Operon</span>
+              </div>
+              <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.7, maxWidth: 260 }}>
+                Your AI Workforce Platform. One ecosystem. Infinite possibilities.
               </p>
             </div>
-            
-            {/* Links Grid */}
             <div>
-              <h4 className="text-white font-semibold mb-4">Products</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="https://solace-wellness.io" target="_blank" rel="noopener" className="hover:text-white transition">Solace Wellness</a></li>
-                <li className="text-gray-500">APEX Index</li>
-                <li className="text-gray-500">Vida Rep Academy</li>
-                <li className="text-gray-500">Antares Travel Club</li>
-                <li className="text-gray-500">OperonTrader MT5</li>
-              </ul>
+              <div style={{ fontSize: 12, color: '#a78bfa', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 16 }}>Products</div>
+              {['Solace Wellness', 'APEX Index', 'Vida Rep Academy', 'OperonTrader'].map(p => (
+                <div key={p} style={{ fontSize: 14, color: '#6b7280', marginBottom: 8 }}>{p}</div>
+              ))}
             </div>
-            
             <div>
-              <h4 className="text-white font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition">About</a></li>
-                <li><a href="#" className="hover:text-white transition">Careers</a></li>
-                <li><a href="#" className="hover:text-white transition">Contact</a></li>
-                <li><a href="#" className="hover:text-white transition">Press</a></li>
-              </ul>
+              <div style={{ fontSize: 12, color: '#a78bfa', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 16 }}>Platform</div>
+              {['Rep Onboarding', 'Follow-Up System', 'Sales Intake', 'Analytics'].map(p => (
+                <div key={p} style={{ fontSize: 14, color: '#6b7280', marginBottom: 8 }}>{p}</div>
+              ))}
             </div>
+            <div>
+              <div style={{ fontSize: 12, color: '#a78bfa', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 16 }}>Contact</div>
+              <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 8 }}>mark@myoperon.io</div>
+              <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 8 }}>myoperon.io</div>
+            </div>
+          </div>
+          <div style={{ borderTop: '1px solid rgba(124,58,237,0.15)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: 12 }}>
+            <div style={{ fontSize: 13, color: '#4b5563' }}>© 2026 Operon. All rights reserved.</div>
+            <div style={{ fontSize: 13, color: '#7c3aed', fontWeight: 600 }}>Your AI Workforce Platform</div>
           </div>
         </div>
       </footer>
+
     </div>
-  )
-}
+  );
+};
+
+export default Landing;
