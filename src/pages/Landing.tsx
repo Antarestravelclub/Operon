@@ -1,5 +1,6 @@
 
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { TrendingUp, MessageCircle, ClipboardList } from 'lucide-react';
 
 function TestimonialCard({ name, role, stars, quote }: { name: string, role: string, stars: number, quote: string }) {
@@ -178,21 +179,7 @@ const AIIcon = () => (
 const Landing = () => {
   const navigate = useNavigate();
 
-  const handleSubscribe = async (priceId: string) => {
-    setLoading(priceId);
-    try {
-      const res = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId }),
-      });
-      const { url } = await res.json();
-      if (url) window.location.href = url;
-    } catch (e) {
-      console.error(e);
-    }
-    setLoading(false);
-  };
+
 
   const categories = [
     {
