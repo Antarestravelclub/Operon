@@ -159,6 +159,22 @@ const TradingIcon = () => (
   </svg>
 );
 
+
+const AIIcon = () => (
+  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" fill="#7c3aed" opacity="0.2"/>
+    <circle cx="24" cy="18" r="7" fill="#7c3aed" opacity="0.8"/>
+    <circle cx="24" cy="18" r="7" stroke="#a78bfa" strokeWidth="1.5" fill="none"/>
+    <circle cx="21" cy="16" r="1.5" fill="white"/>
+    <circle cx="27" cy="16" r="1.5" fill="white"/>
+    <path d="M20 20 Q24 23 28 20" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+    <path d="M14 32 Q14 27 24 27 Q34 27 34 32" fill="#7c3aed" opacity="0.4" stroke="#a78bfa" strokeWidth="1.5"/>
+    <circle cx="16" cy="22" r="2" fill="#14b8a6"/>
+    <circle cx="32" cy="22" r="2" fill="#14b8a6"/>
+    <line x1="16" y1="22" x2="21" y2="18" stroke="#14b8a6" strokeWidth="1" opacity="0.5"/>
+    <line x1="32" y1="22" x2="27" y2="18" stroke="#14b8a6" strokeWidth="1" opacity="0.5"/>
+  </svg>
+);
 const Landing = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<string | false>(false);
@@ -234,6 +250,16 @@ const Landing = () => {
       products: ['Buy / Sell / Trade Platform'],
       cta: 'Coming Soon',
       ctaLink: null,
+      external: false,
+    },
+    {
+      icon: <AIIcon />,
+      title: 'AI Assistants',
+      color: '#7c3aed',
+      tagline: 'Your AI workforce — always on, always learning, never tired.',
+      products: ['Tommy — Personal AI Assistant', 'Sales AI — Lead Follow-up', 'Support AI — Customer Care'],
+      cta: 'Learn More',
+      ctaLink: '/ai-assistants.html',
       external: false,
     },
     {
