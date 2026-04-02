@@ -5,42 +5,27 @@
 //+------------------------------------------------------------------+
 #property copyright "Operon"
 #property version   "5.00"
-#property strict
 
 #include <Trade\Trade.mqh>
 #include <Trade\PositionInfo.mqh>
 
 //--- Inputs
-input group    "=== Trade Settings ==="
 input double   Lots          = 0.01;
 input int      MaxTrades     = 1;
 input double   ATR_SL        = 1.5;
 input double   ATR_TP        = 3.0;
-
-input group    "=== EMA Settings ==="
 input int      FastEMA       = 9;
 input int      SlowEMA       = 21;
 input int      TrendEMA      = 200;
-
-input group    "=== RSI Settings ==="
 input int      RSIPeriod     = 14;
 input double   RSIOversold   = 45;
 input double   RSIOverbought = 55;
-
-input group    "=== Trailing Stop ==="
 input bool     UseTrailing   = true;
 input double   BreakevenAt   = 150;
 input double   TrailDistance = 100;
-
-input group    "=== Session Filter ==="
 input bool     UseSession    = true;
 input int      SessionStart  = 7;
 input int      SessionEnd    = 20;
-
-input group    "=== News Filter ==="
-input bool     UseNewsFilter = false;
-input int      NewsMinutes   = 30;
-
 input int      Magic         = 88888;
 
 //--- Globals
