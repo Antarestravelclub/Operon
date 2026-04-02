@@ -249,7 +249,7 @@ const Landing = () => {
   ];
 
   return (
-    <div style={{ fontFamily: 'Inter, system-ui, sans-serif', background: '#0a0a0f', minHeight: '100vh' }}>
+    <div style={{ fontFamily: 'Inter, system-ui, sans-serif', background: '#ffffff', minHeight: '100vh' }}>
 
       {/* NAV */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(124,58,237,0.2)', padding: '16px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
