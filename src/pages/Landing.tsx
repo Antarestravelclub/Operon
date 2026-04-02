@@ -1,6 +1,96 @@
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { TrendingUp, MessageCircle, ClipboardList, Check } from 'lucide-react';
 
-// Inline SVG icon components
+function TestimonialCard({ name, role, stars, quote }: { name: string, role: string, stars: number, quote: string }) {
+  const initials = name.split(' ').map((n: string) => n[0]).join('');
+  
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
+      <div className="flex items-center mb-6">
+        <div className="w-12 h-12 bg-violet-600 rounded-full flex items-center justify-center mr-4">
+          <span className="text-white font-semibold text-sm">{initials}</span>
+        </div>
+        <div className="text-left">
+          <div className="font-semibold text-gray-900">{name}</div>
+          <div className="text-gray-500 text-sm">{role}</div>
+        </div>
+      </div>
+      <div className="flex text-yellow-400 mb-4">
+        {[...Array(stars)].map((_, i) => (
+          <span key={i} className="text-sm">★</span>
+        ))}
+      </div>
+      <p className="text-gray-600 italic">"{quote}"</p>
+    </div>
+  );
+}
+
+function ROICalculator() {
+  const [leads, setLeads] = useState(50);
+  const [emails, setEmails] = useState(20);
+
+  const hoursSavedValue = leads * 0.3 + emails * 0.1;
+  const hoursSaved = hoursSavedValue.toFixed(1);
+  const revenueRecovered = Math.round(hoursSavedValue * 150);
+  const roi = Math.round(((revenueRecovered - 99) / 99) * 100);
+
+  return (
+    <div className="bg-gray-50 rounded-2xl p-8">
+      <div className="space-y-8">
+        <div>
+          <label className="block text-left text-gray-700 font-medium mb-2">
+            How many leads per week? <span className="text-violet-600">{leads}</span>
+          </label>
+          <input
+            type="range"
+            min="10"
+            max="200"
+            value={leads}
+            onChange={(e) => setLeads(parseInt(e.target.value))}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-violet-600"
+          />
+        </div>
+        
+        <div>
+          <label className="block text-left text-gray-700 font-medium mb-2">
+            How many support emails per day? <span className="text-violet-600">{emails}</span>
+          </label>
+          <input
+            type="range"
+            min="5"
+            max="100"
+            value={emails}
+            onChange={(e) => setEmails(parseInt(e.target.value))}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-violet-600"
+          />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+          <div className="bg-white rounded-xl p-4 shadow-sm">
+            <div className="text-2xl font-bold text-violet-600">{hoursSaved} hrs</div>
+            <div className="text-gray-500 text-sm">Hours saved per week</div>
+          </div>
+          <div className="bg-white rounded-xl p-4 shadow-sm">
+            <div className="text-2xl font-bold text-violet-600">${revenueRecovered.toLocaleString()}</div>
+            <div className="text-gray-500 text-sm">Estimated revenue recovered</div>
+          </div>
+          <div className="bg-white rounded-xl p-4 shadow-sm">
+            <div className="text-2xl font-bold text-violet-600">{roi}%</div>
+            <div className="text-gray-500 text-sm">Your ROI</div>
+          </div>
+        </div>
+        
+        <Link to="/signup" className="inline-block bg-violet-600 text-white px-8 py-4 rounded-xl text-lg font-medium hover:bg-violet-700 transition shadow-lg shadow-violet-200 mt-4">
+          Start saving time today →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+
+
 const HealthIcon = () => (
   <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
     <circle cx="24" cy="24" r="22" fill="#6b9b6b" opacity="0.2"/>
@@ -71,6 +161,29 @@ const TradingIcon = () => (
 
 const Landing = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<string | false>(false);
+
+  const PRICE_IDS = {
+    starter: 'price_1TG2Xe78GJC5elzIdznAvtC3',
+    growth: 'price_1TG2Xf78GJC5elzI3GbCRbNt',
+    pro: 'price_1TG2Xg78GJC5elzIiWGrCMuP'
+  };
+
+  const handleSubscribe = async (priceId: string) => {
+    setLoading(priceId);
+    try {
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId }),
+      });
+      const { url } = await res.json();
+      if (url) window.location.href = url;
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  };
 
   const categories = [
     {
@@ -252,121 +365,320 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* FEATURED SOLACE */}
-      <section style={{ background: '#0f1f0f', padding: '80px 40px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
-          <div>
-            <div style={{ display: 'inline-block', background: 'rgba(107,155,107,0.2)', border: '1px solid #6b9b6b', borderRadius: 20, padding: '6px 16px', marginBottom: 20, fontSize: 12, color: '#6b9b6b', letterSpacing: 2, textTransform: 'uppercase' as const }}>
-              Featured Product
-            </div>
-            <h2 style={{ fontSize: 40, fontWeight: 800, color: '#fff', marginBottom: 16 }}>Solace Wellness</h2>
-            <p style={{ fontSize: 18, color: '#c8dcc8', marginBottom: 24, lineHeight: 1.7, fontStyle: 'italic' }}>
-              "Price shouldn't be the reason not to have someone listen and help."
-            </p>
-            <p style={{ fontSize: 15, color: '#8aaa8a', marginBottom: 32 }}>
-              AI-powered wellness coaching with ElevenLabs voice AI. 24 topics. 3 languages. Available 24/7.
-            </p>
-            <a href="https://solace-wellness.io" target="_blank" rel="noopener noreferrer"
-              style={{ display: 'inline-block', background: '#6b9b6b', color: '#fff', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, textDecoration: 'none' }}>
-              Try Free for 15 Minutes →
-            </a>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 20, padding: 40, border: '1px solid rgba(107,155,107,0.3)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: 24 }}>
-                <div>
-                  <div style={{ fontSize: 14, color: '#8aaa8a', marginBottom: 8 }}>BetterHelp</div>
-                  <div style={{ fontSize: 48, fontWeight: 800, color: '#6b7280' }}>$400</div>
-                  <div style={{ fontSize: 13, color: '#4b5563' }}>per month</div>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', fontSize: 24, fontWeight: 800, color: '#c9a96e' }}>VS</div>
-                <div>
-                  <div style={{ fontSize: 14, color: '#6b9b6b', marginBottom: 8 }}>Solace</div>
-                  <div style={{ fontSize: 48, fontWeight: 800, color: '#c9a96e' }}>$9.99</div>
-                  <div style={{ fontSize: 13, color: '#8aaa8a' }}>per month</div>
-                </div>
-              </div>
-              <div style={{ fontSize: 13, color: '#6b7280' }}>We Care 💚</div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* OPERON PLATFORM */}
-      <section id="platform" style={{ background: '#0f0a1a', padding: '80px 40px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ display: 'inline-block', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.4)', borderRadius: 20, padding: '6px 16px', marginBottom: 20, fontSize: 12, color: '#a78bfa', letterSpacing: 2, textTransform: 'uppercase' as const }}>
-            The Platform
-          </div>
-          <h2 style={{ fontSize: 42, fontWeight: 800, color: '#fff', marginBottom: 16 }}>The Operon Platform</h2>
-          <p style={{ fontSize: 18, color: '#9ca3af', marginBottom: 50, maxWidth: 500, margin: '0 auto 50px' }}>
-            AI-powered tools that work together to grow your sales team.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, marginBottom: 50 }}>
-            {[
-              { icon: '🚀', title: 'Rep Onboarding', desc: '4-step automated onboarding. Profile, voice, email setup — done in minutes.' },
-              { icon: '🔁', title: 'Follow-Up Automation', desc: 'Never lose a sale after the close. AI-powered follow-up sequences.' },
-              { icon: '📊', title: 'Sales Analytics', desc: 'Track every deal, rep performance, and revenue in real time.' },
-            ].map(f => (
-              <div key={f.title} style={{ background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', borderRadius: 16, padding: 28, textAlign: 'left' }}>
-                <div style={{ fontSize: 36, marginBottom: 16 }}>{f.icon}</div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 8 }}>{f.title}</h3>
-                <p style={{ fontSize: 14, color: '#9ca3af', lineHeight: 1.6 }}>{f.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div id="pricing" style={{ background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 16, padding: 40, display: 'inline-block' }}>
-            <div style={{ display: 'flex', gap: 40, flexWrap: 'wrap' as const, justifyContent: 'center', marginBottom: 24 }}>
-              <div style={{ textAlign: 'center' }}><div style={{ fontSize: 32, fontWeight: 800, color: '#a78bfa' }}>$39</div><div style={{ fontSize: 13, color: '#6b7280' }}>per rep / month</div></div>
-              <div style={{ textAlign: 'center' }}><div style={{ fontSize: 32, fontWeight: 800, color: '#a78bfa' }}>$1,900</div><div style={{ fontSize: 13, color: '#6b7280' }}>setup fee</div></div>
-              <div style={{ textAlign: 'center' }}><div style={{ fontSize: 32, fontWeight: 800, color: '#c9a96e' }}>$4,500</div><div style={{ fontSize: 13, color: '#6b7280' }}>full bundle (all-in)</div></div>
-            </div>
-            <button onClick={() => navigate('/rep/onboarding')} style={{ background: '#7c3aed', color: '#fff', border: 'none', borderRadius: 10, padding: '14px 32px', fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>
-              Get Started Today →
-            </button>
-          </div>
-        </div>
-      </section>
 
-      {/* FOOTER */}
-      <footer style={{ background: '#0a0a0f', borderTop: '1px solid rgba(124,58,237,0.2)', padding: '50px 40px 30px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 40, marginBottom: 40 }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-                <img src="/operon-badge.png" alt="Operon" style={{ width: 36, height: 36 }} />
-                <span style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>Operon</span>
+      {/* ─── OPERON PLATFORM ─── */}
+      <section id="features" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
+            Meet your new team
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Sales Assistant */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-6">
+                <TrendingUp className="h-6 w-6 text-violet-600" />
               </div>
-              <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.7, maxWidth: 260 }}>
-                Your AI Workforce Platform. One ecosystem. Infinite possibilities.
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Sales Assistant</h3>
+              <p className="text-gray-600 mb-6">
+                Follows up with leads, sends personalized emails, books appointments
               </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Lead Follow-up</span>
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Email Outreach</span>
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Appointment Booking</span>
+              </div>
+              <Link to="/hire" className="text-violet-600 font-medium hover:text-violet-700 transition">
+                Hire Sales Assistant →
+              </Link>
             </div>
-            <div>
-              <div style={{ fontSize: 12, color: '#a78bfa', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 16 }}>Products</div>
-              {['Solace Wellness', 'APEX Index', 'Vida Rep Academy', 'OperonTrader'].map(p => (
-                <div key={p} style={{ fontSize: 14, color: '#6b7280', marginBottom: 8 }}>{p}</div>
-              ))}
+
+            {/* Support Agent */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                <MessageCircle className="h-6 w-6 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Customer Support Agent</h3>
+              <p className="text-gray-600 mb-6">
+                Replies to customer emails, handles FAQs, escalates complex issues
+              </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Email Support</span>
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">FAQ Handling</span>
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Ticket Management</span>
+              </div>
+              <Link to="/hire" className="text-violet-600 font-medium hover:text-violet-700 transition">
+                Hire Support Agent →
+              </Link>
             </div>
-            <div>
-              <div style={{ fontSize: 12, color: '#a78bfa', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 16 }}>Platform</div>
-              {['Rep Onboarding', 'Follow-Up System', 'Sales Intake', 'Analytics'].map(p => (
-                <div key={p} style={{ fontSize: 14, color: '#6b7280', marginBottom: 8 }}>{p}</div>
-              ))}
-            </div>
-            <div>
-              <div style={{ fontSize: 12, color: '#a78bfa', fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase' as const, marginBottom: 16 }}>Contact</div>
-              <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 8 }}>mark@myoperon.io</div>
-              <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 8 }}>myoperon.io</div>
+
+            {/* Admin Assistant */}
+            <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+                <ClipboardList className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Admin Assistant</h3>
+              <p className="text-gray-600 mb-6">
+                Organizes your inbox, generates reports, manages repetitive tasks
+              </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Inbox Management</span>
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Reports</span>
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Task Automation</span>
+              </div>
+              <Link to="/hire" className="text-violet-600 font-medium hover:text-violet-700 transition">
+                Hire Admin Assistant →
+              </Link>
             </div>
           </div>
-          <div style={{ borderTop: '1px solid rgba(124,58,237,0.15)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: 12 }}>
-            <div style={{ fontSize: 13, color: '#4b5563' }}>© 2026 Operon. All rights reserved.</div>
-            <div style={{ fontSize: 13, color: '#7c3aed', fontWeight: 600 }}>Your AI Workforce Platform</div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
+            Loved by business owners
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <TestimonialCard
+              name="Sarah M."
+              role="Real Estate Agent, Austin TX"
+              stars={5}
+              quote="I hired the Sales Assistant and it followed up with 47 leads while I was showing houses. Closed 3 deals I would have missed."
+            />
+            <TestimonialCard
+              name="James T."
+              role="Restaurant Owner, Chicago"
+              stars={5}
+              quote="The Support Agent answers customer questions 24/7. My stress levels dropped immediately. Worth every penny."
+            />
+            <TestimonialCard
+              name="Maria K."
+              role="E-Commerce Store, Miami"
+              stars={5}
+              quote="Operon's Admin Assistant organizes my inbox and generates weekly reports. I save at least 20 hours a week."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ROI Calculator Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            See how much time Operon saves you
+          </h2>
+          <p className="text-gray-600 mb-12">Adjust the sliders to see your potential ROI</p>
+          
+          <ROICalculator />
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
+            Simple, transparent pricing
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Starter */}
+            <div className="border border-gray-200 rounded-2xl p-8">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Starter</h3>
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-gray-900">$29</span>
+                <span className="text-gray-600">/mo</span>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  1 AI Employee
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  500 tasks/month
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  Email support
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  Basic analytics
+                </li>
+              </ul>
+              <button onClick={() => handleSubscribe(PRICE_IDS.starter)} disabled={loading === PRICE_IDS.starter} className="block w-full text-center border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                {loading === PRICE_IDS.starter ? 'Processing...' : 'Start Free Trial'}
+              </button>
+            </div>
+
+            {/* Growth */}
+            <div className="border-2 border-violet-600 rounded-2xl p-8 relative">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-violet-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+                MOST POPULAR
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Growth</h3>
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-gray-900">$99</span>
+                <span className="text-gray-600">/mo</span>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  3 AI Employees
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  2,000 tasks/month
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  Priority support
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  Advanced analytics
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  CRM integrations
+                </li>
+              </ul>
+              <button onClick={() => handleSubscribe(PRICE_IDS.growth)} disabled={loading === PRICE_IDS.growth} className="block w-full text-center bg-violet-600 text-white px-6 py-3 rounded-lg hover:bg-violet-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                {loading === PRICE_IDS.growth ? 'Processing...' : 'Start Free Trial'}
+              </button>
+            </div>
+
+            {/* Pro */}
+            <div className="border border-gray-200 rounded-2xl p-8">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Pro</h3>
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-gray-900">$299</span>
+                <span className="text-gray-600">/mo</span>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  Unlimited AI Employees
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  Unlimited tasks
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  Dedicated support
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  Custom integrations
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <Check className="h-5 w-5 text-green-500 mr-3" />
+                  White-label option
+                </li>
+              </ul>
+              <button onClick={() => handleSubscribe(PRICE_IDS.pro)} disabled={loading === PRICE_IDS.pro} className="block w-full text-center border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                {loading === PRICE_IDS.pro ? 'Processing...' : 'Start Free Trial'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Follow-Up Automation Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <span className="inline-block bg-violet-100 text-violet-700 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4">New Feature</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Never Lose a Sale After the Close</h2>
+            <p className="text-xl text-gray-500 max-w-2xl mx-auto">Most sales fall apart not at the pitch — but in the silence after signing. Operon automates every touchpoint so your clients feel remembered, valued, and excited.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left: Features */}
+            <div className="space-y-6">
+              {[
+                { icon: "📧", title: "Welcome Email in 1 Hour", desc: "Sent automatically from your rep's own email address — warm, personal, and on-brand." },
+                { icon: "📞", title: "Voice Clone Calls", desc: "Your rep's cloned voice (powered by ElevenLabs) calls every client on Day 1. They think it's a real call." },
+                { icon: "🤖", title: "AI FAQ Autoresponder", desc: "Clients text questions 24/7. AI answers instantly. Reps only get notified for escalations." },
+                { icon: "📬", title: "7-Day Email Sequence", desc: "Automated nurture emails from the rep's address — booking tips, benefits reminders, check-ins." },
+                { icon: "🎁", title: "Referral Ask on Day 45", desc: "Happy clients get a personalized referral request at exactly the right moment." },
+              ].map((f) => (
+                <div key={f.title} className="flex gap-4 items-start">
+                  <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">{f.icon}</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">{f.title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Right: Stats + CTA */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Rep does 3 things.</h3>
+              <h3 className="text-xl font-bold text-violet-600 mb-6">AI does the rest.</h3>
+              <div className="space-y-4 mb-8">
+                {[
+                  { step: "1", text: "Fill intake form after sale", time: "3 min" },
+                  { step: "2", text: "Photo the contract", time: "30 sec" },
+                  { step: "3", text: "Record voice sample once", time: "5 min (forever)" },
+                ].map((s) => (
+                  <div key={s.step} className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl">
+                    <div className="w-8 h-8 bg-violet-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">{s.step}</div>
+                    <span className="text-gray-700 text-sm flex-1">{s.text}</span>
+                    <span className="text-violet-600 text-xs font-semibold">{s.time}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-3 gap-4 mb-8 text-center">
+                <div className="bg-violet-50 rounded-xl p-3">
+                  <div className="text-2xl font-bold text-violet-600">7</div>
+                  <div className="text-xs text-gray-500">Touchpoints</div>
+                </div>
+                <div className="bg-violet-50 rounded-xl p-3">
+                  <div className="text-2xl font-bold text-violet-600">45</div>
+                  <div className="text-xs text-gray-500">Days covered</div>
+                </div>
+                <div className="bg-violet-50 rounded-xl p-3">
+                  <div className="text-2xl font-bold text-violet-600">$65</div>
+                  <div className="text-xs text-gray-500">Per rep/mo</div>
+                </div>
+              </div>
+              <a href="/signup" className="block w-full text-center bg-violet-600 text-white py-4 rounded-xl font-semibold hover:bg-violet-700 transition">Get Started Free →</a>
+              <p className="text-center text-xs text-gray-400 mt-3">No credit card required</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-gray-400 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-6 md:mb-0">
+              <div className="flex items-center space-x-2 mb-2">
+                <img src="/operon-logo.jpg" alt="Operon" className="h-8 w-auto brightness-0 invert" />
+                <span className="text-white font-semibold">Operon</span>
+              </div>
+              <p className="text-sm text-violet-400">Your AI Workforce Platform</p>
+            </div>
+            <div className="flex space-x-8">
+              <a href="#" className="hover:text-white transition">Product</a>
+              <a href="#" className="hover:text-white transition">Pricing</a>
+              <Link to="/docs" className="hover:text-white transition">Docs</Link>
+              <a href="#" className="hover:text-white transition">About</a>
+              <a href="#" className="hover:text-white transition">Contact</a>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+            © 2026 Operon. All rights reserved.
           </div>
         </div>
       </footer>
-
     </div>
+
   );
 };
 
