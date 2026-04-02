@@ -254,8 +254,8 @@ const Landing = () => {
       {/* NAV */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(124,58,237,0.2)', padding: '16px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <img src="/operon-badge.png" alt="Operon" style={{ width: 36, height: 36 }} />
-          <span style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>Operon</span>
+          <img src="/operon-badge.png" alt="Operon" style={{ width: 52, height: 52 }} />
+          <span style={{ color: '#fff', fontWeight: 700, fontSize: 22 }}>Operon</span>
         </div>
         <div style={{ display: 'flex', gap: 32 }}>
           <a href="#ecosystem" style={{ color: '#9ca3af', fontSize: 14, textDecoration: 'none' }}>Ecosystem</a>
@@ -272,7 +272,8 @@ const Landing = () => {
 
       {/* HERO */}
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '120px 40px 80px', background: 'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.3) 0%, rgba(10,10,15,1) 60%)' }}>
-        <img src="/operon-badge.png" alt="Operon" style={{ width: 100, height: 100, marginBottom: 32, filter: 'drop-shadow(0 0 30px rgba(124,58,237,0.6))' }} />
+        <img src="/operon-badge.png" alt="Operon" style={{ width: 160, height: 160, marginBottom: 24, filter: 'drop-shadow(0 0 40px rgba(124,58,237,0.7))' }} />
+        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 42, fontWeight: 800, color: '#ffffff', marginBottom: 8, letterSpacing: -1 }}>Operon</div>
         <div style={{ display: 'inline-block', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.4)', borderRadius: 20, padding: '6px 16px', marginBottom: 24, fontSize: 12, color: '#a78bfa', letterSpacing: 2, textTransform: 'uppercase' as const }}>
           AI Workforce Platform
         </div>
