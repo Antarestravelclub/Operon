@@ -266,7 +266,7 @@ const Landing = () => {
         <div style={{ display: 'flex', gap: 16 }}>
           <a href="#ecosystem" style={{ color: '#9ca3af', fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap' }}>Ecosystem</a>
           <a href="#platform" style={{ color: '#9ca3af', fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap' }}>Platform</a>
-          <a href="/admin" style={{ color: '#a78bfa', fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap', fontWeight: 600 }}>🔐 Admin</a>
+          <a href="https://myoperon.io/admin.html" style={{ color: '#a78bfa', fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap', fontWeight: 600 }}>🔐 Admin</a>
         </div>
         <button
           onClick={() => navigate('/rep/onboarding')}
