@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operon HQ - Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --purple: #7c3aed;
+      --light-purple: #a78bfa;
+      --teal: #14b8a6;
+      --green: #6b9b6b;
+    }
+    
+    body {
+      background-color: var(--bg-primary);
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    /* PIN Screen */
+    .pin-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: opacity 0.3s ease;
+    }
+    
+    .pin-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    /* Logo */
+    .operon-logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--purple), var(--light-purple));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 20px;
+    }
+    
+    /* PIN Display */
+    .pin-display {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+    
+    .pin-digit {
+      width: 50px;
+      height: 60px;
+      background: rgba(124, 58, 237, 0.2);
+      border: 2px solid var(--purple);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: white;
+    }
+    
+    .pin-digit.filled {
+      background: var(--purple);
+    }
+    
+    /* PIN Pad */
+    .pin-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      max-width: 300px;
+      margin: 20px 0;
+    }
+    
+    .pin-btn {
+      width: 80px;
+      height: 80px;
+      background: rgba(124, 58, 237, 0.2);
+      border: 2px solid var(--purple);
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .pin-btn:hover {
+      background: var(--purple);
+      transform: scale(1.05);
+    }
+    
+    .pin-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .pin-btn.special {
+      background: rgba(20, 184, 166, 0.2);
+      border-color: var(--teal);
+    }
+    
+    .pin-btn.special:hover {
+      background: var(--teal);
+    }
+    
+    /* Error shake animation */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    
+    .shake {
+      animation: shake 0.5s ease-in-out;
+    }
+    
+    .error-message {
+      color: #ef4444;
+      font-size: 14px;
+      height: 20px;
+      margin-top: 10px;
+    }
+    
+    /* Dashboard */
+    .dashboard {
+      display: none;
+      min-height: 100vh;
+    }
+    
+    .dashboard.active {
+      display: block;
+    }
+    
+    /* Top Nav */
+    .top-nav {
+      background: rgba(124, 58, 237, 0.1);
+      border-bottom: 1px solid var(--purple);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .nav-logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--purple), var(--light-purple));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .nav-title {
+      color: var(--light-purple);
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .logout-btn {
+      background: transparent;
+      border: 2px solid var(--teal);
+      color: var(--teal);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .logout-btn:hover {
+      background: var(--teal);
+      color: white;
+    }
+    
+    /* Brand Sections */
+    .brand-section {
+      padding: 30px 20px;
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid;
+    }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    
+    /* Card Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(167, 139, 250, 0.5);
+    }
+    
+    .card-icon {
+      font-size: 28px;
+    }
+    
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    
+    .card-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+    
+    .card-btn {
+      margin-top: auto;
+      background: var(--purple);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .card-btn:hover {
+      opacity: 0.9;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .pin-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 20px;
+      }
+      
+      .pin-digit {
+        width: 45px;
+        height: 55px;
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- PIN Screen -->
+  <div class="pin-screen" id="pinScreen">
+    <div class="operon-logo">O</div>
+    <h1 style="color: var(--light-purple); font-size: 24px; font-weight: 600; margin-bottom: 30px;">Operon HQ</h1>
+    
+    <div class="pin-display" id="pinDisplay">
+      <div class="pin-digit"></div>
+      <div class="pin-digit"></div>
+      <div class="pin-digit"></div>
+      <div class="pin-digit"></div>
+    </div>
+    
+    <div class="error-message" id="errorMessage"></div>
+    
+    <div class="pin-pad">
+      <button class="pin-btn" onclick="enterPin('1')">1</button>
+      <button class="pin-btn" onclick="enterPin('2')">2</button>
+      <button class="pin-btn" onclick="enterPin('3')">3</button>
+      <button class="pin-btn" onclick="enterPin('4')">4</button>
+      <button class="pin-btn" onclick="enterPin('5')">5</button>
+      <button class="pin-btn" onclick="enterPin('6')">6</button>
+      <button class="pin-btn" onclick="enterPin('7')">7</button>
+      <button class="pin-btn" onclick="enterPin('8')">8</button>
+      <button class="pin-btn" onclick="enterPin('9')">9</button>
+      <button class="pin-btn special" onclick="enterPin('back')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+          <line x1="18" y1="9" x2="12" y2="15"></line>
+          <line x1="12" y1="9" x2="18" y2="15"></line>
+        </svg>
+      </button>
+      <button class="pin-btn" onclick="enterPin('0')">0</button>
+      <button class="pin-btn special" onclick="enterPin('enter')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+    
+    <p style="color: #64748b; font-size: 12px; margin-top: 20px;">Enter 4-digit PIN</p>
+  </div>
+  
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard">
+    <!-- Top Nav -->
+    <nav class="top-nav">
+      <div class="nav-brand">
+        <div class="nav-logo">O</div>
+        <span class="nav-title">HQ Dashboard</span>
+      </div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </nav>
+    
+    <!-- Solace Wellness Section -->
+    <section class="brand-section">
+      <div class="section-header" style="border-color: var(--green);">
+        <span style="font-size: 20px;">🌿</span>
+        <span class="section-title" style="color: var(--green);">SOLACE WELLNESS</span>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🎨</div>
+          <div class="card-title">Brand Standards Guide</div>
+          <div class="card-desc">Colors, fonts, logo usage for all 3 brands</div>
+          <a href="https://myoperon.io/brand-book.html" target="_blank" class="card-btn">Open Brand Book</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">📋</div>
+          <div class="card-title">Master Info Packet</div>
+          <div class="card-desc">Complete reference — pricing, Stripe IDs, tech stack, contacts</div>
+          <a href="https://myoperon.io/master-info-packet.html" target="_blank" class="card-btn">Open Info Packet</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">🖥️</div>
+          <div class="card-title">Pitch Deck</div>
+          <div class="card-desc">Full interactive presentation</div>
+          <a href="https://solace-wellness.io/pitch.html" target="_blank" class="card-btn">Open Pitch Deck</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">🖨️</div>
+          <div class="card-title">Business Plan (Print/PDF)</div>
+          <div class="card-desc">Clean A4 format — print or save as PDF</div>
+          <a href="https://solace-wellness.io/pitch-print.html" target="_blank" class="card-btn">Open & Print</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">📝</div>
+          <div class="card-title">Business Plan (Word)</div>
+          <div class="card-desc">Editable Word document</div>
+          <a href="https://solace-wellness.io/solace-business-plan.docx" target="_blank" class="card-btn">Download .docx</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">🖼️</div>
+          <div class="card-title">Media Library</div>
+          <div class="card-desc">All Instagram graphics</div>
+          <a href="https://solace-wellness.io/media-library.html" target="_blank" class="card-btn">Open Gallery</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">📱</div>
+          <div class="card-title">Instagram Captions</div>
+          <div class="card-desc">All 8 post captions with one-tap copy</div>
+          <a href="https://solace-wellness.io/instagram-captions.html" target="_blank" class="card-btn">Open Captions</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">💌</div>
+          <div class="card-title">April Email Campaign</div>
+          <div class="card-desc">Latest Brevo campaign HTML</div>
+          <a href="https://solace-wellness.io/campaign-april2.html" target="_blank" class="card-btn">View Campaign</a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- APEX INDEX Section -->
+    <section class="brand-section">
+      <div class="section-header" style="border-color: var(--teal);">
+        <span style="font-size: 20px;">📊</span>
+        <span class="section-title" style="color: var(--teal);">APEX INDEX</span>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">⚔️</div>
+          <div class="card-title">Competitive Deck</div>
+          <div class="card-desc">APEX vs Culture Index vs Predictive Index — 3-way showdown</div>
+          <a href="https://myoperon.io/apex-vs-cultureindex.html" target="_blank" class="card-btn">Open Deck</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <div class="card-title">APEX Website</div>
+          <div class="card-desc">Live assessment platform</div>
+          <a href="https://apex-index.com" target="_blank" class="card-btn">Visit Site</a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- OPERON Section -->
+    <section class="brand-section">
+      <div class="section-header" style="border-color: var(--purple);">
+        <span style="font-size: 20px;">⚡</span>
+        <span class="section-title" style="color: var(--purple);">OPERON</span>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🤖</div>
+          <div class="card-title">AI Assistants</div>
+          <div class="card-desc">Meet the 6 Operon AI assistants</div>
+          <a href="https://myoperon.io/ai-assistants.html" target="_blank" class="card-btn">View Assistants</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">📦</div>
+          <div class="card-title">All Resources</div>
+          <div class="card-desc">Full resources & materials library</div>
+          <a href="https://myoperon.io/resources.html" target="_blank" class="card-btn">Open Resources</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">📈</div>
+          <div class="card-title">OperonTrader Bot</div>
+          <div class="card-desc">MT5 Expert Advisor for EURUSD, GOLD, BTCUSD</div>
+          <a href="https://myoperon.io/OperonTrader.mq5" target="_blank" class="card-btn">Download Bot</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">Vida Rep Academy</div>
+          <div class="card-desc">Sales training platform</div>
+          <a href="https://vida-rep-academy-9d6cda93.vercel.app" target="_blank" class="card-btn">Open Academy</a>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <script>
+    let pinInput = '';
+    const correctPin = '1234';
+    
+    // Check session storage on load
+    window.onload = function() {
+      const loggedIn = sessionStorage.getItem('operonLoggedIn');
+      if (loggedIn === 'true') {
+        showDashboard();
+      }
+    };
+    
+    function enterPin(value) {
+      const digits = document.querySelectorAll('.pin-digit');
+      const errorMessage = document.getElementById('errorMessage');
+      
+      if (value === 'back') {
+        pinInput = pinInput.slice(0, -1);
+      } else if (value === 'enter') {
+        if (pinInput.length === 4) {
+          if (pinInput === correctPin) {
+            // Correct PIN
+            sessionStorage.setItem('operonLoggedIn', 'true');
+            showDashboard();
+          } else {
+            // Wrong PIN
+            errorMessage.textContent = 'Incorrect PIN';
+            document.getElementById('pinScreen').classList.add('shake');
+            setTimeout(() => {
+              document.getElementById('pinScreen').classList.remove('shake');
+            }, 500);
+            pinInput = '';
+            errorMessage.textContent = '';
+          }
+        }
+      } else if (pinInput.length < 4) {
+        pinInput += value;
+      }
+      
+      // Update PIN display
+      digits.forEach((digit, index) => {
+        if (index < pinInput.length) {
+          digit.textContent = pinInput[index];
+          digit.classList.add('filled');
+        } else {
+          digit.textContent = '';
+          digit.classList.remove('filled');
+        }
+      });
+    }
+    
+    function showDashboard() {
+      document.getElementById('pinScreen').classList.add('hidden');
+      document.getElementById('dashboard').classList.add('active');
+    }
+    
+    function logout() {
+      sessionStorage.removeItem('operonLoggedIn');
+      pinInput = '';
+      document.getElementById('dashboard').classList.remove('active');
+      document.getElementById('pinScreen').classList.remove('hidden');
+      
+      // Reset PIN display
+      const digits = document.querySelectorAll('.pin-digit');
+      digits.forEach(digit => {
+        digit.textContent = '';
+        digit.classList.remove('filled');
+      });
+    }
+    
+    // Keyboard support
+    document.addEventListener('keydown', function(e) {
+      if (e.key >= '0' && e.key <= '9') {
+        enterPin(e.key);
+      } else if (e.key === 'Backspace') {
+        enterPin('back');
+      } else if (e.key === 'Enter') {
+        enterPin('enter');
+      }
+    });
+  </script>
+</body>
+</html>
