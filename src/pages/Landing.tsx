@@ -197,7 +197,7 @@ const Landing = () => {
       title: 'Sales & Talent',
       color: '#3b82f6',
       tagline: 'Hire smarter. Train faster. Close more.',
-      products: ['APEX Index — Talent Assessment', 'Vida Rep Academy — Rep Training'],
+      products: ['APEX Index — Talent Assessment', 'Sales Rep Academy — Rep Training'],
       cta: 'View Products',
       ctaLink: 'https://apex-index.com',
       external: false,
