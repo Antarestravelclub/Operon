@@ -258,19 +258,18 @@ const Landing = () => {
     <div style={{ fontFamily: 'Inter, system-ui, sans-serif', background: '#ffffff', minHeight: '100vh' }}>
 
       {/* NAV */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(124,58,237,0.2)', padding: '16px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <img src="/operon-badge.png" alt="Operon" style={{ width: 52, height: 52 }} />
-          <span style={{ color: '#fff', fontWeight: 700, fontSize: 22 }}>Operon</span>
+      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(124,58,237,0.2)', padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+          <img src="/operon-badge.png" alt="Operon" style={{ width: 40, height: 40 }} />
+          <span style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>Operon</span>
         </div>
-        <div style={{ display: 'flex', gap: 32 }}>
-          <a href="#ecosystem" style={{ color: '#9ca3af', fontSize: 14, textDecoration: 'none' }}>Ecosystem</a>
-          <a href="#platform" style={{ color: '#9ca3af', fontSize: 14, textDecoration: 'none' }}>Platform</a>
-          
+        <div style={{ display: 'flex', gap: 16 }}>
+          <a href="#ecosystem" style={{ color: '#9ca3af', fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap' }}>Ecosystem</a>
+          <a href="#platform" style={{ color: '#9ca3af', fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap' }}>Platform</a>
         </div>
         <button
           onClick={() => navigate('/rep/onboarding')}
-          style={{ background: '#7c3aed', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 20px', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
+          style={{ background: '#7c3aed', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap' }}
         >
           Get Started →
         </button>
