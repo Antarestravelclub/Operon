@@ -254,6 +254,10 @@
             background: rgba(107, 114, 128, 0.1);
         }
 
+        .pi-index-col {
+            background: rgba(107, 114, 128, 0.1);
+        }
+
         .apex-index-col {
             background: rgba(124, 58, 237, 0.15);
         }
@@ -261,6 +265,20 @@
         .check-icon {
             color: var(--teal);
             font-weight: bold;
+        }
+
+        .apex-index-col .check-icon {
+            text-shadow: 0 0 10px var(--teal), 0 0 20px var(--teal);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px var(--teal), 0 0 20px var(--teal);
+            }
+            to {
+                text-shadow: 0 0 15px var(--teal), 0 0 30px var(--teal), 0 0 40px var(--teal);
+            }
         }
 
         .x-icon {
@@ -501,7 +519,7 @@
         <div class="slide-content">
             <div class="logo-large">APEX</div>
             <h1 class="hero-headline">You Wouldn't Use a General Contractor to Build a Race Car.</h1>
-            <p class="hero-subhead">So why use a generalist assessment to hire vacation ownership's best closers?</p>
+            <p class="hero-subhead">So why use Culture Index or Predictive Index — built for everyone — to hire vacation ownership's best closers?</p>
             <a href="#slide-1" class="cta-button">See How APEX Is Different</a>
         </div>
     </section>
@@ -509,7 +527,7 @@
     <!-- Slide 2: The Problem -->
     <section class="slide problem-slide" id="slide-1">
         <div class="slide-content">
-            <h2 class="section-title">Generic Assessments Miss What Matters in Vacation Sales</h2>
+            <h2 class="section-title">Whether it's Culture Index, Predictive Index, or any other generalist platform...</h2>
             <div class="pain-points">
                 <div class="pain-point">
                     <div class="pain-point-icon">🎯</div>
@@ -530,12 +548,13 @@
     <!-- Slide 3: Comparison Table -->
     <section class="slide comparison-slide" id="slide-2">
         <div class="slide-content">
-            <h2 class="section-title">Culture Index vs. APEX Index</h2>
+            <h2 class="section-title">Culture Index vs. Predictive Index vs. APEX Index</h2>
             <table class="comparison-table">
                 <thead>
                     <tr>
                         <th>Feature</th>
                         <th>Culture Index</th>
+                        <th>Predictive Index (PI)</th>
                         <th>APEX Index</th>
                     </tr>
                 </thead>
@@ -543,37 +562,50 @@
                     <tr>
                         <td>Industry Focus</td>
                         <td class="culture-index-col">All industries</td>
+                        <td class="pi-index-col">All industries</td>
                         <td class="apex-index-col">Vacation ownership only</td>
                     </tr>
                     <tr>
                         <td>Assessment Calibration</td>
                         <td class="culture-index-col">Generic behavioral</td>
+                        <td class="pi-index-col">Generic behavioral</td>
                         <td class="apex-index-col">Tuned for sales closers</td>
                     </tr>
                     <tr>
                         <td>Understands tour flow</td>
                         <td class="culture-index-col"><span class="x-icon">❌</span></td>
+                        <td class="pi-index-col"><span class="x-icon">❌</span></td>
                         <td class="apex-index-col"><span class="check-icon">✅</span></td>
                     </tr>
                     <tr>
                         <td>Speaks your industry's language</td>
                         <td class="culture-index-col"><span class="x-icon">❌</span></td>
+                        <td class="pi-index-col"><span class="x-icon">❌</span></td>
                         <td class="apex-index-col"><span class="check-icon">✅</span></td>
                     </tr>
                     <tr>
                         <td>Predicts closer performance</td>
                         <td class="culture-index-col">Generic only</td>
+                        <td class="pi-index-col">Generic only</td>
                         <td class="apex-index-col">Vacation sales specific</td>
                     </tr>
                     <tr>
                         <td>Price</td>
                         <td class="culture-index-col">Enterprise ($$$)</td>
+                        <td class="pi-index-col">Enterprise ($$$)</td>
                         <td class="apex-index-col">Competitive & niche-focused</td>
                     </tr>
                     <tr>
                         <td>Setup Time</td>
                         <td class="culture-index-col">Weeks + onboarding</td>
+                        <td class="pi-index-col">Weeks + onboarding</td>
                         <td class="apex-index-col">Fast, focused, ready to use</td>
+                    </tr>
+                    <tr>
+                        <td>Vacation Ownership Expertise</td>
+                        <td class="culture-index-col"><span class="x-icon">❌</span></td>
+                        <td class="pi-index-col"><span class="x-icon">❌</span></td>
+                        <td class="apex-index-col"><span class="check-icon">✅</span></td>
                     </tr>
                 </tbody>
             </table>
