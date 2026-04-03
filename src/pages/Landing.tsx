@@ -183,6 +183,16 @@ const Landing = () => {
 
   const categories = [
     {
+      icon: <AIIcon />,
+      title: 'AI Assistants',
+      color: '#7c3aed',
+      tagline: 'Your AI workforce — always on, always learning, never tired.',
+      products: ['Sales Follow-Up AI', 'Rep Onboarding AI', 'Customer Support AI', 'Custom AI Builds'],
+      cta: 'See Plans & Pricing',
+      ctaLink: '/ai-assistants.html',
+      external: false,
+    },
+    {
       icon: <HealthIcon />,
       title: 'Health & Wellness',
       color: '#6b9b6b',
@@ -230,16 +240,6 @@ const Landing = () => {
       products: ['Buy / Sell / Trade Platform'],
       cta: 'Coming Soon',
       ctaLink: null,
-      external: false,
-    },
-    {
-      icon: <AIIcon />,
-      title: 'AI Assistants',
-      color: '#7c3aed',
-      tagline: 'Your AI workforce — always on, always learning, never tired.',
-      products: ['Tommy — Personal AI Assistant', 'Sales AI — Lead Follow-up', 'Support AI — Customer Care'],
-      cta: 'Learn More',
-      ctaLink: '/ai-assistants.html',
       external: false,
     },
     {
@@ -323,9 +323,9 @@ const Landing = () => {
             <div style={{ display: 'inline-block', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 20, padding: '6px 16px', marginBottom: 16, fontSize: 12, color: '#7c3aed', letterSpacing: 2, textTransform: 'uppercase' as const }}>
               Our Ecosystem
             </div>
-            <h2 style={{ fontSize: 42, fontWeight: 800, color: '#0a0a0f', marginBottom: 12 }}>Everything under one roof</h2>
+            <h2 style={{ fontSize: 42, fontWeight: 800, color: '#0a0a0f', marginBottom: 12 }}>Our Starting Lineup</h2>
             <p style={{ fontSize: 18, color: '#6b7280', maxWidth: 520, margin: '0 auto' }}>
-              Six categories. Dozens of solutions. One platform to power them all.
+              AI Assistants first. Then the full ecosystem to back them up.
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
