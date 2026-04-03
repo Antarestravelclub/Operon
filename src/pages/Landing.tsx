@@ -260,7 +260,7 @@ const Landing = () => {
       {/* NAV */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(124,58,237,0.2)', padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-          <img src="/operon-badge.png" alt="Operon" style={{ width: 40, height: 40 }} />
+          <img src="/operon-badge.png" alt="Operon" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover' }} />
           <span style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>Operon</span>
         </div>
         <div style={{ display: 'flex', gap: 16 }}>
