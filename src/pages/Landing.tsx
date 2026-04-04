@@ -210,7 +210,7 @@ const Landing = () => {
       tagline: 'Full backend financial management — leads, payroll, goals, and stats.',
       products: ['Sales Volume Dashboard', 'OPC Performance Tracking', 'Payroll & Commission Reports', 'Sales Goals & Analytics'],
       cta: 'View Platform',
-      ctaLink: 'https://lead-to-cash-track.vercel.app',
+      ctaLink: 'https://myoperon.io/leads.html',
       external: true,
     },
     {
@@ -220,7 +220,7 @@ const Landing = () => {
       tagline: 'Kanban-style candidate pipeline for hiring vacation sales teams.',
       products: ['Candidate Tracking', 'Hiring Workflow', 'Interview Calendar', 'Analytics Dashboard'],
       cta: 'View Platform',
-      ctaLink: 'https://operon-recruit.vercel.app',
+      ctaLink: 'https://myoperon.io/recruit.html',
       external: true,
     },
     {
@@ -230,7 +230,7 @@ const Landing = () => {
       tagline: '30-day structured sales training platform for new and existing reps.',
       products: ['Day-by-Day Training Modules', 'Lesson Viewer', 'Progress Tracking', 'Training Editor'],
       cta: 'View Platform',
-      ctaLink: 'https://vida-rep-academy-9d6cda93.vercel.app',
+      ctaLink: 'https://myoperon.io/academy.html',
       external: true,
     },
     {
@@ -240,7 +240,7 @@ const Landing = () => {
       tagline: 'Digital loyalty card programs for modern businesses.',
       products: ['Digital Stamp Cards', 'Points & Rewards', 'Merchant Dashboard', 'QR Code Scanning'],
       cta: 'View Platform',
-      ctaLink: 'https://laralucaloyalty.vercel.app',
+      ctaLink: 'https://myoperon.io/loyalty.html',
       external: true,
     },
     {
@@ -250,7 +250,7 @@ const Landing = () => {
       tagline: 'Member verification and check-in platform with QR codes.',
       products: ['Member Verification', 'QR Code Scanning', 'Admin Dashboard', 'Promotor Tracking'],
       cta: 'View Platform',
-      ctaLink: 'https://secure-checkin-confirm.vercel.app',
+      ctaLink: 'https://myoperon.io/checkin.html',
       external: true,
     },
     {
@@ -260,7 +260,7 @@ const Landing = () => {
       tagline: 'Guest experience and issue tracking for resorts and hospitality.',
       products: ['Guest Portal', 'Issue Tracking', 'Analytics Dashboard', 'Staff Management'],
       cta: 'View Platform',
-      ctaLink: 'https://guest-whisper-care.vercel.app',
+      ctaLink: 'https://myoperon.io/guestcare.html',
       external: true,
     },
     {
@@ -270,7 +270,7 @@ const Landing = () => {
       tagline: 'Sales commission tracking, payroll management and reporting.',
       products: ['Commission Charts', 'Payroll Manager', 'Company Breakdown', 'Admin Dashboard'],
       cta: 'View Platform',
-      ctaLink: 'https://antares-travel-club-sales-commission-calc.vercel.app',
+      ctaLink: 'https://myoperon.io/commissions.html',
       external: true,
     },
     {
@@ -280,7 +280,7 @@ const Landing = () => {
       tagline: 'Vacation finance calculator and future planning tool.',
       products: ['Finance Calculator', 'Vacation Planning', 'Cost Analysis', 'Future Projections'],
       cta: 'View Platform',
-      ctaLink: 'https://vacation-future-finder.vercel.app',
+      ctaLink: 'https://myoperon.io/vacations.html',
       external: true,
     },
   ];
@@ -305,7 +305,7 @@ const Landing = () => {
       tagline: 'Wholesale travel marketplace and content management',
       products: ['Travel Marketplace', 'Content Manager', 'Media Manager'],
       cta: 'View Platform',
-      ctaLink: 'https://wholesale-wanderlust-hub.vercel.app',
+      ctaLink: 'https://myoperon.io/travel.html',
       external: true,
     },
     {
@@ -315,7 +315,7 @@ const Landing = () => {
       tagline: 'Vacation finance calculator and future planning tool',
       products: ['Finance Calculator', 'Vacation Planning', 'Cost Analysis'],
       cta: 'View Platform',
-      ctaLink: 'https://vacation-future-finder.vercel.app',
+      ctaLink: 'https://myoperon.io/vacations.html',
       external: true,
     },
 
