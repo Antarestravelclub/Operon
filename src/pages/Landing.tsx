@@ -181,7 +181,8 @@ const Landing = () => {
 
 
 
-  const categories = [
+  // Products we SELL — Our Starting Lineup
+  const lineupCategories = [
     {
       icon: <AIIcon />,
       title: 'AI Assistants',
@@ -191,16 +192,6 @@ const Landing = () => {
       cta: 'See Plans & Pricing',
       ctaLink: '/ai-assistants.html',
       external: false,
-    },
-    {
-      icon: <HealthIcon />,
-      title: 'Health & Wellness',
-      color: '#6b9b6b',
-      tagline: 'AI-powered emotional support, available 24/7',
-      products: ['Solace Wellness — AI Wellness Coaching'],
-      cta: 'Visit Solace',
-      ctaLink: 'https://solace-wellness.io',
-      external: true,
     },
     {
       icon: <SalesIcon />,
@@ -213,16 +204,6 @@ const Landing = () => {
       external: false,
     },
     {
-      icon: <TravelIcon />,
-      title: 'Travel & Hospitality',
-      color: '#0d9488',
-      tagline: 'Premium resort sales tools & travel experiences',
-      products: ['Antares Travel Club', 'ARDA Sales Materials'],
-      cta: 'Explore',
-      ctaLink: 'https://arda-materials.vercel.app',
-      external: true,
-    },
-    {
       icon: <LoyaltyIcon />,
       title: 'Loyalty & Rewards',
       color: '#c9a96e',
@@ -231,6 +212,30 @@ const Landing = () => {
       cta: 'Coming Soon',
       ctaLink: null,
       external: false,
+    },
+  ];
+
+  // Platforms we OWN — Built & Powered by Operon
+  const builtByCategories = [
+    {
+      icon: <HealthIcon />,
+      title: 'Health & Wellness',
+      color: '#6b9b6b',
+      tagline: 'AI-powered emotional support, available 24/7',
+      products: ['Solace Wellness — AI Wellness Coaching'],
+      cta: 'Visit Solace',
+      ctaLink: 'https://solace-wellness.io',
+      external: true,
+    },
+    {
+      icon: <TravelIcon />,
+      title: 'Travel & Hospitality',
+      color: '#0d9488',
+      tagline: 'Premium resort sales tools & travel experiences',
+      products: ['Antares Travel Club', 'ARDA Sales Materials'],
+      cta: 'Explore',
+      ctaLink: 'https://arda-materials.vercel.app',
+      external: true,
     },
     {
       icon: <MarketplaceIcon />,
@@ -249,7 +254,7 @@ const Landing = () => {
       tagline: 'Automated trading on forex, gold & crypto',
       products: ['OperonTrader MT5 — EURUSD, GOLD, BTC'],
       cta: 'Download EA',
-      ctaLink: '/download.html',
+      ctaLink: '/OperonTrader.mq5',
       external: false,
     },
   ];
@@ -325,11 +330,11 @@ const Landing = () => {
             </div>
             <h2 style={{ fontSize: 42, fontWeight: 800, color: '#0a0a0f', marginBottom: 12 }}>Our Starting Lineup</h2>
             <p style={{ fontSize: 18, color: '#6b7280', maxWidth: 520, margin: '0 auto' }}>
-              AI Assistants first. Then the full ecosystem to back them up.
+              The products we sell. Your competitive edge.
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
-            {categories.map((cat) => (
+            {lineupCategories.map((cat) => (
               <div key={cat.title} style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', border: '1px solid #e5e7eb', borderTop: `4px solid ${cat.color}`, transition: 'transform 0.2s', display: 'flex', flexDirection: 'column' as const }}>
                 <div style={{ padding: '28px 28px 0' }}>
                   <div style={{ marginBottom: 16 }}>{cat.icon}</div>
@@ -369,7 +374,51 @@ const Landing = () => {
         </div>
       </section>
 
-
+      {/* BUILT & POWERED BY OPERON */}
+      <section style={{ background: '#0a0a0f', padding: '80px 40px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <div style={{ display: 'inline-block', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 20, padding: '6px 16px', marginBottom: 16, fontSize: 12, color: '#a78bfa', letterSpacing: 2, textTransform: 'uppercase' as const }}>
+              Our Own Platforms
+            </div>
+            <h2 style={{ fontSize: 42, fontWeight: 800, color: '#ffffff', marginBottom: 12 }}>Built & Powered by Operon</h2>
+            <p style={{ fontSize: 18, color: '#9ca3af', maxWidth: 520, margin: '0 auto' }}>
+              Platforms we built, own, and run ourselves.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+            {builtByCategories.map((cat) => (
+              <div key={cat.title} style={{ background: '#111118', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(124,58,237,0.15)', borderTop: `4px solid ${cat.color}`, display: 'flex', flexDirection: 'column' as const }}>
+                <div style={{ padding: '28px 28px 0' }}>
+                  <div style={{ marginBottom: 16 }}>{cat.icon}</div>
+                  <h3 style={{ fontSize: 20, fontWeight: 700, color: '#ffffff', marginBottom: 6 }}>{cat.title}</h3>
+                  <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 16, lineHeight: 1.6 }}>{cat.tagline}</p>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 20px' }}>
+                    {cat.products.map(p => (
+                      <li key={p} style={{ fontSize: 13, color: '#d1d5db', padding: '4px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: cat.color, display: 'inline-block', flexShrink: 0 }} />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div style={{ marginTop: 'auto', padding: '0 28px 28px' }}>
+                  {cat.ctaLink ? (
+                    <a href={cat.ctaLink} target={cat.external ? '_blank' : '_self'} rel="noopener noreferrer"
+                      style={{ display: 'block', textAlign: 'center', padding: '10px', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none', background: 'transparent', color: cat.color, border: `1px solid ${cat.color}` }}>
+                      {cat.cta}
+                    </a>
+                  ) : (
+                    <span style={{ display: 'block', textAlign: 'center', padding: '10px', borderRadius: 8, fontSize: 13, fontWeight: 600, background: '#1f1f2e', color: '#4b5563' }}>
+                      {cat.cta}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ─── OPERON PLATFORM ─── */}
       <section id="features" className="py-20 bg-gray-50">
