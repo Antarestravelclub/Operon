@@ -195,19 +195,49 @@ const Landing = () => {
     },
     {
       icon: <SalesIcon />,
-      title: 'Sales & Talent',
+      title: 'APEX Index',
       color: '#3b82f6',
-      tagline: 'Hire smarter. Train faster. Close more.',
-      products: ['APEX Index — Talent Assessment', 'Sales Rep Academy — Rep Training'],
-      cta: 'View Products',
+      tagline: 'Hire the best closers. Powered by behavioral science built for vacation sales.',
+      products: ['Behavioral Assessment', 'Apex Performer Profile', 'Hire / Do Not Hire Recommendation'],
+      cta: 'Visit APEX Index',
       ctaLink: 'https://apex-index.com',
+      external: true,
+    },
+    {
+      icon: <TradingIcon />,
+      title: 'Lead to Cash Track',
+      color: '#14b8a6',
+      tagline: 'Full backend financial management — leads, payroll, goals, and stats.',
+      products: ['Sales Volume Dashboard', 'OPC Performance Tracking', 'Payroll & Commission Reports', 'Sales Goals & Analytics'],
+      cta: 'View Platform',
+      ctaLink: 'https://lead-to-cash-track.vercel.app',
+      external: true,
+    },
+    {
+      icon: <MarketplaceIcon />,
+      title: 'Operon Recruit',
+      color: '#f97316',
+      tagline: 'Kanban-style candidate pipeline for hiring vacation sales teams.',
+      products: ['Candidate Tracking', 'Hiring Workflow', 'Interview Calendar', 'Analytics Dashboard'],
+      cta: 'Coming Soon',
+      ctaLink: null,
+      external: false,
+    },
+    {
+      icon: <HealthIcon />,
+      title: 'Operon Sales Academy',
+      color: '#10b981',
+      tagline: '30-day structured sales training platform for new and existing reps.',
+      products: ['Day-by-Day Training Modules', 'Lesson Viewer', 'Progress Tracking', 'Training Editor'],
+      cta: 'Coming Soon',
+      ctaLink: null,
       external: false,
     },
     {
       icon: <LoyaltyIcon />,
       title: 'Loyalty & Rewards',
       color: '#c9a96e',
-      tagline: 'Digital loyalty card programs for modern businesses',
+      tagline: 'Digital loyalty card programs for modern businesses.',
       products: ['LaraLuca Loyalty', 'Bubble Twins Loyalty'],
       cta: 'Coming Soon',
       ctaLink: null,
@@ -330,7 +360,7 @@ const Landing = () => {
             </div>
             <h2 style={{ fontSize: 42, fontWeight: 800, color: '#0a0a0f', marginBottom: 12 }}>Our Starting Lineup</h2>
             <p style={{ fontSize: 18, color: '#6b7280', maxWidth: 520, margin: '0 auto' }}>
-              The products we sell. Your competitive edge.
+              Six products. One complete sales ecosystem.
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
