@@ -224,7 +224,7 @@ const Landing = () => {
       external: true,
     },
     {
-      icon: <HealthIcon />,
+      icon: <SalesIcon />,
       title: 'Operon Sales Academy',
       color: '#10b981',
       tagline: '30-day structured sales training platform for new and existing reps.',
