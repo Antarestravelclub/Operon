@@ -278,7 +278,7 @@ const Landing = () => {
 
       {/* HERO */}
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '120px 40px 80px', background: 'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.3) 0%, rgba(10,10,15,1) 60%)' }}>
-        <img src="/operon-badge.png" alt="Operon" style={{ width: 300, height: 300, marginBottom: 32, borderRadius: '50%', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 0 60px rgba(124,58,237,0.9))' }} />
+        <img src="/operon-badge.png" alt="Operon" style={{ width: 380, height: 380, marginBottom: 32, borderRadius: '50%', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 0 80px rgba(124,58,237,0.9))' }} />
 
         <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 800, color: '#ffffff', lineHeight: 1.1, marginBottom: 20, maxWidth: 800 }}>
           Your AI Workforce<br />
