@@ -273,6 +273,16 @@ const Landing = () => {
       ctaLink: 'https://antares-travel-club-sales-commission-calc.vercel.app',
       external: true,
     },
+    {
+      icon: <TravelIcon />,
+      title: 'Operon Vacation Finder',
+      color: '#f59e0b',
+      tagline: 'Vacation finance calculator and future planning tool.',
+      products: ['Finance Calculator', 'Vacation Planning', 'Cost Analysis', 'Future Projections'],
+      cta: 'View Platform',
+      ctaLink: 'https://vacation-future-finder.vercel.app',
+      external: true,
+    },
   ];
 
   // Platforms we OWN — Built & Powered by Operon
@@ -309,16 +319,7 @@ const Landing = () => {
       external: true,
     },
 
-    {
-      icon: <TravelIcon />,
-      title: 'ARDA Materials',
-      color: '#8b5cf6',
-      tagline: 'Resort sales tools and ARDA pitch materials',
-      products: ['Pitch Deck', 'Sales Materials', 'Demo Scripts'],
-      cta: 'Explore',
-      ctaLink: 'https://arda-materials.vercel.app',
-      external: true,
-    },
+
     {
       icon: <TradingIcon />,
       title: 'OperonTrader',
