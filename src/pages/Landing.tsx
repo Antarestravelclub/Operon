@@ -674,7 +674,7 @@ const Landing = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-6 md:mb-0">
               <div className="flex items-center space-x-2 mb-2">
-                <img src="/operon-logo.jpg" alt="Operon" className="h-8 w-auto brightness-0 invert" />
+                <img src="/operon-badge.png" alt="Operon" style={{ height: 36, width: 36, borderRadius: '50%', objectFit: 'contain' }} />
                 <span className="text-white font-semibold">Operon</span>
               </div>
               <p className="text-sm text-violet-400">Your AI Workforce Platform</p>
