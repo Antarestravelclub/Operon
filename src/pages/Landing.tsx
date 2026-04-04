@@ -304,7 +304,7 @@ const Landing = () => {
           <a href="https://myoperon.io/admin.html" style={{ color: '#a78bfa', fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap', fontWeight: 600 }}>🔐 Admin</a>
         </div>
         <button
-          onClick={() => navigate('/rep/onboarding')}
+          onClick={() => window.location.href = 'mailto:info@myoperon.io?subject=Get Started with Operon'}
           style={{ background: '#7c3aed', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap' }}
         >
           Get Started →
