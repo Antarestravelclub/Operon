@@ -243,6 +243,36 @@ const Landing = () => {
       ctaLink: 'https://laralucaloyalty.vercel.app',
       external: true,
     },
+    {
+      icon: <MarketplaceIcon />,
+      title: 'Operon Check-In',
+      color: '#6366f1',
+      tagline: 'Member verification and check-in platform with QR codes.',
+      products: ['Member Verification', 'QR Code Scanning', 'Admin Dashboard', 'Promotor Tracking'],
+      cta: 'View Platform',
+      ctaLink: 'https://secure-checkin-confirm.vercel.app',
+      external: true,
+    },
+    {
+      icon: <MarketplaceIcon />,
+      title: 'Operon Guest Care',
+      color: '#ec4899',
+      tagline: 'Guest experience and issue tracking for resorts and hospitality.',
+      products: ['Guest Portal', 'Issue Tracking', 'Analytics Dashboard', 'Staff Management'],
+      cta: 'View Platform',
+      ctaLink: 'https://guest-whisper-care.vercel.app',
+      external: true,
+    },
+    {
+      icon: <TradingIcon />,
+      title: 'Commission Calculator',
+      color: '#84cc16',
+      tagline: 'Sales commission tracking, payroll management and reporting.',
+      products: ['Commission Charts', 'Payroll Manager', 'Company Breakdown', 'Admin Dashboard'],
+      cta: 'View Platform',
+      ctaLink: 'https://antares-travel-club-sales-commission-calc.vercel.app',
+      external: true,
+    },
   ];
 
   // Platforms we OWN — Built & Powered by Operon
@@ -257,26 +287,7 @@ const Landing = () => {
       ctaLink: 'https://solace-wellness.io',
       external: true,
     },
-    {
-      icon: <MarketplaceIcon />,
-      title: 'Operon Check-In',
-      color: '#6366f1',
-      tagline: 'Member verification and check-in with QR codes',
-      products: ['Member Verification', 'QR Code Scanning', 'Admin Dashboard'],
-      cta: 'View Platform',
-      ctaLink: 'https://secure-checkin-confirm.vercel.app',
-      external: true,
-    },
-    {
-      icon: <MarketplaceIcon />,
-      title: 'Operon Guest Care',
-      color: '#ec4899',
-      tagline: 'Guest experience and issue tracking platform',
-      products: ['Guest Portal', 'Issue Tracking', 'Analytics'],
-      cta: 'View Platform',
-      ctaLink: 'https://guest-whisper-care.vercel.app',
-      external: true,
-    },
+
     {
       icon: <TravelIcon />,
       title: 'Operon Travel Hub',
@@ -297,16 +308,7 @@ const Landing = () => {
       ctaLink: 'https://vacation-future-finder.vercel.app',
       external: true,
     },
-    {
-      icon: <TradingIcon />,
-      title: 'Commission Calculator',
-      color: '#84cc16',
-      tagline: 'Sales commission tracking, payroll and company breakdown',
-      products: ['Commission Charts', 'Payroll Manager', 'Company Breakdown'],
-      cta: 'View Platform',
-      ctaLink: 'https://antares-travel-club-sales-commission-calc.vercel.app',
-      external: true,
-    },
+
     {
       icon: <TravelIcon />,
       title: 'ARDA Materials',
