@@ -1,5 +1,5 @@
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { TrendingUp, MessageCircle, ClipboardList } from 'lucide-react';
 
@@ -177,7 +177,7 @@ const AIIcon = () => (
   </svg>
 );
 const Landing = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate(); // unused after mailto redirect
 
 
 
