@@ -220,7 +220,7 @@ const Landing = () => {
       tagline: 'Kanban-style candidate pipeline for hiring vacation sales teams.',
       products: ['Candidate Tracking', 'Hiring Workflow', 'Interview Calendar', 'Analytics Dashboard'],
       cta: 'View Platform',
-      ctaLink: 'https://vidarecruitment.vercel.app',
+      ctaLink: 'https://operon-recruit.vercel.app',
       external: true,
     },
     {
