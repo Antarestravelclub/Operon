@@ -60,7 +60,9 @@ void OnDeinit(const int reason)
 bool InSession()
 {
    if(!UseSession) return true;
-   int hour = TimeHour(TimeCurrent());
+   MqlDateTime dt;
+   TimeToStruct(TimeCurrent(), dt);
+   int hour = dt.hour;
    return (hour >= SessionStart && hour < SessionEnd);
 }
 
