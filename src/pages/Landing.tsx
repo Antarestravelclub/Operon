@@ -283,6 +283,16 @@ const Landing = () => {
       ctaLink: 'https://myoperon.io/vacations.html',
       external: true,
     },
+    {
+      icon: <span style={{fontSize: 28}}>⚓</span>,
+      title: 'My Logbook',
+      color: '#0ea5e9',
+      tagline: 'The #1 digital logbook for boats, motorcycles & RVs — track everything, save thousands.',
+      products: ["Captain's Plan — $24.99 setup + $7.99/mo", 'Fleet Plan — $49.99 setup + $9.99/mo', 'Smart Maintenance Reminders', 'Fuel & Engine Hours Tracking', 'Weather Conditions Add-on ($3.99/mo)', 'Marina Finder Add-on ($2.99/mo)', 'Analytics Dashboard', 'PWA — works offline on the water'],
+      cta: 'Visit My Logbook',
+      ctaLink: 'https://my-logbook.io',
+      external: true,
+    },
   ];
 
   // Platforms we OWN — Built & Powered by Operon
@@ -424,7 +434,7 @@ const Landing = () => {
             </div>
             <h2 style={{ fontSize: 42, fontWeight: 800, color: '#0a0a0f', marginBottom: 12 }}>Our Starting Lineup</h2>
             <p style={{ fontSize: 18, color: '#6b7280', maxWidth: 520, margin: '0 auto' }}>
-              Six products. One complete sales ecosystem.
+              Eleven products. One complete sales ecosystem.
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
