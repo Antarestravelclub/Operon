@@ -187,7 +187,7 @@ const Landing = () => {
       icon: <AIIcon />,
       title: 'AI Assistants',
       color: '#7c3aed',
-      tagline: 'Your AI workforce — always on, always learning, never tired.',
+      tagline: 'Your AI salesforce — always on, always learning, never tired.',
       products: ['Sales Follow-Up AI', 'Rep Onboarding AI', 'Customer Support AI', 'Custom AI Builds'],
       cta: 'See Plans & Pricing',
       ctaLink: '/ai-assistants.html',
@@ -309,13 +309,24 @@ const Landing = () => {
       external: true,
     },
     {
-      icon: <TravelIcon />,
-      title: 'Operon Vacation Finder',
-      color: '#f59e0b',
-      tagline: 'Vacation finance calculator and future planning tool',
-      products: ['Finance Calculator', 'Vacation Planning', 'Cost Analysis'],
-      cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/vacations.html',
+      icon: <span style={{fontSize: 28}}>⚓</span>,
+      title: 'My Logbook',
+      color: '#0ea5e9',
+      tagline: 'The #1 digital logbook for boats, motorcycles & RVs — track everything, save thousands',
+      products: [
+        'Captain\'s Plan — $24.99 setup + $7.99/mo (1 vehicle)',
+        'Fleet Plan — $49.99 setup + $9.99/mo (3 vehicles)',
+        'Weather Add-on — $3.99/mo (live marine conditions)',
+        'Marina Finder — $2.99/mo (search, dock & fuel prices)',
+        'Smart Maintenance Reminders',
+        'Engine Hours & Fuel Tracking',
+        'Live Location & Guest Book',
+        'Analytics Dashboard (Admin Mode)',
+        'Editorial & Classic Dashboard Layouts',
+        'PWA — works offline on any device',
+      ],
+      cta: 'Visit My Logbook',
+      ctaLink: 'https://my-logbook.io',
       external: true,
     },
 
@@ -329,6 +340,16 @@ const Landing = () => {
       cta: 'Download EA',
       ctaLink: '/OperonTrader.mq5',
       external: false,
+    },
+    {
+      icon: <TravelIcon />,
+      title: 'Operon Vacation Finder',
+      color: '#f59e0b',
+      tagline: 'Vacation finance calculator and future planning tool',
+      products: ['Finance Calculator', 'Vacation Planning', 'Cost Analysis'],
+      cta: 'View Platform',
+      ctaLink: 'https://myoperon.io/vacations.html',
+      external: true,
     },
   ];
 
@@ -359,7 +380,7 @@ const Landing = () => {
         <img src="/operon-badge.png" alt="Operon" style={{ width: 380, height: 380, marginBottom: 32, borderRadius: '50%', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 0 80px rgba(124,58,237,0.9))' }} />
 
         <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 800, color: '#ffffff', lineHeight: 1.1, marginBottom: 20, maxWidth: 800 }}>
-          Your AI Workforce<br />
+          Your AI Salesforce<br />
           <span style={{ background: 'linear-gradient(135deg, #7c3aed, #14b8a6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Platform</span>
         </h1>
         <p style={{ fontSize: 20, color: '#9ca3af', marginBottom: 40, maxWidth: 560 }}>
@@ -370,7 +391,7 @@ const Landing = () => {
             Explore Our Ecosystem →
           </a>
           <button
-            onClick={() => window.location.href = 'mailto:mark@myoperon.io'}
+            onClick={() => window.location.href = 'mailto:info@myoperon.io'}
             style={{ background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, cursor: 'pointer' }}
           >
             Book a Demo
@@ -677,7 +698,7 @@ const Landing = () => {
                 <img src="/operon-badge.png" alt="Operon" style={{ height: 36, width: 36, borderRadius: '50%', objectFit: 'contain' }} />
                 <span className="text-white font-semibold">Operon</span>
               </div>
-              <p className="text-sm text-violet-400">Your AI Workforce Platform</p>
+              <p className="text-sm text-violet-400">Your AI Salesforce Platform</p>
             </div>
             <div className="flex space-x-8">
               <a href="#" className="hover:text-white transition">Product</a>

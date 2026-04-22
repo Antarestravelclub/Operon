@@ -121,7 +121,10 @@ export default function Docs() {
                   { id: 'admin-dashboard', label: '8. Admin Dashboard' },
                   { id: 'tips', label: '9. Tips & Best Practices' },
                   { id: 'faq', label: '10. FAQ' },
-                  { id: 'contact', label: '11. Contact & Support' }
+                  { id: 'contact', label: '11. Contact & Support' },
+                  { id: 'logbook-manual', label: '⚓ My Logbook User Manual' },
+                  { id: 'logbook-pricing', label: '⚓ My Logbook Pricing & Revenue' },
+                  { id: 'logbook-pitch', label: '⚓ My Logbook Pitch Deck' },
                 ].map((item) => (
                   <a
                     key={item.id}
@@ -140,7 +143,7 @@ export default function Docs() {
             {/* Section 1: Welcome */}
             <Section id="welcome" title="1. Welcome to Operon 🎉">
               <p className="text-lg">
-                Operon (nicknamed "Oppy") is a friendly AI workforce platform designed especially for small businesses. 
+                Operon (nicknamed "Oppy") is a friendly AI salesforce platform designed especially for small businesses. 
                 Think of it as hiring digital employees who work 24/7, never take breaks, and help you grow your business — 
                 without the overhead costs of traditional hiring!
               </p>
@@ -455,11 +458,354 @@ export default function Docs() {
               ))}
             </Section>
 
-            {/* Section 11: Contact */}
-            <Section id="contact" title="11. Contact & Support 📞">
+            {/* My Logbook User Manual */}
+            <Section id="logbook-manual" title="⚓ My Logbook — User Manual">
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">What is My Logbook?</h3>
+              <p>My Logbook (my-logbook.io) is the #1 digital logbook for boats, motorcycles, and RVs. It replaces paper logbooks and scattered spreadsheets with one beautiful, smart app that tracks everything — maintenance, fuel, trips, expenses, and more.</p>
+
+              <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-3">Key Features</h3>
+              <div className="grid md:grid-cols-2 gap-4 mt-4">
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl mb-2">🔧</div>
+                  <div className="font-semibold">Smart Maintenance</div>
+                  <div className="text-sm text-gray-600">5-status system: Upcoming, Due Soon, Overdue, In Progress, Completed. Never miss an oil change or impeller replacement again.</div>
+                </div>
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl mb-2">⛽</div>
+                  <div className="font-semibold">Fuel Tracking</div>
+                  <div className="text-sm text-gray-600">Log every fill-up. Track cost per gallon, total spend, and fuel efficiency over time.</div>
+                </div>
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl mb-2">🗺️</div>
+                  <div className="font-semibold">Trip Logging</div>
+                  <div className="text-sm text-gray-600">Log passages with start/end points, distance, duration, and notes. Build your vessel's story.</div>
+                </div>
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl mb-2">📍</div>
+                  <div className="font-semibold">Live Location</div>
+                  <div className="text-sm text-gray-600">Track your vehicle's current position on a live map. Share with family or crew.</div>
+                </div>
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl mb-2">📖</div>
+                  <div className="font-semibold">Guest Book & Blog</div>
+                  <div className="text-sm text-gray-600">Let guests sign your logbook digitally. Write adventure blog entries with photos.</div>
+                </div>
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl mb-2">📊</div>
+                  <div className="font-semibold">Analytics Dashboard</div>
+                  <div className="text-sm text-gray-600">Admin Mode unlocks full analytics: fuel trends, maintenance spend, trip stats, vehicle comparisons, and month-over-month insights.</div>
+                </div>
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-3">Dashboard Layouts</h3>
+              <p><strong>Classic View</strong> — Traditional dashboard with sidebar navigation. Clean and functional.</p>
+              <p><strong>Editorial View</strong> — Magazine-style layout inspired by "Grand Adventure Log." Immersive and visual.</p>
+              <p>Switch between layouts anytime. Your preference is saved automatically.</p>
+
+              <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-3">Admin Mode</h3>
+              <p>Toggle Admin Mode from the shield icon in the top nav. This unlocks:</p>
+              <ul className="list-disc ml-6 mt-2 space-y-1">
+                <li>Add, edit, and delete entries across all sections</li>
+                <li>Analytics Dashboard with charts and KPIs</li>
+                <li>Full CRUD operations in both Classic and Editorial views</li>
+                <li>Data export and advanced settings</li>
+              </ul>
+
+              <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-3">Multi-Asset Support</h3>
+              <p>My Logbook supports boats, motorcycles, and RVs. Switch between vehicles using the vehicle switcher in the top nav. Fleet Plan users can manage up to 3 vehicles in one account.</p>
+
+              <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-3">PWA & Offline</h3>
+              <p>My Logbook is a Progressive Web App. Install it on your phone's home screen for full-screen, app-like experience. Works offline — your entries sync when you're back online.</p>
+
+              <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-3">Public & Private Modes</h3>
+              <p>Toggle your logbook between public (shareable link) and private. Perfect for showing off your vessel's adventures while keeping financial data hidden.</p>
+
+              <TipsBox title="Quick Start">
+                Sign up free → Add your vehicle → Start logging. That's it. No credit card, no setup wizard, no learning curve.
+              </TipsBox>
+            </Section>
+
+            {/* My Logbook Pricing & Cost Breakdown */}
+            <Section id="logbook-pricing" title="⚓ My Logbook — Pricing & Revenue Breakdown" bgLight>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">Plan Structure</h3>
+              <div className="overflow-x-auto mt-4">
+                <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-semibold">Plan</th>
+                      <th className="px-4 py-3 text-left font-semibold">Setup Fee</th>
+                      <th className="px-4 py-3 text-left font-semibold">Monthly</th>
+                      <th className="px-4 py-3 text-left font-semibold">Vehicles</th>
+                      <th className="px-4 py-3 text-left font-semibold">Storage</th>
+                      <th className="px-4 py-3 text-left font-semibold">Key Features</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3 font-medium">Free</td>
+                      <td className="px-4 py-3">$0</td>
+                      <td className="px-4 py-3">$0</td>
+                      <td className="px-4 py-3">1</td>
+                      <td className="px-4 py-3">500 MB</td>
+                      <td className="px-4 py-3">Basic maintenance + log entries</td>
+                    </tr>
+                    <tr className="border-t border-gray-200 bg-sky-50">
+                      <td className="px-4 py-3 font-medium">Captain's ⭐</td>
+                      <td className="px-4 py-3">$24.99</td>
+                      <td className="px-4 py-3">$7.99</td>
+                      <td className="px-4 py-3">1</td>
+                      <td className="px-4 py-3">5 GB</td>
+                      <td className="px-4 py-3">Smart reminders, live location, guest book, blog</td>
+                    </tr>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3 font-medium">Fleet</td>
+                      <td className="px-4 py-3">$49.99</td>
+                      <td className="px-4 py-3">$9.99</td>
+                      <td className="px-4 py-3">3</td>
+                      <td className="px-4 py-3">15 GB</td>
+                      <td className="px-4 py-3">All Captain's + priority support, advanced export</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-3">Premium Add-ons</h3>
+              <div className="grid md:grid-cols-2 gap-4 mt-4">
+                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                  <div className="font-semibold text-sky-600">🌊 Weather Conditions — $3.99/mo</div>
+                  <div className="text-sm text-gray-600 mt-2">Live marine weather auto-attached to every trip log. Wind, waves, tides, currents, sea temp. Powered by Open-Meteo (free API). Premium AI insights on weather patterns.</div>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                  <div className="font-semibold text-sky-600">⚓ Marina Finder — $2.99/mo</div>
+                  <div className="text-sm text-gray-600 mt-2">Searchable marina map with details: fuel, slips, amenities, rates, VHF channels. Log docking, track fuel prices, leave reviews. 500+ US/Caribbean marinas at launch.</div>
+                </div>
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-3">Revenue Projections (Per 1,000 Users)</h3>
+              <div className="overflow-x-auto mt-4">
+                <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-semibold">Revenue Stream</th>
+                      <th className="px-4 py-3 text-left font-semibold">Conversion</th>
+                      <th className="px-4 py-3 text-left font-semibold">Users</th>
+                      <th className="px-4 py-3 text-left font-semibold">Setup Rev</th>
+                      <th className="px-4 py-3 text-left font-semibold">Monthly Rev</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-t border-gray-200 bg-sky-50">
+                      <td className="px-4 py-3 font-medium">Captain's Plan</td>
+                      <td className="px-4 py-3">8%</td>
+                      <td className="px-4 py-3">80</td>
+                      <td className="px-4 py-3">$2,000</td>
+                      <td className="px-4 py-3">$639/mo</td>
+                    </tr>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3 font-medium">Fleet Plan</td>
+                      <td className="px-4 py-3">3%</td>
+                      <td className="px-4 py-3">30</td>
+                      <td className="px-4 py-3">$1,500</td>
+                      <td className="px-4 py-3">$300/mo</td>
+                    </tr>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3 font-medium">Weather Add-on</td>
+                      <td className="px-4 py-3">15% of paid</td>
+                      <td className="px-4 py-3">17</td>
+                      <td className="px-4 py-3">—</td>
+                      <td className="px-4 py-3">$68/mo</td>
+                    </tr>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3 font-medium">Marina Finder</td>
+                      <td className="px-4 py-3">20% of paid</td>
+                      <td className="px-4 py-3">22</td>
+                      <td className="px-4 py-3">—</td>
+                      <td className="px-4 py-3">$66/mo</td>
+                    </tr>
+                    <tr className="border-t border-gray-200 bg-green-50 font-bold">
+                      <td className="px-4 py-3">TOTAL (per 1K users)</td>
+                      <td className="px-4 py-3"></td>
+                      <td className="px-4 py-3">149 paid</td>
+                      <td className="px-4 py-3">$3,500</td>
+                      <td className="px-4 py-3">$1,073/mo</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 mt-6 mb-3">Cost Structure (Monthly)</h3>
+              <div className="overflow-x-auto mt-4">
+                <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-semibold">Expense</th>
+                      <th className="px-4 py-3 text-left font-semibold">Cost</th>
+                      <th className="px-4 py-3 text-left font-semibold">Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3">Supabase (DB + Auth)</td>
+                      <td className="px-4 py-3">$25–75</td>
+                      <td className="px-4 py-3">Free tier up to 50K MAU</td>
+                    </tr>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3">Vercel (Hosting)</td>
+                      <td className="px-4 py-3">$0</td>
+                      <td className="px-4 py-3">Free tier covers most traffic</td>
+                    </tr>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3">Lovable (Dev Platform)</td>
+                      <td className="px-4 py-3">$20</td>
+                      <td className="px-4 py-3">Per seat for development</td>
+                    </tr>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3">Stripe Fees</td>
+                      <td className="px-4 py-3">2.9% + 30¢</td>
+                      <td className="px-4 py-3">Per transaction</td>
+                    </tr>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3">Domain (GoDaddy)</td>
+                      <td className="px-4 py-3">$12/yr</td>
+                      <td className="px-4 py-3">my-logbook.io</td>
+                    </tr>
+                    <tr className="border-t border-gray-200">
+                      <td className="px-4 py-3">Open-Meteo (Weather API)</td>
+                      <td className="px-4 py-3">$0</td>
+                      <td className="px-4 py-3">Free, no API key needed</td>
+                    </tr>
+                    <tr className="border-t border-gray-200 bg-green-50 font-bold">
+                      <td className="px-4 py-3">Total Monthly OpEx</td>
+                      <td className="px-4 py-3">~$45–95</td>
+                      <td className="px-4 py-3">Scales with user growth</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <TipsBox title="Profitability">
+                At just 1,000 users with 15% paid conversion, My Logbook generates ~$1,073/mo against ~$95/mo costs = 91% margin. Break-even at ~90 paid users.
+              </TipsBox>
+            </Section>
+
+            {/* My Logbook Pitch Deck */}
+            <Section id="logbook-pitch" title="⚓ My Logbook — Pitch Deck">
+              <div className="space-y-8">
+                <div className="bg-sky-50 rounded-xl p-6 border border-sky-200">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">SLIDE 1: The Problem</h3>
+                  <p className="text-lg text-gray-700">"12 million boat owners in the US alone. Most are tracking maintenance on paper, spreadsheets, or not at all."</p>
+                  <ul className="mt-3 space-y-1 text-gray-600">
+                    <li>• Missed maintenance = costly repairs (average $2,500+ per incident)</li>
+                    <li>• Unknown engine hours = reduced resale value</li>
+                    <li>• No fuel tracking = money wasted on inefficiency</li>
+                    <li>• Zero documentation = insurance claims nightmare</li>
+                  </ul>
+                </div>
+
+                <div className="bg-sky-50 rounded-xl p-6 border border-sky-200">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">SLIDE 2: The Solution</h3>
+                  <p className="text-lg text-gray-700">My Logbook — the digital logbook that replaces paper, spreadsheets, and guesswork.</p>
+                  <ul className="mt-3 space-y-1 text-gray-600">
+                    <li>• Track maintenance, fuel, trips, expenses — all in one app</li>
+                    <li>• Smart reminders so you never miss a service interval</li>
+                    <li>• Works for boats, motorcycles, and RVs</li>
+                    <li>• Install as a phone app — works offline on the water</li>
+                  </ul>
+                </div>
+
+                <div className="bg-sky-50 rounded-xl p-6 border border-sky-200">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">SLIDE 3: Market Size</h3>
+                  <ul className="mt-3 space-y-1 text-gray-600">
+                    <li>• <strong>12M</strong> registered boats in the US (NMMA 2025)</li>
+                    <li>• <strong>13M</strong> motorcycles registered in the US</li>
+                    <li>• <strong>11M</strong> RV-owning households in the US</li>
+                    <li>• <strong>$36B</strong> combined vehicle aftermarket spend</li>
+                    <li>• <strong>TAM:</strong> 36M US vehicle owners, $5.4B addressable at $15/mo avg</li>
+                  </ul>
+                </div>
+
+                <div className="bg-sky-50 rounded-xl p-6 border border-sky-200">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">SLIDE 4: Product</h3>
+                  <ul className="mt-3 space-y-1 text-gray-600">
+                    <li>• ⚓ Smart Maintenance (5-status system with reminders)</li>
+                    <li>• ⛽ Fuel Tracking (cost per gallon, efficiency trends)</li>
+                    <li>• 🗺️ Trip Logging (passages, distance, notes, photos)</li>
+                    <li>• 📍 Live Location (real-time GPS tracking)</li>
+                    <li>• 📖 Guest Book & Adventure Blog</li>
+                    <li>• 📊 Analytics Dashboard (admin-only insights)</li>
+                    <li>• 🌊 Weather Conditions Add-on ($3.99/mo)</li>
+                    <li>• ⚓ Marina Finder Add-on ($2.99/mo)</li>
+                    <li>• Two dashboard layouts: Classic + Editorial</li>
+                    <li>• PWA — works offline on any device</li>
+                  </ul>
+                </div>
+
+                <div className="bg-sky-50 rounded-xl p-6 border border-sky-200">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">SLIDE 5: Business Model</h3>
+                  <div className="overflow-x-auto mt-3">
+                    <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden bg-white">
+                      <thead className="bg-gray-100">
+                        <tr>
+                          <th className="px-4 py-2 text-left">Stream</th>
+                          <th className="px-4 py-2 text-left">Price</th>
+                          <th className="px-4 py-2 text-left">Model</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-t"><td className="px-4 py-2">Free Plan</td><td className="px-4 py-2">$0</td><td className="px-4 py-2">Freemium acquisition</td></tr>
+                        <tr className="border-t"><td className="px-4 py-2">Captain's Plan</td><td className="px-4 py-2">$24.99 + $7.99/mo</td><td className="px-4 py-2">Setup + SaaS</td></tr>
+                        <tr className="border-t"><td className="px-4 py-2">Fleet Plan</td><td className="px-4 py-2">$49.99 + $9.99/mo</td><td className="px-4 py-2">Setup + SaaS</td></tr>
+                        <tr className="border-t"><td className="px-4 py-2">Weather Add-on</td><td className="px-4 py-2">$3.99/mo</td><td className="px-4 py-2">Recurring SaaS</td></tr>
+                        <tr className="border-t"><td className="px-4 py-2">Marina Finder</td><td className="px-4 py-2">$2.99/mo</td><td className="px-4 py-2">Recurring SaaS</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="mt-3 text-gray-700"><strong>Avg ARPU:</strong> ~$12/mo per paid user | <strong>LTV:</strong> ~$430 (36-mo avg retention) | <strong>Gross Margin:</strong> 91%</p>
+                </div>
+
+                <div className="bg-sky-50 rounded-xl p-6 border border-sky-200">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">SLIDE 6: Go-to-Market</h3>
+                  <ul className="mt-3 space-y-1 text-gray-600">
+                    <li><strong>Phase 1 (Test — Month 1):</strong> BoatUS email blast + Passagemaker print ad. QR code in every ad → direct signup.</li>
+                    <li><strong>Phase 2 (Optimize — Month 2):</strong> Retarget visitors. A/B test headlines. Improve conversion funnel.</li>
+                    <li><strong>Phase 3 (Scale — Month 3):</strong> Add Cruising World, SAIL Magazine. Double down on best-performing channel.</li>
+                    <li><strong>Channels:</strong> Boating magazines, marina partnerships, boat shows, Google/Facebook retargeting, QR codes on dock signage</li>
+                  </ul>
+                </div>
+
+                <div className="bg-sky-50 rounded-xl p-6 border border-sky-200">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">SLIDE 7: Competitive Advantage</h3>
+                  <ul className="mt-3 space-y-1 text-gray-600">
+                    <li>• <strong>Multi-vehicle:</strong> Boats + motorcycles + RVs (competitors are boat-only)</li>
+                    <li>• <strong>Editorial experience:</strong> Magazine-style dashboard — no one else has this</li>
+                    <li>• <strong>Add-on ecosystem:</strong> Weather + Marina Finder = higher ARPU than any competitor</li>
+                    <li>• <strong>Zero learning curve:</strong> Sign up and start logging in 60 seconds</li>
+                    <li>• <strong>PWA offline:</strong> Works on the water with no signal</li>
+                    <li>• <strong>Part of Operon ecosystem:</strong> Shared infrastructure, cross-promotion with Solace Wellness & Operon</li>
+                  </ul>
+                </div>
+
+                <div className="bg-sky-50 rounded-xl p-6 border border-sky-200">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">SLIDE 8: The Ask</h3>
+                  <p className="text-lg text-gray-700">My Logbook is live, generating revenue, and ready to scale.</p>
+                  <ul className="mt-3 space-y-1 text-gray-600">
+                    <li>• Product: Built and shipping</li>
+                    <li>• Revenue: Stripe live, paying customers onboarded</li>
+                    <li>• Add-ons: Weather + Marina Finder in development</li>
+                    <li>• Marketing: Print ads designed, magazine placements ready</li>
+                    <li>• Looking for: Strategic partners, marina data providers, and growth capital</li>
+                  </ul>
+                </div>
+
+                <div className="bg-gray-900 text-white rounded-xl p-6 text-center">
+                  <p className="text-2xl font-bold">my-logbook.io</p>
+                  <p className="text-sky-400 mt-1">Track it once. Save thousands.</p>
+                </div>
+              </div>
+            </Section>
               <h3 className="text-lg font-semibold text-gray-800 mb-3">How to Reach Us</h3>
               <ul className="list-none ml-0 space-y-2">
-                <li><strong>📧 Email Support:</strong> support@myoperon.io (Response time: Within 24 hours)</li>
+                <li><strong>📧 Email Support:</strong> info@myoperon.io (Response time: Within 24 hours)</li>
                 <li><strong>🌐 Website:</strong> myoperon.io</li>
               </ul>
 

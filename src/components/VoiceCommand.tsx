@@ -14,10 +14,10 @@ const commands = [
 
 const responses = {
   SEND_FOLLOWUP: "Opening the follow-up form for your Sales Assistant. Who would you like to follow up with?",
-  SHOW_STATS: "Today Alex sent 12 follow-up emails. Sam resolved 8 support tickets. Your AI workforce is working hard!",
+  SHOW_STATS: "Today Alex sent 12 follow-up emails. Sam resolved 8 support tickets. Your AI salesforce is working hard!",
   PAUSE_AGENT: "Pausing your AI employee. They'll stop working until you resume them.",
   RESUME_AGENT: "Your AI employee is back to work! They'll continue handling tasks immediately.",
-  HIRE_EMPLOYEE: "Opening the hire flow. Let's add a new AI employee to your workforce!",
+  HIRE_EMPLOYEE: "Opening the hire flow. Let's add a new AI employee to your salesforce!",
   SHOW_HELP: "You can say: 'Send a follow-up', 'Show my stats', 'Pause the agent', 'Hire a new employee', or 'What's happening today?'",
   DEFAULT: "I didn't catch that. Try saying 'Send a follow-up', 'Show my stats', or 'Help' for a list of commands."
 }

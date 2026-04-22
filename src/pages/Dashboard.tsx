@@ -58,7 +58,7 @@ export default function Dashboard() {
               <span className="text-xl font-bold text-gray-900">Operon</span>
             </div>
             
-            <h1 className="text-xl font-semibold text-gray-900">Your AI Workforce</h1>
+            <h1 className="text-xl font-semibold text-gray-900">Your AI Salesforce</h1>
             
             <div className="flex items-center space-x-6">
               <nav className="flex space-x-6">
@@ -106,7 +106,7 @@ export default function Dashboard() {
         {/* Active Employees Section */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">Your AI Workforce</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Your AI Salesforce</h2>
             <Link to="/hire" className="flex items-center space-x-2 text-violet-600 hover:text-violet-700 transition">
               <Plus className="h-5 w-5" />
               <span>Hire New Employee</span>
