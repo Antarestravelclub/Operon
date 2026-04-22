@@ -803,6 +803,8 @@ export default function Docs() {
                 </div>
               </div>
             </Section>
+
+            <Section id="contact" title="11. Contact & Support 📞">
               <h3 className="text-lg font-semibold text-gray-800 mb-3">How to Reach Us</h3>
               <ul className="list-none ml-0 space-y-2">
                 <li><strong>📧 Email Support:</strong> info@myoperon.io (Response time: Within 24 hours)</li>
