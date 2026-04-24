@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Logbook — User Manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0F2B46;--teal:#1BA8D8;--teal-light:#2db8e8;--navy-light:#1a3a5c;--white:#ffffff;--gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-300:#cbd5e1;--gray-600:#475569;--gray-700:#334155;--gray-800:#1e293b}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--navy);line-height:1.6;background:var(--white);overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;font-weight:600;line-height:1.2}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,43,70,0.95);backdrop-filter:blur(10px);padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 20px rgba(0,0,0,0.15)}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--white);text-decoration:none}
+.nav-brand span{color:var(--teal)}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{color:var(--gray-200);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--teal)}
+.nav-links a.back-btn{background:var(--teal);color:var(--white);padding:0.4rem 1rem;border-radius:6px}
+.nav-links a.back-btn:hover{background:var(--teal-light)}
+
+/* HAMBURGER */
+.nav-toggle{display:none;background:none;border:none;color:var(--white);font-size:1.5rem;cursor:pointer}
+
+/* SECTIONS */
+.section{min-height:100vh;padding:6rem 2rem 4rem;display:flex;align-items:flex-start;justify-content:center;position:relative}
+.section:nth-child(even){background:var(--gray-50)}
+.section-inner{max-width:900px;width:100%}
+
+/* WATERMARK */
+.watermark{position:absolute;right:-5%;top:50%;transform:translateY(-50%);font-size:20rem;opacity:0.03;pointer-events:none;user-select:none;font-family:'Playfair Display',serif;color:var(--teal)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 50%,var(--teal) 100%);color:var(--white);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hero h1{font-size:3.5rem;margin-bottom:1rem;font-weight:700}
+.hero .subtitle{font-size:1.3rem;opacity:0.9;max-width:600px;font-weight:300}
+.hero .tag{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);padding:0.4rem 1.2rem;border-radius:20px;font-size:0.85rem;margin-top:1.5rem;letter-spacing:0.5px}
+
+/* CONTENT STYLES */
+.section h2{font-size:2.2rem;color:var(--navy);margin-bottom:1.5rem;padding-bottom:0.5rem;border-bottom:3px solid var(--teal);display:inline-block}
+.section h3{font-size:1.5rem;color:var(--navy);margin:1.5rem 0 0.75rem}
+.section p{font-size:1.05rem;color:var(--gray-700);margin-bottom:1rem;max-width:700px}
+.section ul,.section ol{margin:1rem 0 1rem 1.5rem}
+.section li{margin-bottom:0.5rem;font-size:1rem;color:var(--gray-700)}
+
+/* FEATURE CARDS */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin:1.5rem 0}
+.feature-card{background:var(--white);border:1px solid var(--gray-200);border-radius:12px;padding:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.06);transition:transform 0.2s,box-shadow 0.2s}
+.feature-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+.feature-card .icon{font-size:2rem;margin-bottom:0.75rem}
+.feature-card h4{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--navy);margin-bottom:0.5rem}
+.feature-card p{font-size:0.95rem;color:var(--gray-600);margin-bottom:0}
+
+/* STATUS BADGES */
+.badge{display:inline-block;padding:0.25rem 0.75rem;border-radius:20px;font-size:0.8rem;font-weight:600;margin:0.25rem}
+.badge-upcoming{background:#dbeafe;color:#1d4ed8}
+.badge-soon{background:#fef3c7;color:#d97706}
+.badge-overdue{background:#fee2e2;color:#dc2626}
+.badge-progress{background:#e0e7ff;color:#4338ca}
+.badge-completed{background:#d1fae5;color:#059669}
+
+/* STEPS */
+.steps{counters:step;list-style:none;margin-left:0;padding:0}
+.steps li{counter-increment:step;padding:1rem 1rem 1rem 4rem;position:relative;margin-bottom:1rem;background:var(--white);border-radius:8px;border:1px solid var(--gray-200)}
+.steps li::before{content:counter(step);position:absolute;left:1rem;top:50%;transform:translateY(-50%);width:2rem;height:2rem;background:var(--teal);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;margin:1rem 0}
+table{width:100%;border-collapse:collapse;font-size:0.95rem}
+th{background:var(--navy);color:var(--white);text-align:left;padding:0.75rem 1rem;font-weight:600;font-family:'Inter',sans-serif}
+td{padding:0.75rem 1rem;border-bottom:1px solid var(--gray-200)}
+tr:nth-child(even){background:var(--gray-50)}
+
+/* NAV BOTTOM */
+.nav-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;gap:1rem;flex-wrap:wrap}
+.nav-bottom a{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:8px;text-decoration:none;font-weight:500;font-size:0.95rem;transition:all 0.2s}
+.btn-prev{background:var(--gray-100);color:var(--navy);border:1px solid var(--gray-200)}
+.btn-prev:hover{background:var(--gray-200)}
+.btn-next{background:var(--teal);color:var(--white)}
+.btn-next:hover{background:var(--teal-light)}
+
+/* MOBILE */
+@media(max-width:768px){
+.nav{padding:0.75rem 1rem}
+.nav-toggle{display:block}
+.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--navy);flex-direction:column;padding:1rem;gap:0.75rem}
+.nav-links.open{display:flex}
+.hero h1{font-size:2.2rem}
+.hero .subtitle{font-size:1rem}
+.section{padding:5rem 1rem 3rem}
+.section h2{font-size:1.7rem}
+.feature-grid{grid-template-columns:1fr}
+.watermark{font-size:12rem;right:-10%}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+<a href="https://myoperon.io" class="nav-brand">Operon <span>My Logbook</span></a>
+<button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+<div class="nav-links">
+<a href="https://myoperon.io/admin.html">← Admin</a>
+<a href="logbook-manual.html" class="active">Manual</a>
+<a href="logbook-pitch.html">Pitch Deck</a>
+<a href="logbook-pricing.html">Pricing</a>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="section hero">
+<div class="watermark">⚓</div>
+<div class="section-inner" style="text-align:center">
+<h1>My Logbook</h1>
+<p class="subtitle">The #1 digital logbook for boats, motorcycles, and RVs. Replace paper logbooks and scattered spreadsheets with one intelligent platform.</p>
+<div class="tag">📘 Complete User Manual</div>
+</div>
+</section>
+
+<!-- WHAT IS MY LOGBOOK -->
+<section class="section" id="what-is">
+<div class="watermark">⚓</div>
+<div class="section-inner">
+<h2>What Is My Logbook?</h2>
+<p><strong>my-logbook.io</strong> is the #1 digital logbook for boats, motorcycles, and RVs. It replaces the clunky mess of paper logbooks, Excel spreadsheets, random notes, and guesswork with a single, intelligent platform.</p>
+<p>Whether you're tracking engine hours on your sailboat, logging fuel efficiency on your motorcycle, or managing maintenance schedules across your RV fleet, My Logbook gives you a clear, organized, and beautiful record of every mile, gallon, and service check.</p>
+<ul>
+<li><strong>One platform</strong> for all your vehicles — boats, motorcycles, and RVs</li>
+<li><strong>Works offline</strong> — log trips and maintenance even without signal</li>
+<li><strong>Install as a PWA</strong> — add to your home screen and use like a native app</li>
+<li><strong>Share or keep private</strong> — toggle public mode for your adventures, hide financials</li>
+<li><strong>Zero learning curve</strong> — sign up free, add your vehicle, start logging</li>
+</ul>
+</div>
+</section>
+
+<!-- KEY FEATURES -->
+<section class="section" id="features">
+<div class="watermark">⚓</div>
+<div class="section-inner">
+<h2>Key Features</h2>
+
+<h3>🔧 Smart Maintenance</h3>
+<p>A 5-status system that keeps your vehicle in peak condition. Every maintenance item is tracked with clear status indicators so nothing slips through the cracks.</p>
+<div style="margin:1rem 0">
+<span class="badge badge-upcoming">Upcoming</span>
+<span class="badge badge-soon">Due Soon</span>
+<span class="badge badge-overdue">Overdue</span>
+<span class="badge badge-progress">In Progress</span>
+<span class="badge badge-completed">Completed</span>
+</div>
+
+<h3>⛽ Fuel Tracking</h3>
+<p>Log every fill-up with cost per gallon, total spend, and efficiency calculations. See your fuel consumption trends over time and identify any anomalies before they become costly repairs.</p>
+
+<h3>🗺️ Trip Logging</h3>
+<p>Record every passage or ride with start/end points, distance traveled, duration, and detailed notes. Build a complete history of every journey.</p>
+
+<h3>📍 Live Location</h3>
+<p>GPS tracking displayed on an interactive map. Know exactly where your vehicle is at any moment. Perfect for fleet management or sharing your current position with family.</p>
+
+<div class="feature-grid">
+<div class="feature-card">
+<div class="icon">📖</div>
+<h4>Guest Book &amp; Blog</h4>
+<p>Digital guest signatures for visitors and an adventure blog with photo uploads. Share your stories with the world or keep them private.</p>
+</div>
+<div class="feature-card">
+<div class="icon">📊</div>
+<h4>Analytics Dashboard</h4>
+<p>Admin-only insights including fuel trends, maintenance spend, trip statistics, vehicle comparisons, and month-over-month performance analysis.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- DASHBOARD LAYOUTS -->
+<section class="section" id="layouts">
+<div class="watermark">⚓</div>
+<div class="section-inner">
+<h2>Dashboard Layouts</h2>
+<p>Choose the view that works best for you. Switch between layouts anytime with a single click.</p>
+
+<div class="feature-grid">
+<div class="feature-card">
+<div class="icon">📋</div>
+<h4>Classic View</h4>
+<p>Traditional sidebar navigation with a clean, tabular layout. Perfect for data-driven users who want quick access to every record. Familiar and efficient.</p>
+</div>
+<div class="feature-card">
+<div class="icon">📰</div>
+<h4>Editorial View</h4>
+<p>Magazine-style "Grand Adventure Log" layout that transforms your logbook into a visual story. Photos, maps, and narrative entries take center stage. Beautiful for sharing.</p>
+</div>
+</div>
+<p style="margin-top:1.5rem"><strong>Switch anytime.</strong> Both views show the same data — just presented differently. Try both and see which fits your style.</p>
+</div>
+</section>
+
+<!-- ADMIN MODE -->
+<section class="section" id="admin">
+<div class="watermark">⚓</div>
+<div class="section-inner">
+<h2>Admin Mode</h2>
+<p>Toggle Admin Mode from the shield icon (🛡️) in the top navigation bar. When activated, you unlock the full power of My Logbook.</p>
+<ul style="margin-top:1rem">
+<li><strong>Add, edit, and delete entries</strong> — full CRUD control over all logbook data</li>
+<li><strong>Analytics Dashboard</strong> — deep insights into fuel trends, maintenance costs, trip stats, and vehicle comparisons</li>
+<li><strong>Full CRUD in both views</strong> — manage everything whether you're in Classic or Editorial layout</li>
+<li><strong>Data Export</strong> — download your logs as CSV or JSON for backup or external analysis</li>
+<li><strong>Advanced Settings</strong> — customize reminders, notification preferences, vehicle details, and privacy controls</li>
+</ul>
+<p style="margin-top:1rem"><strong>Note:</strong> Admin Mode is available on Captain's and Fleet plans. Free users can view but not modify entries beyond the basic 500MB allocation.</p>
+</div>
+</section>
+
+<!-- MULTI-ASSET -->
+<section class="section" id="multi-asset">
+<div class="watermark">⚓</div>
+<div class="section-inner">
+<h2>Multi-Asset Support</h2>
+<p>My Logbook isn't limited to one type of vehicle. Manage your entire fleet from a single account.</p>
+<div class="feature-grid">
+<div class="feature-card">
+<div class="icon">⛵</div>
+<h4>Boats</h4>
+<p>Track engine hours, hull maintenance, marina fees, docking schedules, and passage logs.</p>
+</div>
+<div class="feature-card">
+<div class="icon">🏍️</div>
+<h4>Motorcycles</h4>
+<p>Log rides, tire wear, chain maintenance, and fuel efficiency for every bike.</p>
+</div>
+<div class="feature-card">
+<div class="icon">🚐</div>
+<h4>RVs</h4>
+<p>Monitor generator hours, propane levels, campground stays, and road trip expenses.</p>
+</div>
+</div>
+<p style="margin-top:1.5rem"><strong>Fleet Plan</strong> supports up to <strong>3 vehicles</strong> simultaneously. Use the vehicle switcher in the top navigation to jump between assets instantly.</p>
+</div>
+</section>
+
+<!-- PWA & OFFLINE -->
+<section class="section" id="pwa">
+<div class="watermark">⚓</div>
+<div class="section-inner">
+<h2>PWA &amp; Offline</h2>
+<p>My Logbook is a Progressive Web App. That means you can install it directly to your phone's home screen and use it just like a native app — no App Store required.</p>
+<ul>
+<li><strong>Install to home screen</strong> — use the "Add to Home Screen" option in your mobile browser</li>
+<li><strong>Works offline</strong> — log trips, fuel, and maintenance even without a signal (on the water, in remote areas, etc.)</li>
+<li><strong>Syncs automatically</strong> — when you're back online, everything syncs seamlessly to the cloud</li>
+<li><strong>Fast loading</strong> — cached assets mean instant startup even on slow connections</li>
+</ul>
+</div>
+</section>
+
+<!-- PUBLIC & PRIVATE MODES -->
+<section class="section" id="privacy">
+<div class="watermark">⚓</div>
+<div class="section-inner">
+<h2>Public &amp; Private Modes</h2>
+<p>Toggle your logbook between public and private modes to control who sees what.</p>
+<div class="feature-grid">
+<div class="feature-card">
+<div class="icon">🔓</div>
+<h4>Public Mode</h4>
+<p>Share your adventures with the world. Your trip logs, guest book, and blog posts are visible to anyone with the link. Perfect for inspiring others or documenting your journeys publicly.</p>
+</div>
+<div class="feature-card">
+<div class="icon">🔒</div>
+<h4>Private Mode</h4>
+<p>Keep everything locked down. Financial data, maintenance costs, and sensitive details remain visible only to you. Share selective entries if desired.</p>
+</div>
+</div>
+<p style="margin-top:1.5rem"><strong>Toggle from Admin Settings.</strong> You decide what's public and what stays private — down to individual sections if needed.</p>
+</div>
+</section>
+
+<!-- QUICK START -->
+<section class="section" id="quick-start">
+<div class="watermark">⚓</div>
+<div class="section-inner">
+<h2>Quick Start Guide</h2>
+<p>Get up and running in minutes. No credit card required, no complex setup wizard.</p>
+<ol class="steps">
+<li><strong>Sign up free</strong> — create your account at <a href="https://my-logbook.io" style="color:var(--teal)">my-logbook.io</a></li>
+<li><strong>Add your vehicle</strong> — enter basic details: name, type (boat/motorcycle/RV), and model year</li>
+<li><strong>Start logging</strong> — record your first trip, log a fuel fill-up, or add a maintenance item</li>
+</ol>
+<p style="margin-top:1.5rem">That's it. No credit card. No setup wizard. No friction. Just open the app and start logging.</p>
+
+<div class="nav-bottom">
+<a href="logbook-pitch.html" class="btn-next">View Pitch Deck →</a>
+</div>
+</div>
+</section>
+
+</body>
+</html>
