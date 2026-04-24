@@ -5,6 +5,10 @@
       "destination": "/api/$1"
     },
     {
+      "source": "/:file((?!assets/).+\\.html)",
+      "destination": "/:file"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
