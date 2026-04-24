@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — My Logbook</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a2e; background: #fff; line-height: 1.7; font-size: 16px; }
+    nav { background: #0F2B46; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; position: sticky; top: 0; z-index: 100; }
+    nav .brand { color: #fff; font-family: Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 700; text-decoration: none; letter-spacing: 0.5px; }
+    nav .brand span { color: #1BA8D8; }
+    nav .nav-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    nav .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    nav .nav-links a:hover { color: #1BA8D8; }
+    nav .nav-links a.active { color: #1BA8D8; font-weight: 600; }
+    .container { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+    h1 { font-family: Georgia, 'Times New Roman', serif; color: #0F2B46; font-size: 2rem; margin-bottom: 8px; }
+    .subtitle { color: #555; font-size: 1.05rem; margin-bottom: 36px; }
+    h2 { font-family: Georgia, 'Times New Roman', serif; color: #0F2B46; font-size: 1.35rem; margin-top: 36px; margin-bottom: 16px; border-bottom: 2px solid #1BA8D8; padding-bottom: 6px; }
+    .faq-item { border: 1px solid #e0e4e8; border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+    .faq-question { padding: 16px 20px; font-weight: 600; color: #0F2B46; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #f8f9fb; transition: background 0.2s; user-select: none; }
+    .faq-question:hover { background: #eef3f8; }
+    .faq-question::after { content: '+'; font-size: 1.4rem; font-weight: 300; color: #1BA8D8; flex-shrink: 0; transition: transform 0.3s; }
+    .faq-item.open .faq-question::after { content: '−'; }
+    .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; color: #444; line-height: 1.7; transition: max-height 0.3s ease, padding 0.3s ease; }
+    .faq-item.open .faq-answer { max-height: 300px; padding: 16px 20px; }
+    .cta-box { background: #0F2B46; border-radius: 12px; padding: 32px; text-align: center; margin-top: 48px; }
+    .cta-box h3 { color: #fff; font-family: Georgia, 'Times New Roman', serif; font-size: 1.3rem; margin-bottom: 12px; }
+    .cta-box p { color: rgba(255,255,255,0.8); margin-bottom: 20px; }
+    .cta-box a { display: inline-block; background: #1BA8D8; color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+    .cta-box a:hover { background: #1690b5; }
+    footer { background: #0F2B46; color: rgba(255,255,255,0.7); text-align: center; padding: 24px; font-size: 14px; margin-top: 48px; }
+    a { color: #1BA8D8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    @media (max-width: 600px) {
+      nav { flex-direction: column; align-items: flex-start; }
+      nav .nav-links { gap: 12px; }
+      h1 { font-size: 1.6rem; }
+      .container { padding: 32px 16px; }
+      .cta-box { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="https://my-logbook.io" class="brand">My <span>Logbook</span></a>
+    <div class="nav-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-of-service.html">Terms of Service</a>
+      <a href="support.html" class="active">Support</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Support</h1>
+    <p class="subtitle">Find answers to common questions below, or reach out to us directly.</p>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I add a vehicle?</div>
+      <div class="faq-answer">Tap the "+" button on your dashboard and select "Add Vehicle." Enter your vehicle's type, make, model, year, and an optional nickname. Your new vehicle will appear on your dashboard and you can start logging right away.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I log maintenance?</div>
+      <div class="faq-answer">Open your vehicle's page and tap "Add Maintenance." Enter the service type, date, cost, and any notes. You can also set reminders for upcoming maintenance so you never miss an oil change or inspection.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">What's the difference between Captain's and Fleet plans?</div>
+      <div class="faq-answer">The Captain's plan ($7.99/mo) is designed for individual vehicle owners and includes full logging, reminders, analytics, and photo uploads. The Fleet plan ($9.99/mo) adds support for multiple vehicles under one account, making it ideal for families or small fleets with several boats, bikes, or RVs to track.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I cancel my subscription?</div>
+      <div class="faq-answer">Go to Account Settings and select "Manage Subscription." From there you can cancel your plan at any time. Your access continues through the end of your current billing period — no partial refunds are issued for the remainder of the month.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Does it work offline?</div>
+      <div class="faq-answer">Yes! My Logbook is a progressive web app (PWA) that works offline. You can log entries without an internet connection, and your data syncs automatically once you're back online. Install it to your home screen for the best offline experience.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I share my logbook?</div>
+      <div class="faq-answer">You can generate a public link for any vehicle's logbook from the vehicle settings page. This creates a read-only view that you can share with mechanics, buyers, or anyone who needs to see your vehicle's history. You can disable the public link at any time.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">What vehicles are supported?</div>
+      <div class="faq-answer">My Logbook supports boats, motorcycles, and RVs. Whether you're tracking engine hours on your sailboat, mileage on your sport bike, or maintenance on your motorhome, the app adapts to each vehicle type with relevant fields and logging options.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I export my data?</div>
+      <div class="faq-answer">Go to Account Settings and select "Export Data." You can download your vehicle records, maintenance logs, fuel entries, and trip history as a CSV file. Photos are included as a separate download so you always have a full backup of your information.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Is my data secure?</div>
+      <div class="faq-answer">Absolutely. Your data is encrypted in transit and at rest, stored on secure US-based servers, and we never sell your information to third parties. Payment details are processed by Stripe — we never store your credit card number. You can read our full <a href="privacy-policy.html">Privacy Policy</a> for details.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I enable push notifications?</div>
+      <div class="faq-answer">When you first open My Logbook, your browser will prompt you to allow notifications. If you dismissed it, go to your browser's site settings and enable notifications for my-logbook.io. Push notifications keep you informed about maintenance reminders and other important updates.</div>
+    </div>
+
+    <div class="cta-box">
+      <h3>Still need help?</h3>
+      <p>Our support team is here for you. Drop us an email and we'll get back to you as soon as possible.</p>
+      <a href="mailto:info@my-logbook.io">Email info@my-logbook.io</a>
+    </div>
+  </div>
+
+  <footer>© 2026 My Logbook. All rights reserved.</footer>
+
+  <script>
+    document.querySelectorAll('.faq-question').forEach(function(q) {
+      q.addEventListener('click', function() {
+        var item = this.parentElement;
+        var wasOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+        // Toggle clicked
+        if (!wasOpen) item.classList.add('open');
+      });
+    });
+  </script>
+</body>
+</html>
