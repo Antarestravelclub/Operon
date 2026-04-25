@@ -2,178 +2,159 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Logbook — Minimalist Type</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=3.74in, initial-scale=1.0">
+<title>My Logbook — Track Every Dollar. Every Hour. Every Mile.</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
   @page { size: 3.74in 8.27in; margin: 0; }
-
-  body {
-    margin: 0; padding: 0;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 3.74in;
+    height: 8.27in;
+    overflow: hidden;
+    background: #FFFFFF;
+    color: #0F2B46;
     font-family: 'Inter', sans-serif;
-    background: #fff;
   }
-
   .page {
     width: 3.74in;
     height: 8.27in;
-    background: #fff;
-    position: relative;
-    overflow: hidden;
+    padding: 0.3in 0.32in 0.25in;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
   }
-
-  /* Huge brand text */
-  .brand-block {
-    padding-top: 70px;
-    text-align: center;
-    width: 100%;
-  }
-
-  .brand {
+  h1 {
     font-family: 'Playfair Display', serif;
     font-weight: 900;
-    font-size: 42px;
-    color: #0F2B46;
-    line-height: 1.05;
-    letter-spacing: -0.5px;
-  }
-
-  .brand .my {
-    display: block;
-    font-size: 36px;
-    font-weight: 400;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-
-  /* Thin teal divider */
-  .divider {
-    width: 80px;
-    height: 2px;
-    background: #1BA8D8;
-    margin: 28px auto 0;
-  }
-
-  /* Anchor */
-  .anchor {
     font-size: 28px;
-    color: #1BA8D8;
-    margin-top: 24px;
-    line-height: 1;
-  }
-
-  /* Tagline */
-  .tagline {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 14px;
+    line-height: 1.08;
+    letter-spacing: -0.5px;
     color: #0F2B46;
+    text-transform: uppercase;
+    padding-bottom: 0.08in;
+  }
+  .rule {
+    width: 100%;
+    height: 3px;
+    background: #1BA8D8;
+    margin: 0.12in 0 0.2in;
+  }
+  .columns {
+    display: flex;
+    gap: 0.08in;
+    margin-bottom: 0.15in;
+  }
+  .col {
+    flex: 1;
     text-align: center;
-    margin-top: 16px;
+  }
+  .col .number {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #0F2B46;
+    margin-bottom: 0.02in;
+  }
+  .col .label {
+    font-size: 9px;
+    font-weight: 600;
+    color: #1BA8D8;
+    text-transform: uppercase;
     letter-spacing: 0.3px;
   }
-
-  /* Categories */
-  .categories {
-    font-family: 'Inter', sans-serif;
-    font-size: 9px;
+  .vehicles {
+    font-size: 10px;
     font-weight: 500;
     color: #0F2B46;
     text-align: center;
-    margin-top: 14px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    opacity: 0.6;
+    margin-bottom: 0.08in;
+    letter-spacing: 1px;
   }
-
-  /* QR section */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: #0F2B46;
+    opacity: 0.2;
+    margin: 0.06in 0;
+  }
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #0F2B46;
+    margin-bottom: 0.02in;
+  }
+  .tagline {
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 11px;
+    color: #0F2B46;
+    margin-bottom: 0.12in;
+  }
   .qr-section {
-    margin-top: auto;
-    margin-bottom: 0;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding-bottom: 36px;
+    gap: 0.12in;
   }
-
-  #qr {
-    background: #fff;
+  #qr { flex-shrink: 0; }
+  #qr svg { display: block; }
+  .scan-text {
+    font-size: 9px;
+    color: #0F2B46;
+    font-weight: 500;
+    line-height: 1.4;
   }
-
   .domain {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 12px;
     color: #0F2B46;
-    margin-top: 14px;
-    letter-spacing: 0.5px;
+    text-align: center;
+    margin-top: 0.06in;
   }
-
-  .print-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(15,43,70,0.08);
-    color: #0F2B46;
-    border: 1px solid rgba(15,43,70,0.15);
-    border-radius: 4px;
-    padding: 3px 8px;
-    font-size: 8px;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    z-index: 10;
-  }
-
-  @media print {
-    body { margin: 0; padding: 0; }
-    .page { width: 3.74in; height: 8.27in; }
-    .no-print { display: none; }
-  }
+  .no-print { display: none; }
+  @media print { .no-print { display: none !important; } }
 </style>
 </head>
 <body>
 <div class="page">
-  <button class="print-btn no-print" onclick="window.print()">Print</button>
-
-  <!-- Huge brand text -->
-  <div class="brand-block">
-    <div class="brand">
-      <span class="my">My</span>
-      Logbook
+  <div class="top">
+    <h1>Track Every Dollar. Every Hour. Every Mile.</h1>
+    <div class="rule"></div>
+    <div class="columns">
+      <div class="col">
+        <div class="number">$7.99</div>
+        <div class="label">/mo Captain's</div>
+      </div>
+      <div class="col">
+        <div class="number">3</div>
+        <div class="label">vehicles Fleet</div>
+      </div>
+      <div class="col">
+        <div class="number">Offline</div>
+        <div class="label">PWA App</div>
+      </div>
     </div>
+    <div class="vehicles">Boats · Motorcycles · RVs</div>
   </div>
-
-  <!-- Divider -->
-  <div class="divider"></div>
-
-  <!-- Anchor -->
-  <div class="anchor">⚓</div>
-
-  <!-- Tagline -->
-  <div class="tagline">Track it once. Save thousands.</div>
-
-  <!-- Categories -->
-  <div class="categories">Boats · Motorcycles · RVs</div>
-
-  <!-- QR section -->
-  <div class="qr-section">
-    <div id="qr"></div>
+  <div class="bottom">
+    <div class="divider"></div>
+    <div class="brand">My Logbook ⚓</div>
+    <div class="tagline">Track it once. Save thousands.</div>
+    <div class="qr-section">
+      <div id="qr"></div>
+      <div class="scan-text">Scan to<br>start free</div>
+    </div>
     <div class="domain">my-logbook.io</div>
   </div>
 </div>
-
+<button class="no-print" onclick="window.print()">Print</button>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script>
-  var qr = qrcode(0, 'M');
-  qr.addData('https://my-logbook.io');
-  qr.make();
-  document.getElementById('qr').innerHTML = qr.createSvgTag({cellSize: 3, margin: 1, scalable: true});
+  var qr = qrcode(0,'M'); qr.addData('https://my-logbook.io'); qr.make();
+  document.getElementById('qr').innerHTML = qr.createSvgTag({cellSize:3,margin:1,scalable:true});
 </script>
 </body>
 </html>

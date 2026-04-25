@@ -2,220 +2,137 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Logbook — Nautical Flag</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=3.74in, initial-scale=1.0">
+<title>My Logbook — Your Boat Is A Money Pit</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
   @page { size: 3.74in 8.27in; margin: 0; }
-
-  body {
-    margin: 0; padding: 0;
-    font-family: 'Inter', sans-serif;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 3.74in;
+    height: 8.27in;
+    overflow: hidden;
     background: #0F2B46;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
   }
-
   .page {
     width: 3.74in;
     height: 8.27in;
-    background: #0F2B46;
-    position: relative;
-    overflow: hidden;
+    padding: 0.28in 0.3in 0.25in;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
   }
-
-  /* Signal flag strip */
-  .signal-strip {
-    width: 100%;
-    height: 48px;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-  }
-
-  .flag {
-    flex: 1;
-    position: relative;
-  }
-
-  /* Flag patterns */
-  .flag-1 { background: #1BA8D8; }
-  .flag-1::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, transparent 50%, #fff 50%, #fff 50.5%, transparent 50.5%); }
-
-  .flag-2 { background: #fff; }
-  .flag-2::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 14px; height: 14px; background: #0F2B46; border-radius: 50%; }
-
-  .flag-3 { background: #1BA8D8; }
-  .flag-3::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(90deg, transparent, transparent 48%, #fff 48%, #fff 52%, transparent 52%); }
-
-  .flag-4 { background: #fff; }
-  .flag-4::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #1BA8D8; clip-path: polygon(0 0, 100% 0, 50% 100%); }
-
-  .flag-5 { background: #0F2B46; }
-  .flag-5::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 3px solid #1BA8D8; }
-
-  .flag-6 { background: #1BA8D8; }
-  .flag-6::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent 50%, #fff 50%, #fff 50.5%, transparent 50.5%); }
-
-  .flag-7 { background: #fff; }
-  .flag-7::after { content: ''; position: absolute; inset: 6px; background: #0F2B46; }
-
-  .flag-8 { background: #1BA8D8; }
-  .flag-8::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 48%, #fff 48%, #fff 52%, transparent 52%); }
-
-  /* Rope border circle */
-  .badge {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 6px solid #1BA8D8;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
-  }
-
-  .badge::before {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    border-radius: 50%;
-    border: 3px dashed rgba(255,255,255,0.4);
-  }
-
-  .badge::after {
-    content: '';
-    position: absolute;
-    inset: -14px;
-    border-radius: 50%;
-    border: 2px dashed rgba(27,168,216,0.3);
-  }
-
-  .anchor {
-    font-size: 52px;
-    line-height: 1;
-    color: #fff;
-  }
-
-  .brand {
+  h1 {
     font-family: 'Playfair Display', serif;
     font-weight: 900;
     font-size: 28px;
-    color: #fff;
-    text-align: center;
-    margin-top: 20px;
-    letter-spacing: 1px;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    margin-bottom: 0.12in;
   }
-
-  .tagline {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
+  .subhead {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
     font-size: 13px;
     color: #1BA8D8;
-    text-align: center;
-    margin-top: 8px;
+    margin-bottom: 0.2in;
   }
-
-  .qr-section {
-    margin-top: auto;
-    margin-bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 20px;
-  }
-
-  #qr {
-    background: #fff;
+  .stats-box {
+    background: #FFFFFF;
     border-radius: 8px;
-    padding: 6px;
+    padding: 0.18in 0.16in;
+    margin-bottom: 0.15in;
   }
-
-  .scan-text {
+  .stat {
     font-family: 'Inter', sans-serif;
-    font-size: 9px;
-    color: rgba(255,255,255,0.7);
-    margin-top: 8px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
+    font-size: 10.5px;
+    line-height: 1.45;
+    color: #0F2B46;
+    font-weight: 500;
+    padding: 0.05in 0;
+    border-bottom: 1px solid #e0e6ec;
   }
-
+  .stat:last-child { border-bottom: none; }
+  .stat strong { font-weight: 700; }
+  .divider {
+    width: 100%;
+    height: 2px;
+    background: #1BA8D8;
+    margin: 0.1in 0;
+  }
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #FFFFFF;
+    margin-bottom: 0.03in;
+  }
+  .tagline {
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 11px;
+    color: #1BA8D8;
+    margin-bottom: 0.12in;
+  }
+  .qr-section {
+    display: flex;
+    align-items: center;
+    gap: 0.12in;
+  }
+  #qr { flex-shrink: 0; }
+  #qr svg { display: block; }
+  .scan-text {
+    font-size: 9px;
+    color: #1BA8D8;
+    font-weight: 500;
+    line-height: 1.4;
+  }
   .domain {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 12px;
     color: #1BA8D8;
-    margin-top: 10px;
-    letter-spacing: 0.5px;
+    text-align: center;
+    margin-top: 0.08in;
   }
-
-  .print-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(27,168,216,0.3);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 4px;
-    padding: 3px 8px;
-    font-size: 8px;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-    z-index: 10;
-  }
-
+  .no-print { display: none; }
   @media print {
-    body { margin: 0; padding: 0; }
-    .page { width: 3.74in; height: 8.27in; }
-    .no-print { display: none; }
+    .no-print { display: none !important; }
   }
 </style>
 </head>
 <body>
 <div class="page">
-  <button class="print-btn no-print" onclick="window.print()">Print</button>
-
-  <!-- Signal flag strip -->
-  <div class="signal-strip">
-    <div class="flag flag-1"></div>
-    <div class="flag flag-2"></div>
-    <div class="flag flag-3"></div>
-    <div class="flag flag-4"></div>
-    <div class="flag flag-5"></div>
-    <div class="flag flag-6"></div>
-    <div class="flag flag-7"></div>
-    <div class="flag flag-8"></div>
+  <div class="top">
+    <h1>Your Boat<br>Is a Money<br>Pit</h1>
+    <div class="subhead">And you're not even tracking it.</div>
+    <div class="stats-box">
+      <div class="stat"><strong>$2,500+</strong> average cost of missed maintenance</div>
+      <div class="stat"><strong>68%</strong> of boat owners don't track service intervals</div>
+      <div class="stat"><strong>42%</strong> can't find their maintenance records when selling</div>
+    </div>
   </div>
-
-  <!-- Central badge -->
-  <div class="badge">
-    <span class="anchor">⚓</span>
-  </div>
-
-  <!-- Brand name -->
-  <div class="brand">My Logbook</div>
-
-  <!-- Tagline -->
-  <div class="tagline">Track it once. Save thousands.</div>
-
-  <!-- QR section -->
-  <div class="qr-section">
-    <div id="qr"></div>
-    <div class="scan-text">Scan to start free</div>
+  <div class="bottom">
+    <div class="divider"></div>
+    <div class="brand">My Logbook ⚓</div>
+    <div class="tagline">Track it once. Save thousands.</div>
+    <div class="qr-section">
+      <div id="qr"></div>
+      <div class="scan-text">Scan to<br>start free</div>
+    </div>
     <div class="domain">my-logbook.io</div>
   </div>
 </div>
-
+<button class="no-print" onclick="window.print()">Print</button>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script>
-  var qr = qrcode(0, 'M');
-  qr.addData('https://my-logbook.io');
-  qr.make();
-  document.getElementById('qr').innerHTML = qr.createSvgTag({cellSize: 3, margin: 1, scalable: true});
+  var qr = qrcode(0,'M'); qr.addData('https://my-logbook.io'); qr.make();
+  document.getElementById('qr').innerHTML = qr.createSvgTag({cellSize:3,margin:1,scalable:true});
 </script>
 </body>
 </html>
