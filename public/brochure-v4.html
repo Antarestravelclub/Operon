@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Logbook — Compass Rose</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page { size: 3.74in 8.27in; margin: 0; }
+
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: #0F2B46;
+  }
+
+  .page {
+    width: 3.74in;
+    height: 8.27in;
+    background: #0F2B46;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Compass Rose */
+  .compass {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin-top: 40px;
+  }
+
+  /* Outer circle */
+  .compass-outer {
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgba(27,168,216,0.4);
+    border-radius: 50%;
+  }
+
+  .compass-outer::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+  }
+
+  /* Cardinal lines */
+  .compass-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+  }
+
+  .compass-line-n {
+    width: 2px; height: 80px;
+    background: linear-gradient(to top, rgba(27,168,216,0.6), #1BA8D8);
+    transform: translate(-50%, -100%);
+  }
+
+  .compass-line-s {
+    width: 2px; height: 80px;
+    background: linear-gradient(to bottom, rgba(27,168,216,0.6), rgba(27,168,216,0.3));
+    transform: translate(-50%, 0%);
+  }
+
+  .compass-line-e {
+    width: 80px; height: 2px;
+    background: linear-gradient(to right, rgba(27,168,216,0.6), rgba(27,168,216,0.3));
+    transform: translate(0%, -50%);
+  }
+
+  .compass-line-w {
+    width: 80px; height: 2px;
+    background: linear-gradient(to left, rgba(27,168,216,0.6), rgba(27,168,216,0.3));
+    transform: translate(-100%, -50%);
+  }
+
+  /* Diagonal lines */
+  .compass-line-ne {
+    width: 1px; height: 56px;
+    background: rgba(27,168,216,0.25);
+    transform: translate(-50%, -100%) rotate(45deg);
+    transform-origin: bottom center;
+  }
+
+  .compass-line-nw {
+    width: 1px; height: 56px;
+    background: rgba(27,168,216,0.25);
+    transform: translate(-50%, -100%) rotate(-45deg);
+    transform-origin: bottom center;
+  }
+
+  .compass-line-se {
+    width: 1px; height: 56px;
+    background: rgba(27,168,216,0.25);
+    transform: translate(-50%, 0%) rotate(-45deg);
+    transform-origin: top center;
+  }
+
+  .compass-line-sw {
+    width: 1px; height: 56px;
+    background: rgba(27,168,216,0.25);
+    transform: translate(-50%, 0%) rotate(45deg);
+    transform-origin: top center;
+  }
+
+  /* Center diamond */
+  .compass-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+  }
+
+  .compass-diamond {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: #1BA8D8;
+  }
+
+  /* North arrow (bolder, with pointer) */
+  .north-pointer {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 12px solid #1BA8D8;
+  }
+
+  /* Cardinal labels */
+  .cardinal-label {
+    position: absolute;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+  }
+
+  .label-n { top: -4px; left: 50%; transform: translateX(-50%); color: #1BA8D8; }
+  .label-s { bottom: -4px; left: 50%; transform: translateX(-50%); }
+  .label-e { right: -4px; top: 50%; transform: translateY(-50%); }
+  .label-w { left: -4px; top: 50%; transform: translateY(-50%); }
+
+  /* Boat silhouette */
+  .boat {
+    position: absolute;
+    bottom: 310px;
+    right: 24px;
+    z-index: 2;
+  }
+
+  .boat svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Brand text */
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 28px;
+    color: #fff;
+    text-align: center;
+    margin-top: 8px;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 3;
+  }
+
+  .tagline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    text-align: center;
+    margin-top: 6px;
+    position: relative;
+    z-index: 3;
+  }
+
+  /* QR section */
+  .qr-section {
+    margin-top: auto;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 24px;
+  }
+
+  .qr-box {
+    background: #fff;
+    border: 2px solid #1BA8D8;
+    border-radius: 12px;
+    padding: 10px;
+  }
+
+  #qr { }
+
+  .domain {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #1BA8D8;
+    margin-top: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .print-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(27,168,216,0.3);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 8px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  @media print {
+    body { margin: 0; padding: 0; }
+    .page { width: 3.74in; height: 8.27in; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <button class="print-btn no-print" onclick="window.print()">Print</button>
+
+  <!-- Compass Rose -->
+  <div class="compass">
+    <div class="compass-outer"></div>
+    <!-- Cardinal lines -->
+    <div class="compass-line compass-line-n"></div>
+    <div class="compass-line compass-line-s"></div>
+    <div class="compass-line compass-line-e"></div>
+    <div class="compass-line compass-line-w"></div>
+    <!-- Diagonal lines -->
+    <div class="compass-line compass-line-ne"></div>
+    <div class="compass-line compass-line-nw"></div>
+    <div class="compass-line compass-line-se"></div>
+    <div class="compass-line compass-line-sw"></div>
+    <!-- North pointer -->
+    <div class="north-pointer"></div>
+    <!-- Center diamond -->
+    <div class="compass-center">
+      <div class="compass-diamond"></div>
+    </div>
+    <!-- Cardinal labels -->
+    <span class="cardinal-label label-n">N</span>
+    <span class="cardinal-label label-s">S</span>
+    <span class="cardinal-label label-e">E</span>
+    <span class="cardinal-label label-w">W</span>
+  </div>
+
+  <!-- Brand -->
+  <div class="brand">My Logbook ⚓</div>
+  <div class="tagline">Track it once. Save thousands.</div>
+
+  <!-- Boat silhouette -->
+  <div class="boat">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Hull -->
+      <path d="M8 38 L14 48 L46 48 L52 38 Z" fill="rgba(27,168,216,0.5)"/>
+      <!-- Mast -->
+      <line x1="30" y1="10" x2="30" y2="38" stroke="rgba(27,168,216,0.5)" stroke-width="1.5"/>
+      <!-- Sail -->
+      <path d="M31 12 L31 36 L46 36 Z" fill="rgba(255,255,255,0.15)"/>
+      <!-- Flag -->
+      <path d="M30 10 L30 16 L24 13 Z" fill="#1BA8D8"/>
+    </svg>
+  </div>
+
+  <!-- QR section -->
+  <div class="qr-section">
+    <div class="qr-box">
+      <div id="qr"></div>
+    </div>
+    <div class="domain">my-logbook.io</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script>
+  var qr = qrcode(0, 'M');
+  qr.addData('https://my-logbook.io');
+  qr.make();
+  document.getElementById('qr').innerHTML = qr.createSvgTag({cellSize: 3, margin: 1, scalable: true});
+</script>
+</body>
+</html>
