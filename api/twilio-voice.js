@@ -1,4 +1,4 @@
-module.exports = (req, res) => {
+export default function handler(req, res) {
   const AUDIO = 'https://myoperon.io/audio';
   const twiml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
@@ -10,4 +10,4 @@ module.exports = (req, res) => {
 </Response>`;
   res.setHeader('Content-Type', 'text/xml');
   res.status(200).send(twiml);
-};
+}

@@ -1,4 +1,4 @@
-module.exports = (req, res) => {
+export default function handler(req, res) {
   const AUDIO = 'https://myoperon.io/audio';
   const VOICE = 'Polly.Joanna-Neural';
   
@@ -37,7 +37,7 @@ module.exports = (req, res) => {
     const twiml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Play>${AUDIO}/antares-travel.mp3</Play>
-  <Gather input="speech dtmf" action="https://myoperon.io/api/twilio-gather" method="POST" timeout="8" speechTimeout="auto">
+  <Gather input="speech dtmf" action="https://myoperaw.io/api/twilio-gather" method="POST" timeout="8" speechTimeout="auto">
     <Say voice="${VOICE}">Is there anything else I can help you with?</Say>
   </Gather>
   <Play>${AUDIO}/goodbye.mp3</Play>
@@ -78,4 +78,4 @@ module.exports = (req, res) => {
 </Response>`;
   res.setHeader('Content-Type', 'text/xml');
   res.status(200).send(twiml);
-};
+}
