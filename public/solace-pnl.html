@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solace Wellness — P&L Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              purple: '#6C3FC5',
+              lavender: '#A78BFA',
+              light: '#F3F0FF',
+              dark: '#1E1B4B',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-display { font-family: 'Playfair Display', serif; }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <div class="max-w-5xl mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="font-display text-4xl font-bold text-brand-dark mb-2">Solace Wellness</h1>
+      <p class="text-gray-500 text-lg">Profit & Loss Dashboard</p>
+      <p class="text-gray-400 text-sm mt-1">Updated May 2026</p>
+    </div>
+
+    <!-- Revenue Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h2 class="text-xl font-bold text-brand-dark mb-4">💰 Revenue (Monthly)</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="text-left py-3 px-2 font-semibold text-gray-600">Plan</th>
+              <th class="text-right py-3 px-2 font-semibold text-gray-600">Price/mo</th>
+              <th class="text-center py-3 px-2 font-semibold text-gray-600">Hours</th>
+              <th class="text-center py-3 px-2 font-semibold text-gray-600">Subscribers</th>
+              <th class="text-right py-3 px-2 font-semibold text-gray-600">Revenue</th>
+            </tr>
+          </thead>
+          <tbody id="revenue-table">
+          </tbody>
+          <tfoot>
+            <tr class="border-t-2 border-brand-purple pt-2">
+              <td class="py-3 px-2 font-bold text-brand-dark" colspan="4">Total Revenue</td>
+              <td class="py-3 px-2 font-bold text-brand-dark text-right" id="total-revenue">$0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- Costs Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h2 class="text-xl font-bold text-brand-dark mb-4">📊 Costs (Monthly)</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="text-left py-3 px-2 font-semibold text-gray-600">Cost Item</th>
+              <th class="text-left py-3 px-2 font-semibold text-gray-600">Type</th>
+              <th class="text-right py-3 px-2 font-semibold text-gray-600">Rate</th>
+              <th class="text-right py-3 px-2 font-semibold text-gray-600">Monthly Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-50">
+              <td class="py-3 px-2">ElevenLabs TTS (voice)</td>
+              <td class="py-3 px-2 text-gray-500">Variable</td>
+              <td class="py-3 px-2 text-right text-gray-500">$0.32/hr used</td>
+              <td class="py-3 px-2 text-right font-semibold" id="cost-tts">$0.00</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-3 px-2">AI Chat (Gemini Flash)</td>
+              <td class="py-3 px-2 text-gray-500">Variable</td>
+              <td class="py-3 px-2 text-right text-gray-500">$0.02/hr used</td>
+              <td class="py-3 px-2 text-right font-semibold" id="cost-chat">$0.00</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-3 px-2">Supabase (DB + Edge)</td>
+              <td class="py-3 px-2 text-gray-500">Fixed</td>
+              <td class="py-3 px-2 text-right text-gray-500">Free tier</td>
+              <td class="py-3 px-2 text-right font-semibold">$0.00</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-3 px-2">Vercel (Hosting)</td>
+              <td class="py-3 px-2 text-gray-500">Fixed</td>
+              <td class="py-3 px-2 text-right text-gray-500">Free tier</td>
+              <td class="py-3 px-2 text-right font-semibold">$0.00</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-3 px-2">Domain (solace-wellness.io)</td>
+              <td class="py-3 px-2 text-gray-500">Fixed</td>
+              <td class="py-3 px-2 text-right text-gray-500">$1.50/mo</td>
+              <td class="py-3 px-2 text-right font-semibold">$1.50</td>
+            </tr>
+            <tr class="border-b border-gray-50">
+              <td class="py-3 px-2">Stripe Fees (2.9% + 30¢)</td>
+              <td class="py-3 px-2 text-gray-500">Variable</td>
+              <td class="py-3 px-2 text-right text-gray-500">2.9% + $0.30</td>
+              <td class="py-3 px-2 text-right font-semibold" id="cost-stripe">$0.00</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="border-t-2 border-red-400 pt-2">
+              <td class="py-3 px-2 font-bold text-brand-dark" colspan="3">Total Costs</td>
+              <td class="py-3 px-2 font-bold text-red-600 text-right" id="total-costs">$0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- Profit Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h2 class="text-xl font-bold text-brand-dark mb-4">📈 Profit</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-green-50 rounded-xl p-5 text-center">
+          <p class="text-sm text-green-700 font-medium mb-1">Monthly Profit</p>
+          <p class="text-3xl font-bold text-green-700" id="monthly-profit">$0.00</p>
+        </div>
+        <div class="bg-blue-50 rounded-xl p-5 text-center">
+          <p class="text-sm text-blue-700 font-medium mb-1">Annual Profit</p>
+          <p class="text-3xl font-bold text-blue-700" id="annual-profit">$0.00</p>
+        </div>
+        <div class="bg-purple-50 rounded-xl p-5 text-center">
+          <p class="text-sm text-purple-700 font-medium mb-1">Profit Margin</p>
+          <p class="text-3xl font-bold text-purple-700" id="profit-margin">0%</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grant Tracker -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h2 class="text-xl font-bold text-brand-dark mb-4">🎁 ElevenLabs Grant Tracker</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div class="bg-lavender/20 rounded-xl p-4 text-center">
+          <p class="text-sm text-gray-600 font-medium">Grant Balance</p>
+          <p class="text-2xl font-bold text-brand-purple" id="grant-balance">33,000,000</p>
+          <p class="text-xs text-gray-400">characters</p>
+        </div>
+        <div class="bg-lavender/20 rounded-xl p-4 text-center">
+          <p class="text-sm text-gray-600 font-medium">Used This Month</p>
+          <p class="text-2xl font-bold text-brand-purple" id="grant-used">0</p>
+          <p class="text-xs text-gray-400">characters</p>
+        </div>
+        <div class="bg-lavender/20 rounded-xl p-4 text-center">
+          <p class="text-sm text-gray-600 font-medium">Months Remaining</p>
+          <p class="text-2xl font-bold text-brand-purple" id="grant-months">∞</p>
+          <p class="text-xs text-gray-400">at current usage</p>
+        </div>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-3">
+        <div class="bg-brand-purple h-3 rounded-full transition-all" id="grant-bar" style="width: 0%"></div>
+      </div>
+      <p class="text-xs text-gray-400 mt-2 text-right" id="grant-pct">0% used</p>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h2 class="text-xl font-bold text-brand-dark mb-4">🧮 Key Metrics</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="text-center p-3">
+          <p class="text-xs text-gray-500 font-medium">Revenue per Hour</p>
+          <p class="text-xl font-bold text-brand-dark" id="rev-per-hour">$0.00</p>
+        </div>
+        <div class="text-center p-3">
+          <p class="text-xs text-gray-500 font-medium">Cost per Hour</p>
+          <p class="text-xl font-bold text-red-500" id="cost-per-hour">$0.34</p>
+        </div>
+        <div class="text-center p-3">
+          <p class="text-xs text-gray-500 font-medium">Break-Even Users</p>
+          <p class="text-xl font-bold text-brand-dark" id="breakeven">0</p>
+        </div>
+        <div class="text-center p-3">
+          <p class="text-xs text-gray-500 font-medium">Avg Rev/User</p>
+          <p class="text-xl font-bold text-brand-dark" id="avg-rev-user">$0.00</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-gray-400 text-xs py-4">
+      Solace Wellness P&L • Powered by Operon • myoperon.io
+    </div>
+  </div>
+
+  <script>
+    const plans = [
+      { name: "Let's Be Friends", price: 0, hours: 0.25, subs: 0 },
+      { name: "Get to Know You", price: 11.99, hours: 3, subs: 0 },
+      { name: "True Friend", price: 19.99, hours: 5, subs: 0 },
+      { name: "Best Friend", price: 49.99, hours: 20, subs: 0 },
+    ];
+
+    const TTS_RATE = 0.32; // per hour used
+    const CHAT_RATE = 0.02; // per hour used
+    const GRANT_TOTAL = 33000000;
+    const CHARS_PER_HOUR = 45000;
+
+    function render() {
+      // Revenue
+      let totalRev = 0;
+      let totalHours = 0;
+      let totalSubs = 0;
+      const tbody = document.getElementById('revenue-table');
+      tbody.innerHTML = '';
+      
+      plans.forEach((p, i) => {
+        const rev = p.price * p.subs;
+        const hrs = p.hours * p.subs;
+        totalRev += rev;
+        totalHours += hrs;
+        totalSubs += p.subs;
+        
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-gray-50';
+        tr.innerHTML = `
+          <td class="py-3 px-2 font-medium">${p.name}</td>
+          <td class="py-3 px-2 text-right">${p.price > 0 ? '$' + p.price.toFixed(2) : 'Free'}</td>
+          <td class="py-3 px-2 text-center">${p.hours}h</td>
+          <td class="py-3 px-2 text-center">
+            <input type="number" min="0" value="${p.subs}" 
+              class="w-16 text-center border border-gray-200 rounded-lg py-1 px-2 text-sm"
+              onchange="plans[${i}].subs=parseInt(this.value)||0;render()">
+          </td>
+          <td class="py-3 px-2 text-right font-semibold">$${rev.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('total-revenue').textContent = '$' + totalRev.toFixed(2);
+
+      // Costs
+      const costTTS = totalHours * TTS_RATE;
+      const costChat = totalHours * CHAT_RATE;
+      const costStripe = totalSubs > 0 ? plans.reduce((sum, p) => sum + (p.subs > 0 ? (p.price * p.subs * 0.029) + (0.30 * p.subs) : 0), 0) : 0;
+      const costDomain = 1.50;
+      const totalCosts = costTTS + costChat + costStripe + costDomain;
+
+      document.getElementById('cost-tts').textContent = '$' + costTTS.toFixed(2);
+      document.getElementById('cost-chat').textContent = '$' + costChat.toFixed(2);
+      document.getElementById('cost-stripe').textContent = '$' + costStripe.toFixed(2);
+      document.getElementById('total-costs').textContent = '$' + totalCosts.toFixed(2);
+
+      // Profit
+      const monthlyProfit = totalRev - totalCosts;
+      const annualProfit = monthlyProfit * 12;
+      const margin = totalRev > 0 ? (monthlyProfit / totalRev * 100) : 0;
+
+      document.getElementById('monthly-profit').textContent = '$' + monthlyProfit.toFixed(2);
+      document.getElementById('annual-profit').textContent = '$' + annualProfit.toFixed(2);
+      document.getElementById('profit-margin').textContent = margin.toFixed(1) + '%';
+
+      // Color profit
+      const profitEl = document.getElementById('monthly-profit');
+      profitEl.className = monthlyProfit >= 0 ? 'text-3xl font-bold text-green-700' : 'text-3xl font-bold text-red-600';
+
+      // Grant
+      const grantUsed = totalHours * CHARS_PER_HOUR;
+      const grantBalance = Math.max(0, GRANT_TOTAL - grantUsed);
+      const grantPct = (grantUsed / GRANT_TOTAL * 100);
+      const grantMonths = grantUsed > 0 ? Math.floor(grantBalance / grantUsed) : Infinity;
+
+      document.getElementById('grant-balance').textContent = grantBalance.toLocaleString();
+      document.getElementById('grant-used').textContent = grantUsed.toLocaleString();
+      document.getElementById('grant-months').textContent = grantMonths === Infinity ? '∞' : grantMonths;
+      document.getElementById('grant-bar').style.width = grantPct + '%';
+      document.getElementById('grant-pct').textContent = grantPct.toFixed(1) + '% used';
+
+      // Key Metrics
+      const revPerHour = totalHours > 0 ? totalRev / totalHours : 0;
+      const costPerHour = TTS_RATE + CHAT_RATE;
+      const avgRevUser = totalSubs > 0 ? totalRev / totalSubs : 0;
+      
+      // Breakeven: how many paid users needed to cover fixed + variable costs
+      // Simplified: assume avg price $19.99, avg hours 5
+      const avgPrice = totalSubs > 0 ? totalRev / totalSubs : 19.99;
+      const avgHrs = totalSubs > 0 ? totalHours / totalSubs : 5;
+      const contributionPerUser = avgPrice - (avgHrs * costPerHour) - (avgPrice * 0.029 + 0.30);
+      const breakeven = contributionPerUser > 0 ? Math.ceil(costDomain / contributionPerUser) : 0;
+
+      document.getElementById('rev-per-hour').textContent = '$' + revPerHour.toFixed(2);
+      document.getElementById('cost-per-hour').textContent = '$' + costPerHour.toFixed(2);
+      document.getElementById('breakeven').textContent = breakeven;
+      document.getElementById('avg-rev-user').textContent = '$' + avgRevUser.toFixed(2);
+    }
+
+    render();
+  </script>
+</body>
+</html>
