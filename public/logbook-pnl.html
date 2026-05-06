@@ -40,7 +40,7 @@
     <div class="text-center mb-8">
       <h1 class="font-display text-4xl font-bold text-brand-navy mb-2">My Logbook</h1>
       <p class="text-gray-500 text-lg">Profit & Loss Dashboard</p>
-      <p class="text-gray-400 text-sm mt-1">Updated May 2026 • my-logbook.io</p>
+      <p class="text-gray-400 text-sm mt-1">Updated May 6, 2026 • my-logbook.io</p>
     </div>
 
     <!-- Revenue Section -->
@@ -184,22 +184,22 @@
 
     <!-- Scenario Planning -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
-      <h2 class="text-xl font-bold text-brand-navy mb-4">🎯 Scenario Planning</h2>
+      <h2 class="text-xl font-bold text-brand-navy mb-4">🎯 Scenario Planning (Year 1)</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="border border-gray-200 rounded-xl p-5">
-          <p class="text-sm text-gray-500 font-medium mb-1">Conservative (Year 1)</p>
+          <p class="text-sm text-gray-500 font-medium mb-1">Conservative</p>
           <p class="text-xs text-gray-400 mb-3">50 Captain's + 10 Fleet + 15 add-ons</p>
           <p class="text-2xl font-bold text-brand-navy" id="scenario-conservative">$0</p>
           <p class="text-xs text-gray-400 mt-1">annual profit</p>
         </div>
         <div class="border border-brand-teal rounded-xl p-5 bg-brand-light">
-          <p class="text-sm text-brand-teal font-medium mb-1">Realistic (Year 1)</p>
+          <p class="text-sm text-brand-teal font-medium mb-1">Realistic</p>
           <p class="text-xs text-gray-400 mb-3">200 Captain's + 50 Fleet + 80 add-ons</p>
           <p class="text-2xl font-bold text-brand-teal" id="scenario-realistic">$0</p>
           <p class="text-xs text-gray-400 mt-1">annual profit</p>
         </div>
         <div class="border border-gray-200 rounded-xl p-5">
-          <p class="text-sm text-gray-500 font-medium mb-1">Optimistic (Year 1)</p>
+          <p class="text-sm text-gray-500 font-medium mb-1">Optimistic</p>
           <p class="text-xs text-gray-400 mb-3">500 Captain's + 150 Fleet + 250 add-ons</p>
           <p class="text-2xl font-bold text-brand-navy" id="scenario-optimistic">$0</p>
           <p class="text-xs text-gray-400 mt-1">annual profit</p>
@@ -232,7 +232,7 @@
 
     <!-- Footer -->
     <div class="text-center text-gray-400 text-xs py-4">
-      My Logbook P&L • Powered by Operon • myoperon.io
+      My Logbook P&L • Updated May 6, 2026 • myoperon.io
     </div>
   </div>
 
@@ -261,14 +261,13 @@
       const totalRev = planRev + addonRev;
       const fixedCosts = (20 + 1.50) * 12;
       const storageCosts = (captSubs + fleetSubs) * 5 * 0.021 * 12;
-      const weatherCosts = addonSubs * 30 * 0.002 * 12; // 30 calls/mo avg
+      const weatherCosts = addonSubs * 30 * 0.002 * 12;
       const stripeCosts = calcStripeFees(totalRev, (captSubs + fleetSubs + addonSubs) * 12);
       const totalCosts = fixedCosts + storageCosts + weatherCosts + stripeCosts;
       return totalRev - totalCosts;
     }
 
     function render() {
-      // Revenue
       let totalRev = 0;
       let totalY1 = 0;
       let totalPaidSubs = 0;
@@ -289,7 +288,7 @@
           <td class="py-3 px-2 text-right">${p.setup > 0 ? '$' + p.setup.toFixed(2) : '—'}</td>
           <td class="py-3 px-2 text-right">${p.monthly > 0 ? '$' + p.monthly.toFixed(2) : 'Free'}</td>
           <td class="py-3 px-2 text-center">
-            <input type="number" min="0" value="${p.subs}" 
+            <input type="number" min="0" value="${p.subs}"
               class="w-16 text-center border border-gray-200 rounded-lg py-1 px-2 text-sm"
               onchange="plans[${i}].subs=parseInt(this.value)||0;render()">
           </td>
@@ -299,7 +298,6 @@
         tbody.appendChild(tr);
       });
 
-      // Add-on revenue
       let totalAddonRev = 0;
       const addonTbody = document.getElementById('addon-table');
       addonTbody.innerHTML = '';
@@ -314,7 +312,7 @@
           <td class="py-3 px-2 font-medium">${a.name}</td>
           <td class="py-3 px-2 text-right">$${a.price.toFixed(2)}</td>
           <td class="py-3 px-2 text-center">
-            <input type="number" min="0" value="${a.subs}" 
+            <input type="number" min="0" value="${a.subs}"
               class="w-16 text-center border border-gray-200 rounded-lg py-1 px-2 text-sm"
               onchange="addons[${i}].subs=parseInt(this.value)||0;render()">
           </td>
@@ -328,13 +326,12 @@
       document.getElementById('total-y1-rev').textContent = '$' + totalY1.toFixed(2);
       document.getElementById('total-addon-rev').textContent = '$' + totalAddonRev.toFixed(2);
 
-      // Costs
       const paidUsers = plans.filter(p => p.monthly > 0).reduce((s, p) => s + p.subs, 0);
-      const costStorage = paidUsers * 5 * STORAGE_PER_GB; // 5GB avg
+      const costStorage = paidUsers * 5 * STORAGE_PER_GB;
       const weatherSubs = addons[0].subs;
-      const costWeather = weatherSubs * 30 * WEATHER_PER_CALL; // 30 calls/mo
+      const costWeather = weatherSubs * 30 * WEATHER_PER_CALL;
       const costStripe = calcStripeFees(totalRev, paidUsers + addons.reduce((s, a) => s + a.subs, 0));
-      const fixedCosts = 20 + 1.50; // Lovable + domain
+      const fixedCosts = 20 + 1.50;
       const totalCosts = fixedCosts + costStorage + costWeather + costStripe;
 
       document.getElementById('cost-storage').textContent = '$' + costStorage.toFixed(2);
@@ -342,7 +339,6 @@
       document.getElementById('cost-stripe').textContent = '$' + costStripe.toFixed(2);
       document.getElementById('total-costs').textContent = '$' + totalCosts.toFixed(2);
 
-      // Profit
       const monthlyProfit = totalRev - totalCosts;
       const annualProfit = monthlyProfit * 12;
       const margin = totalRev > 0 ? (monthlyProfit / totalRev * 100) : 0;
@@ -354,17 +350,14 @@
       const profitEl = document.getElementById('monthly-profit');
       profitEl.className = monthlyProfit >= 0 ? 'text-3xl font-bold text-green-700' : 'text-3xl font-bold text-red-600';
 
-      // Scenarios
       document.getElementById('scenario-conservative').textContent = '$' + calcScenario(50, 10, 15).toLocaleString();
       document.getElementById('scenario-realistic').textContent = '$' + calcScenario(200, 50, 80).toLocaleString();
       document.getElementById('scenario-optimistic').textContent = '$' + calcScenario(500, 150, 250).toLocaleString();
 
-      // Key Metrics
       const totalSubs = plans.reduce((s, p) => s + p.subs, 0) + addons.reduce((s, a) => s + a.subs, 0);
       const avgRevUser = totalSubs > 0 ? totalRev / totalSubs : 0;
       const avgLTV = paidUsers > 0 ? totalY1 / paidUsers : 0;
-      
-      // Breakeven: fixed costs / contribution margin per user
+
       const avgPrice = paidUsers > 0 ? plans.filter(p => p.monthly > 0).reduce((s, p) => s + p.monthly * p.subs, 0) / paidUsers : 8.99;
       const contribMargin = avgPrice - (5 * STORAGE_PER_GB) - (avgPrice * 0.029 + 0.30);
       const breakeven = contribMargin > 0 ? Math.ceil(fixedCosts / contribMargin) : 0;

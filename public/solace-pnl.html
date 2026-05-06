@@ -32,6 +32,8 @@
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type=number] { -moz-appearance: textfield; }
+    .tab-active { background: white; border-bottom: 2px solid #6C3FC5; color: #1E1B4B; font-weight: 600; }
+    .tab-inactive { background: #F9FAFB; color: #6B7280; }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -41,7 +43,13 @@
     <div class="text-center mb-8">
       <h1 class="font-display text-4xl font-bold text-brand-dark mb-2">Solace Wellness</h1>
       <p class="text-gray-500 text-lg">Profit & Loss Dashboard</p>
-      <p class="text-gray-400 text-sm mt-1">Updated May 2026</p>
+      <p class="text-gray-400 text-sm mt-1">Updated May 6, 2026</p>
+    </div>
+
+    <!-- Mode Tabs -->
+    <div class="flex border-b border-gray-200 mb-6">
+      <button id="tab-main" onclick="switchTab('main')" class="px-6 py-3 text-sm tab-active">🌿 Main Solace (35+)</button>
+      <button id="tab-remix" onclick="switchTab('remix')" class="px-6 py-3 text-sm tab-inactive">✨ Remix (Under 35)</button>
     </div>
 
     <!-- Revenue Section -->
@@ -154,17 +162,17 @@
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
       <h2 class="text-xl font-bold text-brand-dark mb-4">🎁 ElevenLabs Grant Tracker</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-        <div class="bg-lavender/20 rounded-xl p-4 text-center">
+        <div class="bg-purple-50 rounded-xl p-4 text-center">
           <p class="text-sm text-gray-600 font-medium">Grant Balance</p>
           <p class="text-2xl font-bold text-brand-purple" id="grant-balance">33,000,000</p>
           <p class="text-xs text-gray-400">characters</p>
         </div>
-        <div class="bg-lavender/20 rounded-xl p-4 text-center">
+        <div class="bg-purple-50 rounded-xl p-4 text-center">
           <p class="text-sm text-gray-600 font-medium">Used This Month</p>
           <p class="text-2xl font-bold text-brand-purple" id="grant-used">0</p>
           <p class="text-xs text-gray-400">characters</p>
         </div>
-        <div class="bg-lavender/20 rounded-xl p-4 text-center">
+        <div class="bg-purple-50 rounded-xl p-4 text-center">
           <p class="text-sm text-gray-600 font-medium">Months Remaining</p>
           <p class="text-2xl font-bold text-brand-purple" id="grant-months">∞</p>
           <p class="text-xs text-gray-400">at current usage</p>
@@ -201,38 +209,58 @@
 
     <!-- Footer -->
     <div class="text-center text-gray-400 text-xs py-4">
-      Solace Wellness P&L • Powered by Operon • myoperon.io
+      Solace Wellness P&L • Updated May 6, 2026 • myoperon.io
     </div>
   </div>
 
   <script>
-    const plans = [
+    const mainPlans = [
+      { name: "Basic", price: 9.99, hours: 3, subs: 0 },
+      { name: "Premium", price: 19.99, hours: 7, subs: 0 },
+      { name: "Family", price: 49.99, hours: 20, subs: 0 },
+      { name: "Ultimate Annual", price: 109.00/12, hours: 5, subs: 0 },
+    ];
+
+    const remixPlans = [
       { name: "Let's Be Friends", price: 0, hours: 0.25, subs: 0 },
       { name: "Get to Know You", price: 11.99, hours: 3, subs: 0 },
       { name: "True Friend", price: 19.99, hours: 5, subs: 0 },
-      { name: "Best Friend", price: 49.99, hours: 20, subs: 0 },
+      { name: "Best Friend", price: 29.99, hours: 20, subs: 0 },
     ];
 
-    const TTS_RATE = 0.32; // per hour used
-    const CHAT_RATE = 0.02; // per hour used
+    const TTS_RATE = 0.32;
+    const CHAT_RATE = 0.02;
     const GRANT_TOTAL = 33000000;
     const CHARS_PER_HOUR = 45000;
 
+    let currentTab = 'main';
+
+    function getPlans() {
+      return currentTab === 'main' ? mainPlans : remixPlans;
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.getElementById('tab-main').className = tab === 'main' ? 'px-6 py-3 text-sm tab-active' : 'px-6 py-3 text-sm tab-inactive';
+      document.getElementById('tab-remix').className = tab === 'remix' ? 'px-6 py-3 text-sm tab-active' : 'px-6 py-3 text-sm tab-inactive';
+      render();
+    }
+
     function render() {
-      // Revenue
+      const plans = getPlans();
       let totalRev = 0;
       let totalHours = 0;
       let totalSubs = 0;
       const tbody = document.getElementById('revenue-table');
       tbody.innerHTML = '';
-      
+
       plans.forEach((p, i) => {
         const rev = p.price * p.subs;
         const hrs = p.hours * p.subs;
         totalRev += rev;
         totalHours += hrs;
         totalSubs += p.subs;
-        
+
         const tr = document.createElement('tr');
         tr.className = 'border-b border-gray-50';
         tr.innerHTML = `
@@ -240,9 +268,9 @@
           <td class="py-3 px-2 text-right">${p.price > 0 ? '$' + p.price.toFixed(2) : 'Free'}</td>
           <td class="py-3 px-2 text-center">${p.hours}h</td>
           <td class="py-3 px-2 text-center">
-            <input type="number" min="0" value="${p.subs}" 
+            <input type="number" min="0" value="${p.subs}"
               class="w-16 text-center border border-gray-200 rounded-lg py-1 px-2 text-sm"
-              onchange="plans[${i}].subs=parseInt(this.value)||0;render()">
+              onchange="${currentTab === 'main' ? 'mainPlans' : 'remixPlans'}[${i}].subs=parseInt(this.value)||0;render()">
           </td>
           <td class="py-3 px-2 text-right font-semibold">$${rev.toFixed(2)}</td>
         `;
@@ -272,7 +300,6 @@
       document.getElementById('annual-profit').textContent = '$' + annualProfit.toFixed(2);
       document.getElementById('profit-margin').textContent = margin.toFixed(1) + '%';
 
-      // Color profit
       const profitEl = document.getElementById('monthly-profit');
       profitEl.className = monthlyProfit >= 0 ? 'text-3xl font-bold text-green-700' : 'text-3xl font-bold text-red-600';
 
@@ -292,12 +319,8 @@
       const revPerHour = totalHours > 0 ? totalRev / totalHours : 0;
       const costPerHour = TTS_RATE + CHAT_RATE;
       const avgRevUser = totalSubs > 0 ? totalRev / totalSubs : 0;
-      
-      // Breakeven: how many paid users needed to cover fixed + variable costs
-      // Simplified: assume avg price $19.99, avg hours 5
-      const avgPrice = totalSubs > 0 ? totalRev / totalSubs : 19.99;
-      const avgHrs = totalSubs > 0 ? totalHours / totalSubs : 5;
-      const contributionPerUser = avgPrice - (avgHrs * costPerHour) - (avgPrice * 0.029 + 0.30);
+      const avgPrice = totalSubs > 0 ? totalRev / totalSubs : 14.99;
+      const contributionPerUser = avgPrice - (3 * costPerHour) - (avgPrice * 0.029 + 0.30);
       const breakeven = contributionPerUser > 0 ? Math.ceil(costDomain / contributionPerUser) : 0;
 
       document.getElementById('rev-per-hour').textContent = '$' + revPerHour.toFixed(2);
