@@ -11,6 +11,7 @@ import Docs from './pages/Docs'
 import RepOnboarding from './pages/RepOnboarding'
 import SaleIntake from './pages/SaleIntake'
 import RepDashboard from './pages/RepDashboard'
+import TravelWise from './pages/TravelWise'
 
 function App() {
   // Simple auth check using localStorage
@@ -94,6 +95,7 @@ function App() {
             </ProtectedRoute>
           } 
         />
+        <Route path="/travelwise" element={<TravelWise />} />
       </Routes>
     </Router>
   )

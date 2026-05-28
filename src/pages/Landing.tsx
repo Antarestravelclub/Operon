@@ -275,13 +275,13 @@ const Landing = () => {
     },
     {
       icon: <TravelIcon />,
-      title: 'Operon Vacation Finder',
+      title: 'TravelWise Vacation Club',
       color: '#f59e0b',
-      tagline: 'Vacation finance calculator and future planning tool.',
-      products: ['Finance Calculator', 'Vacation Planning', 'Cost Analysis', 'Future Projections'],
-      cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/vacations.html',
-      external: true,
+      tagline: 'Wholesale travel prices — save up to 70% on luxury vacations.',
+      products: ['Free Online Presentation', 'Wholesale Pricing', '1.2M+ Properties', 'No Blackout Dates'],
+      cta: 'Book Presentation',
+      ctaLink: '/travelwise',
+      external: false,
     },
     {
       icon: <span style={{fontSize: 28}}>⚓</span>,
@@ -310,13 +310,13 @@ const Landing = () => {
 
     {
       icon: <TravelIcon />,
-      title: 'Operon Travel Hub',
+      title: 'TravelWise Booking Console',
       color: '#0d9488',
-      tagline: 'Wholesale travel marketplace and content management',
-      products: ['Travel Marketplace', 'Content Manager', 'Media Manager'],
-      cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/travel.html',
-      external: true,
+      tagline: 'Book a free presentation and unlock wholesale travel prices — save up to 70%.',
+      products: ['Booking Console', 'Free Online Presentation', 'Member Benefits', 'FAQ'],
+      cta: 'Open Console',
+      ctaLink: '/travelwise',
+      external: false,
     },
     {
       icon: <span style={{fontSize: 28}}>⚓</span>,
@@ -353,13 +353,13 @@ const Landing = () => {
     },
     {
       icon: <TravelIcon />,
-      title: 'Operon Vacation Finder',
+      title: 'TravelWise Vacation Club',
       color: '#f59e0b',
-      tagline: 'Vacation finance calculator and future planning tool',
-      products: ['Finance Calculator', 'Vacation Planning', 'Cost Analysis'],
-      cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/vacations.html',
-      external: true,
+      tagline: 'Wholesale travel prices — save up to 70% on luxury vacations',
+      products: ['Free Online Presentation', 'Wholesale Pricing', '1.2M+ Properties'],
+      cta: 'Book Presentation',
+      ctaLink: '/travelwise',
+      external: false,
     },
   ];
 
@@ -524,72 +524,9 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* ─── OPERON PLATFORM ─── */}
-      <section id="features" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
-            Meet your new team
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Sales Assistant */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-6">
-                <TrendingUp className="h-6 w-6 text-violet-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Sales Assistant</h3>
-              <p className="text-gray-600 mb-6">
-                Follows up with leads, sends personalized emails, books appointments
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Lead Follow-up</span>
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Email Outreach</span>
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Appointment Booking</span>
-              </div>
-              <Link to="/hire" className="text-violet-600 font-medium hover:text-violet-700 transition">
-                Hire Sales Assistant →
-              </Link>
-            </div>
-
-            {/* Support Agent */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
-                <MessageCircle className="h-6 w-6 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Customer Support Agent</h3>
-              <p className="text-gray-600 mb-6">
-                Replies to customer emails, handles FAQs, escalates complex issues
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Email Support</span>
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">FAQ Handling</span>
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Ticket Management</span>
-              </div>
-              <Link to="/hire" className="text-violet-600 font-medium hover:text-violet-700 transition">
-                Hire Support Agent →
-              </Link>
-            </div>
-
-            {/* Admin Assistant */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-6">
-                <ClipboardList className="h-6 w-6 text-green-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Admin Assistant</h3>
-              <p className="text-gray-600 mb-6">
-                Organizes your inbox, generates reports, manages repetitive tasks
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Inbox Management</span>
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Reports</span>
-                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">Task Automation</span>
-              </div>
-              <Link to="/hire" className="text-violet-600 font-medium hover:text-violet-700 transition">
-                Hire Admin Assistant →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 
+        The 'Meet your new team' section has been consolidated into the AI Assistant Portal.
+      */}
 
       {/* Testimonials Section */}
       <section className="py-20 bg-gray-50">
