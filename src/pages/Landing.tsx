@@ -1,7 +1,6 @@
 
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { TrendingUp, MessageCircle, ClipboardList } from 'lucide-react';
 
 function TestimonialCard({ name, role, stars, quote }: { name: string, role: string, stars: number, quote: string }) {
   const initials = name.split(' ').map((n: string) => n[0]).join('');
@@ -210,7 +209,7 @@ const Landing = () => {
       tagline: 'Full backend financial management — leads, payroll, goals, and stats.',
       products: ['Sales Volume Dashboard', 'OPC Performance Tracking', 'Payroll & Commission Reports', 'Sales Goals & Analytics'],
       cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/leads.html',
+      ctaLink: 'https://lead-to-cash-track.vercel.app',
       external: true,
     },
     {
@@ -220,7 +219,7 @@ const Landing = () => {
       tagline: 'Kanban-style candidate pipeline for hiring vacation sales teams.',
       products: ['Candidate Tracking', 'Hiring Workflow', 'Interview Calendar', 'Analytics Dashboard'],
       cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/recruit.html',
+      ctaLink: 'https://vidarecruitment.vercel.app',
       external: true,
     },
     {
@@ -230,7 +229,7 @@ const Landing = () => {
       tagline: '30-day structured sales training platform for new and existing reps.',
       products: ['Day-by-Day Training Modules', 'Lesson Viewer', 'Progress Tracking', 'Training Editor'],
       cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/academy.html',
+      ctaLink: 'https://vida-rep-academy-9d6cda93.vercel.app',
       external: true,
     },
     {
@@ -240,7 +239,7 @@ const Landing = () => {
       tagline: 'Digital loyalty card programs for modern businesses.',
       products: ['Digital Stamp Cards', 'Points & Rewards', 'Merchant Dashboard', 'QR Code Scanning'],
       cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/loyalty.html',
+      ctaLink: 'https://laralucaloyalty.vercel.app',
       external: true,
     },
     {
@@ -250,7 +249,7 @@ const Landing = () => {
       tagline: 'Member verification and check-in platform with QR codes.',
       products: ['Member Verification', 'QR Code Scanning', 'Admin Dashboard', 'Promotor Tracking'],
       cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/checkin.html',
+      ctaLink: 'https://secure-checkin-confirm.vercel.app',
       external: true,
     },
     {
@@ -260,7 +259,7 @@ const Landing = () => {
       tagline: 'Guest experience and issue tracking for resorts and hospitality.',
       products: ['Guest Portal', 'Issue Tracking', 'Analytics Dashboard', 'Staff Management'],
       cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/guestcare.html',
+      ctaLink: 'https://guest-whisper-care.vercel.app',
       external: true,
     },
     {
@@ -270,7 +269,7 @@ const Landing = () => {
       tagline: 'Sales commission tracking, payroll management and reporting.',
       products: ['Commission Charts', 'Payroll Manager', 'Company Breakdown', 'Admin Dashboard'],
       cta: 'View Platform',
-      ctaLink: 'https://myoperon.io/commissions.html',
+      ctaLink: 'https://antares-travel-club-sales-commission-calc.vercel.app',
       external: true,
     },
     {
@@ -284,13 +283,23 @@ const Landing = () => {
       external: false,
     },
     {
-      icon: <span style={{fontSize: 28}}>⚓</span>,
+      icon: <img src="/logbook-logo-official.png" alt="My Logbook" style={{width: 56, height: 56, borderRadius: '12px'}} />,
       title: 'My Logbook',
       color: '#0ea5e9',
       tagline: 'The #1 digital logbook for boats, motorcycles & RVs — track everything, save thousands.',
-      products: ["Captain's Plan — $24.99 setup + $7.99/mo", 'Fleet Plan — $49.99 setup + $9.99/mo', 'Smart Maintenance Reminders', 'Fuel & Engine Hours Tracking', 'Weather Conditions Add-on ($3.99/mo)', 'Marina Finder Add-on ($2.99/mo)', 'Analytics Dashboard', 'PWA — works offline on the water'],
+      products: ["Captain's Plan — $24.99 setup + $7.99/mo", 'Fleet Plan — $49.99 setup + $9.99/mo', 'Smart Maintenance Reminders', 'Fuel & Engine Hours Tracking', 'Weather Conditions Add-on ($1.99/mo)', 'Marina Finder Add-on ($1.99/mo)', 'Analytics Dashboard', 'PWA — works offline on the water'],
       cta: 'Visit My Logbook',
       ctaLink: 'https://my-logbook.io',
+      external: true,
+    },
+    {
+      icon: <span style={{fontSize: 28}}>⛳</span>,
+      title: 'Cart Tracker',
+      color: '#10b981',
+      tagline: 'Real-time GPS fleet tracking for golf carts and small utility vehicles.',
+      products: ['Live Cart Mapping', 'Driver Assignment', 'Automated Cart Numbering'],
+      cta: 'Open Tracker',
+      ctaLink: 'https://cart-buddy-map.lovable.app',
       external: true,
     },
   ];
@@ -326,8 +335,8 @@ const Landing = () => {
       products: [
         'Captain\'s Plan — $24.99 setup + $7.99/mo (1 vehicle)',
         'Fleet Plan — $49.99 setup + $9.99/mo (3 vehicles)',
-        'Weather Add-on — $3.99/mo (live marine conditions)',
-        'Marina Finder — $2.99/mo (search, dock & fuel prices)',
+        'Weather Add-on — $1.99/mo (live marine conditions)',
+        'Marina Finder — $1.99/mo (search, dock & fuel prices)',
         'Smart Maintenance Reminders',
         'Engine Hours & Fuel Tracking',
         'Live Location & Guest Book',
