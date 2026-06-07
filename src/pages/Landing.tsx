@@ -160,6 +160,18 @@ const TradingIcon = () => (
 );
 
 
+const APIIcon = () => (
+  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" fill="#7c3aed" opacity="0.2"/>
+    <circle cx="16" cy="16" r="4" fill="#7c3aed" stroke="#a78bfa" strokeWidth="1.5"/>
+    <circle cx="32" cy="16" r="4" fill="#7c3aed" stroke="#a78bfa" strokeWidth="1.5"/>
+    <circle cx="24" cy="32" r="4" fill="#7c3aed" stroke="#a78bfa" strokeWidth="1.5"/>
+    <line x1="19" y1="17" x2="29" y2="17" stroke="#a78bfa" strokeWidth="1.5"/>
+    <line x1="17" y1="20" x2="22" y2="29" stroke="#a78bfa" strokeWidth="1.5"/>
+    <line x1="31" y1="20" x2="26" y2="29" stroke="#a78bfa" strokeWidth="1.5"/>
+  </svg>
+);
+
 const AIIcon = () => (
   <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
     <circle cx="24" cy="24" r="22" fill="#7c3aed" opacity="0.2"/>
@@ -190,6 +202,29 @@ const Landing = () => {
       products: ['Sales Follow-Up AI', 'Rep Onboarding AI', 'Customer Support AI', 'Custom AI Builds'],
       cta: 'See Plans & Pricing',
       ctaLink: '/ai-assistants.html',
+      external: false,
+    },
+    {
+      icon: <APIIcon />,
+      title: 'API & Infrastructure',
+      color: '#7c3aed',
+      tagline: 'BYOK architecture — zero vendor lock-in, 84–90% gross margin, fully portable.',
+      products: [
+        'OpenRouter — Unified model gateway (BYOK independence)',
+        'OpenAI — Direct GPT-5.5 / Codex access',
+        'Stripe — Payments, subscriptions, affiliate bounties',
+        'Supabase — PostgreSQL, RLS, auth, edge functions',
+        'Mapbox — Live GPS & marine mapping',
+        'ElevenLabs — Voice TTS & narration',
+        'Brevo — Email campaigns & automation',
+        'Brave Search — Web research & real-time data',
+        'Twilio — Voice lines, SMS, crisis detection',
+        'GitHub — CI/CD, repo management',
+        'Vercel — Zero-config deployment, edge hosting',
+        'Lovable — AI rapid dev & prototyping (GitHub-integrated)',
+      ],
+      cta: 'View Tech Stack',
+      ctaLink: '/docs',
       external: false,
     },
     {
