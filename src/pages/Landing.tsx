@@ -334,7 +334,7 @@ const Landing = () => {
       tagline: 'Real-time GPS fleet tracking for golf carts and small utility vehicles.',
       products: ['Live Cart Mapping', 'Driver Assignment', 'Automated Cart Numbering'],
       cta: 'Open Tracker',
-      ctaLink: 'https://cart-buddy-map.lovable.app',
+      ctaLink: 'https://carttracker.io',
       external: true,
     },
   ];
