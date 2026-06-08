@@ -386,6 +386,25 @@ const Landing = () => {
 
 
     {
+      icon: <span style={{fontSize: 28}}>🗺️</span>,
+      title: 'Cart Tracker',
+      color: '#a78bfa',
+      tagline: 'Real-time GPS fleet tracking for golf carts and utility vehicles',
+      products: [
+        'Live GPS Mapping & Tracking',
+        'Driver Assignment & Management',
+        'Maintenance In/Out Service Tracking',
+        'Geofencing & Alerts',
+        'Shift Scheduling & Auto-Assign',
+        'Fleet Usage Reports & Export',
+        'Multi-Property Support',
+        'Starter — $29/mo | Pro — $79/mo | Enterprise — $199/mo',
+      ],
+      cta: 'Visit Cart Tracker',
+      ctaLink: 'https://carttracker.io',
+      external: true,
+    },
+    {
       icon: <TradingIcon />,
       title: 'OperonTrader',
       color: '#eab308',
