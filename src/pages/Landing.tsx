@@ -1,27 +1,391 @@
-
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
-function TestimonialCard({ name, role, stars, quote }: { name: string, role: string, stars: number, quote: string }) {
-  const initials = name.split(' ').map((n: string) => n[0]).join('');
-  
+/* ------------------------------------------------------------------ *
+ * APP REGISTRY — single source of truth.
+ * Every count, filter and card on this page is derived from here, so
+ * adding a site means adding one entry and nothing else gets stale.
+ *   kind 'platform' = products Operon owns and sells to the public
+ *   kind 'tool'     = platforms that run a vacation-sales business
+ * ------------------------------------------------------------------ */
+type AppKind = 'platform' | 'tool';
+
+type AppEntry = {
+  id: string;
+  name: string;
+  kind: AppKind;
+  icon: string;
+  color: string;
+  tagline: string;
+  features: string[];
+  cta: string;
+  href: string;
+  external: boolean;
+  domain?: string;
+};
+
+const APPS: AppEntry[] = [
+  // ---------------------------- PLATFORMS ----------------------------
+  {
+    id: 'logbook',
+    name: 'My Logbook',
+    kind: 'platform',
+    icon: '📓',
+    color: '#0ea5e9',
+    tagline: 'The #1 digital logbook for boats, motorcycles & RVs — track everything, save thousands.',
+    features: [
+      "Captain's Plan — $24.99 setup + $7.99/mo",
+      'Fleet Plan — $49.99 setup + $9.99/mo',
+      'Smart maintenance reminders',
+      'Fuel & engine-hours tracking',
+      'Analytics dashboard',
+      'PWA — works offline on the water',
+    ],
+    cta: 'Visit My Logbook',
+    href: 'https://my-logbook.io',
+    external: true,
+    domain: 'my-logbook.io',
+  },
+  {
+    id: 'carttracker',
+    name: 'Cart Tracker',
+    kind: 'platform',
+    icon: '🛺',
+    color: '#a78bfa',
+    tagline: 'Real-time GPS fleet tracking for golf carts and utility vehicles.',
+    features: [
+      'Live GPS mapping & tracking',
+      'Driver assignment & management',
+      'Maintenance in/out service tracking',
+      'Geofencing & alerts',
+      'Shift scheduling & auto-assign',
+      'Multi-property support',
+      'Starter $29/mo · Pro $79/mo · Enterprise $199/mo',
+    ],
+    cta: 'Open Tracker',
+    href: 'https://carttracker.io',
+    external: true,
+    domain: 'carttracker.io',
+  },
+  {
+    id: 'solace',
+    name: 'Solace Wellness',
+    kind: 'platform',
+    icon: '🌿',
+    color: '#6b9b6b',
+    tagline: 'AI wellness coaching — your always-available emotional support.',
+    features: ['24/7 AI companion', 'Guided check-ins', 'Private by design'],
+    cta: 'Visit Solace',
+    href: 'https://solace-wellness.io',
+    external: true,
+    domain: 'solace-wellness.io',
+  },
+  {
+    id: 'apex',
+    name: 'APEX Index',
+    kind: 'platform',
+    icon: '🎯',
+    color: '#3b82f6',
+    tagline: 'Hire the best closers. Behavioral science built for vacation sales.',
+    features: ['Behavioral assessment', 'Apex Performer Profile', 'Hire / do-not-hire recommendation'],
+    cta: 'Visit APEX Index',
+    href: 'https://apex-index.com',
+    external: true,
+    domain: 'apex-index.com',
+  },
+  {
+    id: 'boxit',
+    name: 'BoxiT',
+    kind: 'platform',
+    icon: '📦',
+    color: '#f59e0b',
+    tagline: 'Storage, simplified.',
+    features: [],
+    cta: 'Visit BoxiT',
+    href: 'https://boxitstorage.io',
+    external: true,
+    domain: 'boxitstorage.io',
+  },
+  {
+    id: 'travelwise',
+    name: 'TravelWise Vacation Club',
+    kind: 'platform',
+    icon: '✈️',
+    color: '#0d9488',
+    tagline: 'Wholesale travel prices — save up to 70% on luxury vacations.',
+    features: ['Free online presentation', 'Wholesale pricing', '1.2M+ properties', 'No blackout dates'],
+    cta: 'Book Presentation',
+    href: '/travelwise',
+    external: false,
+  },
+  {
+    id: 'operontrader',
+    name: 'OperonTrader',
+    kind: 'platform',
+    icon: '📈',
+    color: '#eab308',
+    tagline: 'Automated MT5 trading on forex, gold & crypto.',
+    features: ['ATR-based stops & trailing', 'Session filtering', 'Risk-sized positions'],
+    cta: 'Download EA',
+    href: '/OperonTrader.mq5',
+    external: false,
+  },
+
+  // ------------------------------ TOOLS ------------------------------
+  {
+    id: 'ai-assistants',
+    name: 'AI Assistants',
+    kind: 'tool',
+    icon: '🤖',
+    color: '#7c3aed',
+    tagline: 'Your AI salesforce — always on, always learning, never tired.',
+    features: ['Sales follow-up AI', 'Rep onboarding AI', 'Customer support AI', 'Custom AI builds'],
+    cta: 'See Plans & Pricing',
+    href: '/ai-assistants.html',
+    external: false,
+  },
+  {
+    id: 'api',
+    name: 'API & Infrastructure',
+    kind: 'tool',
+    icon: '⚙️',
+    color: '#8b5cf6',
+    tagline: 'BYOK architecture — zero vendor lock-in, 84–90% gross margin, fully portable.',
+    features: [
+      'OpenRouter — unified model gateway',
+      'Stripe — payments & subscriptions',
+      'Supabase — Postgres, RLS, auth, edge functions',
+      'Mapbox — live GPS & marine mapping',
+      'ElevenLabs — voice TTS & narration',
+      'Twilio — voice lines, SMS, crisis detection',
+      'Vercel — zero-config edge hosting',
+    ],
+    cta: 'View Tech Stack',
+    href: '/docs',
+    external: false,
+  },
+  {
+    id: 'lead-to-cash',
+    name: 'Lead to Cash Track',
+    kind: 'tool',
+    icon: '💰',
+    color: '#14b8a6',
+    tagline: 'Full backend financial management — leads, payroll, goals and stats.',
+    features: ['Sales volume dashboard', 'OPC performance tracking', 'Payroll & commission reports', 'Sales goals & analytics'],
+    cta: 'View Platform',
+    href: 'https://lead-to-cash-track.vercel.app',
+    external: true,
+  },
+  {
+    id: 'recruit',
+    name: 'Operon Recruit',
+    kind: 'tool',
+    icon: '🧑‍💼',
+    color: '#f97316',
+    tagline: 'Kanban-style candidate pipeline for hiring vacation sales teams.',
+    features: ['Candidate tracking', 'Hiring workflow', 'Interview calendar', 'Analytics dashboard'],
+    cta: 'View Platform',
+    href: 'https://vidarecruitment.vercel.app',
+    external: true,
+  },
+  {
+    id: 'academy',
+    name: 'Operon Sales Academy',
+    kind: 'tool',
+    icon: '🎓',
+    color: '#10b981',
+    tagline: '30-day structured sales training for new and existing reps.',
+    features: ['Day-by-day training modules', 'Lesson viewer', 'Progress tracking', 'Training editor'],
+    cta: 'View Platform',
+    href: 'https://vida-rep-academy-9d6cda93.vercel.app',
+    external: true,
+  },
+  {
+    id: 'loyalty',
+    name: 'Operon Loyalty',
+    kind: 'tool',
+    icon: '🎟️',
+    color: '#c9a96e',
+    tagline: 'Digital loyalty card programs for modern businesses.',
+    features: ['Digital stamp cards', 'Points & rewards', 'Merchant dashboard', 'QR code scanning'],
+    cta: 'View Platform',
+    href: 'https://laralucaloyalty.vercel.app',
+    external: true,
+  },
+  {
+    id: 'checkin',
+    name: 'Operon Check-In',
+    kind: 'tool',
+    icon: '✅',
+    color: '#6366f1',
+    tagline: 'Member verification and check-in with QR codes.',
+    features: ['Member verification', 'QR code scanning', 'Admin dashboard', 'Promotor tracking'],
+    cta: 'View Platform',
+    href: 'https://secure-checkin-confirm.vercel.app',
+    external: true,
+  },
+  {
+    id: 'guestcare',
+    name: 'Operon Guest Care',
+    kind: 'tool',
+    icon: '🛎️',
+    color: '#ec4899',
+    tagline: 'Guest experience and issue tracking for resorts and hospitality.',
+    features: ['Guest portal', 'Issue tracking', 'Analytics dashboard', 'Staff management'],
+    cta: 'View Platform',
+    href: 'https://guest-whisper-care.vercel.app',
+    external: true,
+  },
+  {
+    id: 'commissions',
+    name: 'Commission Calculator',
+    kind: 'tool',
+    icon: '🧮',
+    color: '#84cc16',
+    tagline: 'Sales commission tracking, payroll management and reporting.',
+    features: ['Commission charts', 'Payroll manager', 'Company breakdown', 'Admin dashboard'],
+    cta: 'View Platform',
+    href: 'https://antares-travel-club-sales-commission-calc.vercel.app',
+    external: true,
+  },
+  {
+    id: 'arda',
+    name: 'ARDA Materials',
+    kind: 'tool',
+    icon: '📚',
+    color: '#94a3b8',
+    tagline: 'Training and compliance material library for vacation ownership teams.',
+    features: ['Pitchman training manual', 'Compliance references', 'Downloadable assets'],
+    cta: 'Open Library',
+    href: 'https://arda-materials.vercel.app',
+    external: true,
+  },
+];
+
+const KIND_LABEL: Record<AppKind, string> = {
+  platform: 'Our Platforms',
+  tool: 'Business Tools',
+};
+
+/* ---------------------------- components ---------------------------- */
+
+function AppCard({ app }: { app: AppEntry }) {
+  const [hover, setHover] = useState(false);
+  const shown = app.features.slice(0, 5);
+  const rest = app.features.length - shown.length;
+
+  const body = (
+    <>
+      <div className="flex items-start gap-4">
+        <div
+          className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-3xl"
+          style={{ background: `${app.color}1f`, border: `1px solid ${app.color}40` }}
+          aria-hidden="true"
+        >
+          {app.icon}
+        </div>
+        <div className="min-w-0 flex-1">
+          <h3 className="truncate text-lg font-bold text-white">{app.name}</h3>
+          {app.domain && (
+            <span className="font-mono text-xs" style={{ color: app.color }}>
+              {app.domain}
+            </span>
+          )}
+        </div>
+      </div>
+
+      <p className="mt-4 text-sm leading-relaxed text-gray-400">{app.tagline}</p>
+
+      {shown.length > 0 && (
+        <ul className="mt-5 space-y-2">
+          {shown.map((f) => (
+            <li key={f} className="flex items-start gap-2.5 text-[13px] leading-snug text-gray-300">
+              <span
+                className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full"
+                style={{ background: app.color }}
+              />
+              <span className="min-w-0">{f}</span>
+            </li>
+          ))}
+          {rest > 0 && (
+            <li className="pl-4 text-[13px] text-gray-500">+{rest} more</li>
+          )}
+        </ul>
+      )}
+
+      <div className="mt-auto pt-6">
+        <div
+          className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition-colors"
+          style={{
+            background: hover ? app.color : `${app.color}1a`,
+            color: hover ? '#0a0a0f' : app.color,
+          }}
+        >
+          <span>{app.cta}</span>
+          <span aria-hidden="true">→</span>
+        </div>
+      </div>
+    </>
+  );
+
+  const shell =
+    'group flex h-full flex-col rounded-3xl border p-6 text-left no-underline transition-transform duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0f]';
+
+  const style = {
+    background: 'linear-gradient(180deg, #14141c 0%, #0f0f16 100%)',
+    borderColor: hover ? `${app.color}66` : 'rgba(255,255,255,0.08)',
+    transform: hover ? 'translateY(-4px)' : 'none',
+    boxShadow: hover ? `0 18px 40px -12px ${app.color}59` : '0 1px 2px rgba(0,0,0,0.4)',
+    ['--tw-ring-color' as string]: app.color,
+  } as React.CSSProperties;
+
+  const handlers = {
+    onMouseEnter: () => setHover(true),
+    onMouseLeave: () => setHover(false),
+    onFocus: () => setHover(true),
+    onBlur: () => setHover(false),
+  };
+
+  if (app.external) {
+    return (
+      <a href={app.href} target="_blank" rel="noopener noreferrer" className={shell} style={style} {...handlers}>
+        {body}
+      </a>
+    );
+  }
+  if (app.href.startsWith('/') && !app.href.includes('.')) {
+    return (
+      <Link to={app.href} className={shell} style={style} {...handlers}>
+        {body}
+      </Link>
+    );
+  }
   return (
-    <div className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition">
-      <div className="flex items-center mb-6">
-        <div className="w-12 h-12 bg-violet-600 rounded-full flex items-center justify-center mr-4">
-          <span className="text-white font-semibold text-sm">{initials}</span>
+    <a href={app.href} className={shell} style={style} {...handlers}>
+      {body}
+    </a>
+  );
+}
+
+function TestimonialCard({ name, role, stars, quote }: { name: string; role: string; stars: number; quote: string }) {
+  const initials = name.split(' ').map((n) => n[0]).join('');
+  return (
+    <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm transition hover:shadow-md">
+      <div className="mb-6 flex items-center">
+        <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-violet-600">
+          <span className="text-sm font-semibold text-white">{initials}</span>
         </div>
         <div className="text-left">
           <div className="font-semibold text-gray-900">{name}</div>
-          <div className="text-gray-500 text-sm">{role}</div>
+          <div className="text-sm text-gray-500">{role}</div>
         </div>
       </div>
-      <div className="flex text-yellow-400 mb-4">
+      <div className="mb-4 flex text-yellow-400" aria-label={`${stars} out of 5 stars`}>
         {[...Array(stars)].map((_, i) => (
           <span key={i} className="text-sm">★</span>
         ))}
       </div>
-      <p className="text-gray-600 italic">"{quote}"</p>
+      <p className="italic text-gray-600">"{quote}"</p>
     </div>
   );
 }
@@ -36,52 +400,52 @@ function ROICalculator() {
   const roi = Math.round(((revenueRecovered - 99) / 99) * 100);
 
   return (
-    <div className="bg-gray-50 rounded-2xl p-8">
+    <div className="rounded-3xl bg-gray-50 p-8">
       <div className="space-y-8">
         <div>
-          <label className="block text-left text-gray-700 font-medium mb-2">
+          <label htmlFor="roi-leads" className="mb-2 block text-left font-medium text-gray-700">
             How many leads per week? <span className="text-violet-600">{leads}</span>
           </label>
           <input
+            id="roi-leads"
             type="range"
             min="10"
             max="200"
             value={leads}
             onChange={(e) => setLeads(parseInt(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-violet-600"
+            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-violet-600"
           />
         </div>
-        
         <div>
-          <label className="block text-left text-gray-700 font-medium mb-2">
+          <label htmlFor="roi-emails" className="mb-2 block text-left font-medium text-gray-700">
             How many support emails per day? <span className="text-violet-600">{emails}</span>
           </label>
           <input
+            id="roi-emails"
             type="range"
             min="5"
             max="100"
             value={emails}
             onChange={(e) => setEmails(parseInt(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-violet-600"
+            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-violet-600"
           />
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-          <div className="bg-white rounded-xl p-4 shadow-sm">
-            <div className="text-2xl font-bold text-violet-600">{hoursSaved} hrs</div>
-            <div className="text-gray-500 text-sm">Hours saved per week</div>
-          </div>
-          <div className="bg-white rounded-xl p-4 shadow-sm">
-            <div className="text-2xl font-bold text-violet-600">${revenueRecovered.toLocaleString()}</div>
-            <div className="text-gray-500 text-sm">Estimated revenue recovered</div>
-          </div>
-          <div className="bg-white rounded-xl p-4 shadow-sm">
-            <div className="text-2xl font-bold text-violet-600">{roi}%</div>
-            <div className="text-gray-500 text-sm">Your ROI</div>
-          </div>
+        <div className="grid grid-cols-1 gap-6 text-center md:grid-cols-3">
+          {[
+            { v: `${hoursSaved} hrs`, l: 'Hours saved per week' },
+            { v: `$${revenueRecovered.toLocaleString()}`, l: 'Estimated revenue recovered' },
+            { v: `${roi}%`, l: 'Your ROI' },
+          ].map((s) => (
+            <div key={s.l} className="rounded-2xl bg-white p-4 shadow-sm">
+              <div className="text-2xl font-bold text-violet-600">{s.v}</div>
+              <div className="text-sm text-gray-500">{s.l}</div>
+            </div>
+          ))}
         </div>
-        
-        <Link to="/signup" className="inline-block bg-violet-600 text-white px-8 py-4 rounded-xl text-lg font-medium hover:bg-violet-700 transition shadow-lg shadow-violet-200 mt-4">
+        <Link
+          to="/signup"
+          className="mt-4 inline-block rounded-xl bg-violet-600 px-8 py-4 text-lg font-medium text-white no-underline shadow-lg shadow-violet-200 transition hover:bg-violet-700"
+        >
           Start saving time today →
         </Link>
       </div>
@@ -89,515 +453,216 @@ function ROICalculator() {
   );
 }
 
+/* ------------------------------- page ------------------------------- */
 
-
-const HealthIcon = () => (
-  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="22" fill="#6b9b6b" opacity="0.2"/>
-    <path d="M14 20c0-4.4 3.6-8 8-8 2.4 0 4.5 1 6 2.6C29.5 13 31.6 12 34 12c4.4 0 8 3.6 8 8 0 2.8-1.4 5.3-3.5 6.8L24 36l-14.5-9.2C7.4 25.3 6 22.8 6 20z" fill="#6b9b6b" stroke="#4a8a4a" strokeWidth="1.5"/>
-    <polyline points="10,26 14,22 17,28 20,20 23,26 26,24" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
-  </svg>
-);
-
-const SalesIcon = () => (
-  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="22" fill="#3b82f6" opacity="0.2"/>
-    <circle cx="24" cy="24" r="18" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
-    <circle cx="24" cy="24" r="11" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
-    <circle cx="24" cy="24" r="5" fill="#3b82f6"/>
-    <line x1="36" y1="12" x2="26" y2="22" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round"/>
-    <path d="M34 10l4 2-2 4" stroke="#60a5fa" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const TravelIcon = () => (
-  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="22" fill="#0d9488" opacity="0.2"/>
-    <line x1="24" y1="38" x2="24" y2="18" stroke="#0d9488" strokeWidth="2.5" strokeLinecap="round"/>
-    <path d="M24 20 Q18 12 10 14 Q16 18 20 22" fill="#14b8a6"/>
-    <path d="M24 20 Q30 12 38 14 Q32 18 28 22" fill="#14b8a6"/>
-    <path d="M24 25 Q20 17 14 19 Q19 22 22 26" fill="#0d9488" opacity="0.7"/>
-    <line x1="8" y1="37" x2="40" y2="37" stroke="#0d9488" strokeWidth="2" opacity="0.5"/>
-  </svg>
-);
-
-const LoyaltyIcon = () => (
-  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="22" fill="#c9a96e" opacity="0.2"/>
-    <rect x="7" y="15" width="34" height="22" rx="4" fill="none" stroke="#c9a96e" strokeWidth="1.5"/>
-    <rect x="7" y="15" width="34" height="22" rx="4" fill="#c9a96e" opacity="0.15"/>
-    <line x1="7" y1="22" x2="41" y2="22" stroke="#c9a96e" strokeWidth="2"/>
-    <rect x="11" y="26" width="8" height="5" rx="1" fill="#c9a96e" opacity="0.6"/>
-    <path d="M30 28l1 2.5h2.5l-2 1.5 0.8 2.5L30 33l-2.3 1.5 0.8-2.5-2-1.5H29z" fill="#f59e0b"/>
-  </svg>
-);
-
-const MarketplaceIcon = () => (
-  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="22" fill="#f97316" opacity="0.2"/>
-    <path d="M14 18 Q24 10 34 18" stroke="#f97316" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-    <path d="M32 16l4 4-4 2" stroke="#f97316" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M34 30 Q24 38 14 30" stroke="#f97316" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-    <path d="M16 32l-4-4 4-2" stroke="#f97316" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-    <circle cx="24" cy="24" r="5" fill="#f97316" opacity="0.3" stroke="#f97316" strokeWidth="1.5"/>
-    <text x="24" y="27" textAnchor="middle" fill="#f97316" fontSize="7" fontWeight="bold">$</text>
-  </svg>
-);
-
-const TradingIcon = () => (
-  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="22" fill="#eab308" opacity="0.2"/>
-    <rect x="9" y="27" width="5" height="9" rx="1" fill="#ef4444"/>
-    <line x1="11.5" y1="23" x2="11.5" y2="27" stroke="#ef4444" strokeWidth="1.5"/>
-    <line x1="11.5" y1="36" x2="11.5" y2="39" stroke="#ef4444" strokeWidth="1.5"/>
-    <rect x="17" y="19" width="5" height="13" rx="1" fill="#22c55e"/>
-    <line x1="19.5" y1="14" x2="19.5" y2="19" stroke="#22c55e" strokeWidth="1.5"/>
-    <line x1="19.5" y1="32" x2="19.5" y2="37" stroke="#22c55e" strokeWidth="1.5"/>
-    <rect x="25" y="22" width="5" height="11" rx="1" fill="#22c55e"/>
-    <line x1="27.5" y1="17" x2="27.5" y2="22" stroke="#22c55e" strokeWidth="1.5"/>
-    <path d="M35 18 Q37 12 39 10 Q39 15 37 17 Q38 17 39 15 Q37 19 35 18z" fill="#7c3aed"/>
-  </svg>
-);
-
-
-const APIIcon = () => (
-  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="22" fill="#7c3aed" opacity="0.2"/>
-    <circle cx="16" cy="16" r="4" fill="#7c3aed" stroke="#a78bfa" strokeWidth="1.5"/>
-    <circle cx="32" cy="16" r="4" fill="#7c3aed" stroke="#a78bfa" strokeWidth="1.5"/>
-    <circle cx="24" cy="32" r="4" fill="#7c3aed" stroke="#a78bfa" strokeWidth="1.5"/>
-    <line x1="19" y1="17" x2="29" y2="17" stroke="#a78bfa" strokeWidth="1.5"/>
-    <line x1="17" y1="20" x2="22" y2="29" stroke="#a78bfa" strokeWidth="1.5"/>
-    <line x1="31" y1="20" x2="26" y2="29" stroke="#a78bfa" strokeWidth="1.5"/>
-  </svg>
-);
-
-const AIIcon = () => (
-  <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
-    <circle cx="24" cy="24" r="22" fill="#7c3aed" opacity="0.2"/>
-    <circle cx="24" cy="18" r="7" fill="#7c3aed" opacity="0.8"/>
-    <circle cx="24" cy="18" r="7" stroke="#a78bfa" strokeWidth="1.5" fill="none"/>
-    <circle cx="21" cy="16" r="1.5" fill="white"/>
-    <circle cx="27" cy="16" r="1.5" fill="white"/>
-    <path d="M20 20 Q24 23 28 20" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-    <path d="M14 32 Q14 27 24 27 Q34 27 34 32" fill="#7c3aed" opacity="0.4" stroke="#a78bfa" strokeWidth="1.5"/>
-    <circle cx="16" cy="22" r="2" fill="#14b8a6"/>
-    <circle cx="32" cy="22" r="2" fill="#14b8a6"/>
-    <line x1="16" y1="22" x2="21" y2="18" stroke="#14b8a6" strokeWidth="1" opacity="0.5"/>
-    <line x1="32" y1="22" x2="27" y2="18" stroke="#14b8a6" strokeWidth="1" opacity="0.5"/>
-  </svg>
-);
 const Landing = () => {
-  // const navigate = useNavigate(); // unused after mailto redirect
+  const [filter, setFilter] = useState<'all' | AppKind>('all');
+  const [scrolled, setScrolled] = useState(false);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
+  const counts = useMemo(
+    () => ({
+      all: APPS.length,
+      platform: APPS.filter((a) => a.kind === 'platform').length,
+      tool: APPS.filter((a) => a.kind === 'tool').length,
+    }),
+    [],
+  );
 
-  // Products we SELL — Our Starting Lineup
-  const lineupCategories = [
-    {
-      icon: <AIIcon />,
-      title: 'AI Assistants',
-      color: '#7c3aed',
-      tagline: 'Your AI salesforce — always on, always learning, never tired.',
-      products: ['Sales Follow-Up AI', 'Rep Onboarding AI', 'Customer Support AI', 'Custom AI Builds'],
-      cta: 'See Plans & Pricing',
-      ctaLink: '/ai-assistants.html',
-      external: false,
-    },
-    {
-      icon: <APIIcon />,
-      title: 'API & Infrastructure',
-      color: '#7c3aed',
-      tagline: 'BYOK architecture — zero vendor lock-in, 84–90% gross margin, fully portable.',
-      products: [
-        'OpenRouter — Unified model gateway (BYOK independence)',
-        'OpenAI — Direct GPT-5.5 / Codex access',
-        'Stripe — Payments, subscriptions, affiliate bounties',
-        'Supabase — PostgreSQL, RLS, auth, edge functions',
-        'Mapbox — Live GPS & marine mapping',
-        'ElevenLabs — Voice TTS & narration',
-        'Brevo — Email campaigns & automation',
-        'Brave Search — Web research & real-time data',
-        'Twilio — Voice lines, SMS, crisis detection',
-        'GitHub — CI/CD, repo management',
-        'Vercel — Zero-config deployment, edge hosting',
-        'Lovable — AI rapid dev & prototyping (GitHub-integrated)',
-      ],
-      cta: 'View Tech Stack',
-      ctaLink: '/docs',
-      external: false,
-    },
-    {
-      icon: <SalesIcon />,
-      title: 'APEX Index',
-      color: '#3b82f6',
-      tagline: 'Hire the best closers. Powered by behavioral science built for vacation sales.',
-      products: ['Behavioral Assessment', 'Apex Performer Profile', 'Hire / Do Not Hire Recommendation'],
-      cta: 'Visit APEX Index',
-      ctaLink: 'https://apex-index.com',
-      external: true,
-    },
-    {
-      icon: <TradingIcon />,
-      title: 'Lead to Cash Track',
-      color: '#14b8a6',
-      tagline: 'Full backend financial management — leads, payroll, goals, and stats.',
-      products: ['Sales Volume Dashboard', 'OPC Performance Tracking', 'Payroll & Commission Reports', 'Sales Goals & Analytics'],
-      cta: 'View Platform',
-      ctaLink: 'https://lead-to-cash-track.vercel.app',
-      external: true,
-    },
-    {
-      icon: <MarketplaceIcon />,
-      title: 'Operon Recruit',
-      color: '#f97316',
-      tagline: 'Kanban-style candidate pipeline for hiring vacation sales teams.',
-      products: ['Candidate Tracking', 'Hiring Workflow', 'Interview Calendar', 'Analytics Dashboard'],
-      cta: 'View Platform',
-      ctaLink: 'https://vidarecruitment.vercel.app',
-      external: true,
-    },
-    {
-      icon: <SalesIcon />,
-      title: 'Operon Sales Academy',
-      color: '#10b981',
-      tagline: '30-day structured sales training platform for new and existing reps.',
-      products: ['Day-by-Day Training Modules', 'Lesson Viewer', 'Progress Tracking', 'Training Editor'],
-      cta: 'View Platform',
-      ctaLink: 'https://vida-rep-academy-9d6cda93.vercel.app',
-      external: true,
-    },
-    {
-      icon: <LoyaltyIcon />,
-      title: 'Operon Loyalty',
-      color: '#c9a96e',
-      tagline: 'Digital loyalty card programs for modern businesses.',
-      products: ['Digital Stamp Cards', 'Points & Rewards', 'Merchant Dashboard', 'QR Code Scanning'],
-      cta: 'View Platform',
-      ctaLink: 'https://laralucaloyalty.vercel.app',
-      external: true,
-    },
-    {
-      icon: <MarketplaceIcon />,
-      title: 'Operon Check-In',
-      color: '#6366f1',
-      tagline: 'Member verification and check-in platform with QR codes.',
-      products: ['Member Verification', 'QR Code Scanning', 'Admin Dashboard', 'Promotor Tracking'],
-      cta: 'View Platform',
-      ctaLink: 'https://secure-checkin-confirm.vercel.app',
-      external: true,
-    },
-    {
-      icon: <MarketplaceIcon />,
-      title: 'Operon Guest Care',
-      color: '#ec4899',
-      tagline: 'Guest experience and issue tracking for resorts and hospitality.',
-      products: ['Guest Portal', 'Issue Tracking', 'Analytics Dashboard', 'Staff Management'],
-      cta: 'View Platform',
-      ctaLink: 'https://guest-whisper-care.vercel.app',
-      external: true,
-    },
-    {
-      icon: <TradingIcon />,
-      title: 'Commission Calculator',
-      color: '#84cc16',
-      tagline: 'Sales commission tracking, payroll management and reporting.',
-      products: ['Commission Charts', 'Payroll Manager', 'Company Breakdown', 'Admin Dashboard'],
-      cta: 'View Platform',
-      ctaLink: 'https://antares-travel-club-sales-commission-calc.vercel.app',
-      external: true,
-    },
-    {
-      icon: <TravelIcon />,
-      title: 'TravelWise Vacation Club',
-      color: '#f59e0b',
-      tagline: 'Wholesale travel prices — save up to 70% on luxury vacations.',
-      products: ['Free Online Presentation', 'Wholesale Pricing', '1.2M+ Properties', 'No Blackout Dates'],
-      cta: 'Book Presentation',
-      ctaLink: '/travelwise',
-      external: false,
-    },
-    {
-      icon: <img src="/logbook-logo-official.png" alt="My Logbook" style={{width: 56, height: 56, borderRadius: '12px'}} />,
-      title: 'My Logbook',
-      color: '#0ea5e9',
-      tagline: 'The #1 digital logbook for boats, motorcycles & RVs — track everything, save thousands.',
-      products: ["Captain's Plan — $24.99 setup + $7.99/mo", 'Fleet Plan — $49.99 setup + $9.99/mo', 'Smart Maintenance Reminders', 'Fuel & Engine Hours Tracking', 'Weather Conditions Add-on ($1.99/mo)', 'Marina Finder Add-on ($1.99/mo)', 'Analytics Dashboard', 'PWA — works offline on the water'],
-      cta: 'Visit My Logbook',
-      ctaLink: 'https://my-logbook.io',
-      external: true,
-    },
-    {
-      icon: <span style={{fontSize: 28}}>⛳</span>,
-      title: 'Cart Tracker',
-      color: '#10b981',
-      tagline: 'Real-time GPS fleet tracking for golf carts and small utility vehicles.',
-      products: ['Live Cart Mapping', 'Driver Assignment', 'Automated Cart Numbering'],
-      cta: 'Open Tracker',
-      ctaLink: 'https://carttracker.io',
-      external: true,
-    },
-  ];
+  const visible = useMemo(
+    () => (filter === 'all' ? APPS : APPS.filter((a) => a.kind === filter)),
+    [filter],
+  );
 
-  // Platforms we OWN — Built & Powered by Operon
-  const builtByCategories = [
-    {
-      icon: <HealthIcon />,
-      title: 'Solace Wellness',
-      color: '#6b9b6b',
-      tagline: 'AI wellness coaching — your always-available emotional support',
-      products: ['AI Wellness Coach', '15-Min Free Trial', 'Charity Model'],
-      cta: 'Visit Solace',
-      ctaLink: 'https://solace-wellness.io',
-      external: true,
-    },
-
-    {
-      icon: <TravelIcon />,
-      title: 'TravelWise Booking Console',
-      color: '#0d9488',
-      tagline: 'Book a free presentation and unlock wholesale travel prices — save up to 70%.',
-      products: ['Booking Console', 'Free Online Presentation', 'Member Benefits', 'FAQ'],
-      cta: 'Open Console',
-      ctaLink: '/travelwise',
-      external: false,
-    },
-    {
-      icon: <span style={{fontSize: 28}}>⚓</span>,
-      title: 'My Logbook',
-      color: '#0ea5e9',
-      tagline: 'The #1 digital logbook for boats, motorcycles & RVs — track everything, save thousands',
-      products: [
-        'Captain\'s Plan — $24.99 setup + $7.99/mo (1 vehicle)',
-        'Fleet Plan — $49.99 setup + $9.99/mo (3 vehicles)',
-        'Weather Add-on — $1.99/mo (live marine conditions)',
-        'Marina Finder — $1.99/mo (search, dock & fuel prices)',
-        'Smart Maintenance Reminders',
-        'Engine Hours & Fuel Tracking',
-        'Live Location & Guest Book',
-        'Analytics Dashboard (Admin Mode)',
-        'Editorial & Classic Dashboard Layouts',
-        'PWA — works offline on any device',
-      ],
-      cta: 'Visit My Logbook',
-      ctaLink: 'https://my-logbook.io',
-      external: true,
-    },
-
-
-    {
-      icon: <span style={{fontSize: 28}}>🗺️</span>,
-      title: 'Cart Tracker',
-      color: '#a78bfa',
-      tagline: 'Real-time GPS fleet tracking for golf carts and utility vehicles',
-      products: [
-        'Live GPS Mapping & Tracking',
-        'Driver Assignment & Management',
-        'Maintenance In/Out Service Tracking',
-        'Geofencing & Alerts',
-        'Shift Scheduling & Auto-Assign',
-        'Fleet Usage Reports & Export',
-        'Multi-Property Support',
-        'Starter — $29/mo | Pro — $79/mo | Enterprise — $199/mo',
-      ],
-      cta: 'Visit Cart Tracker',
-      ctaLink: 'https://carttracker.io',
-      external: true,
-    },
-    {
-      icon: <TradingIcon />,
-      title: 'OperonTrader',
-      color: '#eab308',
-      tagline: 'Automated MT5 trading on forex, gold & crypto',
-      products: ['EURUSD', 'GOLD', 'BTCUSD — MT5 Expert Advisor'],
-      cta: 'Download EA',
-      ctaLink: '/OperonTrader.mq5',
-      external: false,
-    },
-    {
-      icon: <TravelIcon />,
-      title: 'TravelWise Vacation Club',
-      color: '#f59e0b',
-      tagline: 'Wholesale travel prices — save up to 70% on luxury vacations',
-      products: ['Free Online Presentation', 'Wholesale Pricing', '1.2M+ Properties'],
-      cta: 'Book Presentation',
-      ctaLink: '/travelwise',
-      external: false,
-    },
-  ];
+  const liveDomains = useMemo(() => APPS.filter((a) => a.domain).length, []);
 
   return (
-    <div style={{ fontFamily: 'Inter, system-ui, sans-serif', background: '#ffffff', minHeight: '100vh' }}>
+    <div className="min-h-screen bg-[#0a0a0f] font-sans antialiased">
+      {/* ---------------------------- NAV ---------------------------- */}
+      <nav
+        className="fixed inset-x-0 top-0 z-50 border-b transition-colors duration-200"
+        style={{
+          background: scrolled ? 'rgba(10,10,15,0.92)' : 'rgba(10,10,15,0.55)',
+          backdropFilter: 'blur(14px)',
+          borderColor: scrolled ? 'rgba(124,58,237,0.28)' : 'transparent',
+        }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+          <Link to="/" className="flex shrink-0 items-center gap-2.5 no-underline">
+            <img src="/operon-badge.png" alt="" className="h-9 w-9 rounded-full object-cover" />
+            <span className="text-lg font-bold text-white">Operon</span>
+          </Link>
 
-      {/* NAV */}
-      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(124,58,237,0.2)', padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-          <img src="/operon-badge.png" alt="Operon" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover' }} />
-          <span style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>Operon</span>
+          <div className="hidden items-center gap-7 md:flex">
+            <a href="#apps" className="text-sm text-gray-400 no-underline transition hover:text-white">Apps</a>
+            <a href="#roi" className="text-sm text-gray-400 no-underline transition hover:text-white">ROI</a>
+            <Link to="/docs" className="text-sm text-gray-400 no-underline transition hover:text-white">Docs</Link>
+            <a
+              href="https://myoperon.io/admin.html"
+              className="text-sm font-semibold text-violet-400 no-underline transition hover:text-violet-300"
+            >
+              Admin
+            </a>
+          </div>
+
+          <a
+            href="mailto:info@myoperon.io?subject=Get%20Started%20with%20Operon"
+            className="shrink-0 whitespace-nowrap rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white no-underline transition hover:bg-violet-700"
+          >
+            Get Started →
+          </a>
         </div>
-        <div style={{ display: 'flex', gap: 16 }}>
-          <a href="#ecosystem" style={{ color: '#9ca3af', fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap' }}>Ecosystem</a>
-          <a href="#platform" style={{ color: '#9ca3af', fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap' }}>Platform</a>
-          <a href="https://myoperon.io/admin.html" style={{ color: '#a78bfa', fontSize: 13, textDecoration: 'none', whiteSpace: 'nowrap', fontWeight: 600 }}>🔐 Admin</a>
-        </div>
-        <button
-          onClick={() => window.location.href = 'mailto:info@myoperon.io?subject=Get Started with Operon'}
-          style={{ background: '#7c3aed', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 14px', fontSize: 13, fontWeight: 600, cursor: 'pointer', flexShrink: 0, whiteSpace: 'nowrap' }}
-        >
-          Get Started →
-        </button>
       </nav>
 
-      {/* HERO */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '120px 40px 80px', background: 'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.3) 0%, rgba(10,10,15,1) 60%)' }}>
-        <img src="/operon-badge.png" alt="Operon" style={{ width: 380, height: 380, marginBottom: 32, borderRadius: '50%', objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 0 80px rgba(124,58,237,0.9))' }} />
+      {/* --------------------------- HERO --------------------------- */}
+      <header className="relative overflow-hidden px-6 pb-20 pt-32 sm:pt-40">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'radial-gradient(ellipse 80% 55% at 50% -10%, rgba(124,58,237,0.32), transparent 70%)' }}
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(124,58,237,0.5), transparent)' }}
+          aria-hidden="true"
+        />
 
-        <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 800, color: '#ffffff', lineHeight: 1.1, marginBottom: 20, maxWidth: 800 }}>
-          Your AI Salesforce<br />
-          <span style={{ background: 'linear-gradient(135deg, #7c3aed, #14b8a6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Platform</span>
-        </h1>
-        <p style={{ fontSize: 20, color: '#9ca3af', marginBottom: 40, maxWidth: 560 }}>
-          One platform. Multiple solutions. Infinite possibilities.
-        </p>
-        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' as const, justifyContent: 'center' }}>
-          <a href="#ecosystem" style={{ background: '#7c3aed', color: '#fff', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, textDecoration: 'none', display: 'inline-block' }}>
-            Explore Our Ecosystem →
-          </a>
-          <button
-            onClick={() => window.location.href = 'mailto:info@myoperon.io'}
-            style={{ background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, cursor: 'pointer' }}
-          >
-            Book a Demo
-          </button>
-        </div>
-      </section>
+        <div className="relative mx-auto max-w-4xl text-center">
+          <img
+            src="/operon-badge.png"
+            alt="Operon"
+            className="mx-auto mb-10 h-40 w-40 object-contain sm:h-56 sm:w-56"
+            style={{ filter: 'drop-shadow(0 0 70px rgba(124,58,237,0.75))' }}
+          />
 
-      {/* STATS BAR */}
-      <div style={{ background: '#1a0a2e', padding: '30px 40px', display: 'flex', justifyContent: 'center', gap: 60, flexWrap: 'wrap' as const, borderTop: '1px solid rgba(124,58,237,0.3)', borderBottom: '1px solid rgba(124,58,237,0.3)' }}>
-        {[
-          { num: '6+', label: 'Products' },
-          { num: '3', label: 'Industries' },
-          { num: 'AI', label: 'Powered' },
-          { num: '24/7', label: 'Active' },
-          { num: '100%', label: 'Yours' },
-        ].map(s => (
-          <div key={s.label} style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 32, fontWeight: 800, color: '#a78bfa' }}>{s.num}</div>
-            <div style={{ fontSize: 12, color: '#6b7280', textTransform: 'uppercase' as const, letterSpacing: 1 }}>{s.label}</div>
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs uppercase tracking-[0.18em] text-violet-300">
+            {counts.all} products · one platform
           </div>
-        ))}
+
+          <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold leading-[1.05] tracking-tight text-white">
+            Your AI Salesforce
+            <br />
+            <span
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: 'linear-gradient(120deg, #a78bfa, #14b8a6)' }}
+            >
+              Platform
+            </span>
+          </h1>
+
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-gray-400">
+            {counts.platform} products we own and run. {counts.tool} tools that run the business behind them.
+          </p>
+
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <a
+              href="#apps"
+              className="rounded-xl bg-violet-600 px-7 py-3.5 font-semibold text-white no-underline shadow-lg shadow-violet-900/40 transition hover:bg-violet-700"
+            >
+              Explore all {counts.all} apps →
+            </a>
+            <a
+              href="mailto:info@myoperon.io?subject=Operon%20Demo"
+              className="rounded-xl border border-white/20 px-7 py-3.5 font-semibold text-white no-underline transition hover:border-white/40 hover:bg-white/5"
+            >
+              Book a Demo
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* -------------------------- STAT BAR -------------------------- */}
+      <div className="border-y border-violet-500/15 bg-[#120a20]">
+        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 px-6 py-8 sm:grid-cols-4">
+          {[
+            { num: String(counts.all), label: 'Apps & sites' },
+            { num: String(liveDomains), label: 'Live domains' },
+            { num: '24/7', label: 'AI powered' },
+            { num: '100%', label: 'BYOK — yours' },
+          ].map((s) => (
+            <div key={s.label} className="text-center">
+              <div className="text-3xl font-extrabold text-violet-300">{s.num}</div>
+              <div className="mt-1 text-xs uppercase tracking-[0.12em] text-gray-500">{s.label}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* ECOSYSTEM */}
-      <section id="ecosystem" style={{ background: '#f9fafb', padding: '80px 40px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 60 }}>
-            <div style={{ display: 'inline-block', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 20, padding: '6px 16px', marginBottom: 16, fontSize: 12, color: '#7c3aed', letterSpacing: 2, textTransform: 'uppercase' as const }}>
-              Our Ecosystem
+      {/* ------------------------- APP SHOWCASE ------------------------- */}
+      <section id="apps" className="scroll-mt-20 px-6 py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="mb-4 inline-block rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs uppercase tracking-[0.18em] text-violet-300">
+              The ecosystem
             </div>
-            <h2 style={{ fontSize: 42, fontWeight: 800, color: '#0a0a0f', marginBottom: 12 }}>Our Starting Lineup</h2>
-            <p style={{ fontSize: 18, color: '#6b7280', maxWidth: 520, margin: '0 auto' }}>
-              Eleven products. One complete sales ecosystem.
+            <h2 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+              Everything we build
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-gray-400">
+              Every app and site under the Operon umbrella — the products we sell, and the
+              platforms that run them.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
-            {lineupCategories.map((cat) => (
-              <div key={cat.title} style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', border: '1px solid #e5e7eb', borderTop: `4px solid ${cat.color}`, transition: 'transform 0.2s', display: 'flex', flexDirection: 'column' as const }}>
-                <div style={{ padding: '28px 28px 0' }}>
-                  <div style={{ marginBottom: 16 }}>{cat.icon}</div>
-                  <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0a0a0f', marginBottom: 6 }}>{cat.title}</h3>
-                  <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 16, lineHeight: 1.6 }}>{cat.tagline}</p>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 20px' }}>
-                    {cat.products.map(p => (
-                      <li key={p} style={{ fontSize: 13, color: '#4b5563', padding: '4px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: cat.color, display: 'inline-block', flexShrink: 0 }} />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div style={{ padding: '0 28px 28px', marginTop: 'auto' }}>
-                  {cat.ctaLink ? (
-                    cat.external ? (
-                      <a href={cat.ctaLink} target="_blank" rel="noopener noreferrer"
-                        style={{ display: 'block', textAlign: 'center', background: cat.color, color: '#fff', padding: '12px', borderRadius: 8, fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
-                        {cat.cta} →
-                      </a>
-                    ) : (
-                      <a href={cat.ctaLink}
-                        style={{ display: 'block', textAlign: 'center', background: cat.color, color: '#fff', padding: '12px', borderRadius: 8, fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
-                        {cat.cta} →
-                      </a>
-                    )
-                  ) : (
-                    <div style={{ textAlign: 'center', background: '#f3f4f6', color: '#9ca3af', padding: '12px', borderRadius: 8, fontWeight: 600, fontSize: 14 }}>
-                      {cat.cta}
-                    </div>
-                  )}
-                </div>
-              </div>
+
+          {/* filter */}
+          <div className="mt-10 flex flex-wrap justify-center gap-2" role="tablist" aria-label="Filter apps">
+            {([
+              ['all', `All ${counts.all}`],
+              ['platform', `${KIND_LABEL.platform} ${counts.platform}`],
+              ['tool', `${KIND_LABEL.tool} ${counts.tool}`],
+            ] as const).map(([key, label]) => {
+              const active = filter === key;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setFilter(key)}
+                  className={`rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
+                    active
+                      ? 'border-violet-500 bg-violet-600 text-white'
+                      : 'border-white/12 bg-white/[0.03] text-gray-400 hover:border-white/25 hover:text-white'
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {visible.map((app) => (
+              <AppCard key={app.id} app={app} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* BUILT & POWERED BY OPERON */}
-      <section style={{ background: '#0a0a0f', padding: '80px 40px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 60 }}>
-            <div style={{ display: 'inline-block', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 20, padding: '6px 16px', marginBottom: 16, fontSize: 12, color: '#a78bfa', letterSpacing: 2, textTransform: 'uppercase' as const }}>
-              Our Own Platforms
-            </div>
-            <h2 style={{ fontSize: 42, fontWeight: 800, color: '#ffffff', marginBottom: 12 }}>Built & Powered by Operon</h2>
-            <p style={{ fontSize: 18, color: '#9ca3af', maxWidth: 520, margin: '0 auto' }}>
-              Platforms we built, own, and run ourselves.
-            </p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
-            {builtByCategories.map((cat) => (
-              <div key={cat.title} style={{ background: '#111118', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(124,58,237,0.15)', borderTop: `4px solid ${cat.color}`, display: 'flex', flexDirection: 'column' as const }}>
-                <div style={{ padding: '28px 28px 0' }}>
-                  <div style={{ marginBottom: 16 }}>{cat.icon}</div>
-                  <h3 style={{ fontSize: 20, fontWeight: 700, color: '#ffffff', marginBottom: 6 }}>{cat.title}</h3>
-                  <p style={{ fontSize: 14, color: '#9ca3af', marginBottom: 16, lineHeight: 1.6 }}>{cat.tagline}</p>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 20px' }}>
-                    {cat.products.map(p => (
-                      <li key={p} style={{ fontSize: 13, color: '#d1d5db', padding: '4px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: cat.color, display: 'inline-block', flexShrink: 0 }} />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div style={{ marginTop: 'auto', padding: '0 28px 28px' }}>
-                  {cat.ctaLink ? (
-                    <a href={cat.ctaLink} target={cat.external ? '_blank' : '_self'} rel="noopener noreferrer"
-                      style={{ display: 'block', textAlign: 'center', padding: '10px', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none', background: 'transparent', color: cat.color, border: `1px solid ${cat.color}` }}>
-                      {cat.cta}
-                    </a>
-                  ) : (
-                    <span style={{ display: 'block', textAlign: 'center', padding: '10px', borderRadius: 8, fontSize: 13, fontWeight: 600, background: '#1f1f2e', color: '#4b5563' }}>
-                      {cat.cta}
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* ---------------------------- ROI ---------------------------- */}
+      <section id="roi" className="scroll-mt-20 bg-white px-6 py-24">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
+            See how much time Operon saves you
+          </h2>
+          <p className="mb-12 mt-4 text-gray-600">Adjust the sliders to see your potential ROI</p>
+          <ROICalculator />
         </div>
       </section>
 
-      {/* 
-        The 'Meet your new team' section has been consolidated into the AI Assistant Portal.
-      */}
-
-      {/* Testimonials Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
+      {/* ------------------------ TESTIMONIALS ------------------------ */}
+      <section className="bg-gray-50 px-6 py-24">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="mb-16 text-center text-3xl font-bold text-gray-900 md:text-4xl">
             Loved by business owners
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid gap-8 md:grid-cols-3">
             <TestimonialCard
               name="Sarah M."
               role="Real Estate Agent, Austin TX"
@@ -620,111 +685,138 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* ROI Calculator Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            See how much time Operon saves you
-          </h2>
-          <p className="text-gray-600 mb-12">Adjust the sliders to see your potential ROI</p>
-          
-          <ROICalculator />
-        </div>
-      </section>
-
-      {/* Follow-Up Automation Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="inline-block bg-violet-100 text-violet-700 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4">New Feature</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Never Lose a Sale After the Close</h2>
-            <p className="text-xl text-gray-500 max-w-2xl mx-auto">Most sales fall apart not at the pitch — but in the silence after signing. Operon automates every touchpoint so your clients feel remembered, valued, and excited.</p>
+      {/* --------------------- FOLLOW-UP AUTOMATION --------------------- */}
+      <section className="bg-white px-6 py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 text-center">
+            <span className="mb-4 inline-block rounded-full bg-violet-100 px-4 py-2 text-xs font-bold uppercase tracking-widest text-violet-700">
+              Flagship feature
+            </span>
+            <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
+              Never Lose a Sale After the Close
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-xl text-gray-500">
+              Most sales fall apart not at the pitch — but in the silence after signing. Operon
+              automates every touchpoint so your clients feel remembered, valued and excited.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left: Features */}
+          <div className="grid items-center gap-12 md:grid-cols-2">
             <div className="space-y-6">
               {[
-                { icon: "📧", title: "Welcome Email in 1 Hour", desc: "Sent automatically from your rep's own email address — warm, personal, and on-brand." },
-                { icon: "📞", title: "Voice Clone Calls", desc: "Your rep's cloned voice (powered by ElevenLabs) calls every client on Day 1. They think it's a real call." },
-                { icon: "🤖", title: "AI FAQ Autoresponder", desc: "Clients text questions 24/7. AI answers instantly. Reps only get notified for escalations." },
-                { icon: "📬", title: "7-Day Email Sequence", desc: "Automated nurture emails from the rep's address — booking tips, benefits reminders, check-ins." },
-                { icon: "🎁", title: "Referral Ask on Day 45", desc: "Happy clients get a personalized referral request at exactly the right moment." },
+                { icon: '📧', title: 'Welcome Email in 1 Hour', desc: "Sent automatically from your rep's own email address — warm, personal and on-brand." },
+                { icon: '📞', title: 'Voice Clone Calls', desc: "Your rep's cloned voice calls every client on Day 1. They think it's a real call." },
+                { icon: '🤖', title: 'AI FAQ Autoresponder', desc: 'Clients text questions 24/7. AI answers instantly. Reps only get notified for escalations.' },
+                { icon: '📬', title: '7-Day Email Sequence', desc: "Automated nurture emails from the rep's address — booking tips, benefits reminders, check-ins." },
+                { icon: '🎁', title: 'Referral Ask on Day 45', desc: 'Happy clients get a personalised referral request at exactly the right moment.' },
               ].map((f) => (
-                <div key={f.title} className="flex gap-4 items-start">
-                  <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">{f.icon}</div>
+                <div key={f.title} className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-violet-100 text-2xl">
+                    {f.icon}
+                  </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">{f.title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
+                    <h3 className="mb-1 font-semibold text-gray-900">{f.title}</h3>
+                    <p className="text-sm leading-relaxed text-gray-500">{f.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Right: Stats + CTA */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Rep does 3 things.</h3>
-              <h3 className="text-xl font-bold text-violet-600 mb-6">AI does the rest.</h3>
-              <div className="space-y-4 mb-8">
+            <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+              <h3 className="mb-2 text-xl font-bold text-gray-900">Rep does 3 things.</h3>
+              <h3 className="mb-6 text-xl font-bold text-violet-600">AI does the rest.</h3>
+              <div className="mb-8 space-y-4">
                 {[
-                  { step: "1", text: "Fill intake form after sale", time: "3 min" },
-                  { step: "2", text: "Photo the contract", time: "30 sec" },
-                  { step: "3", text: "Record voice sample once", time: "5 min (forever)" },
+                  { step: '1', text: 'Fill intake form after sale', time: '3 min' },
+                  { step: '2', text: 'Photo the contract', time: '30 sec' },
+                  { step: '3', text: 'Record voice sample once', time: '5 min (forever)' },
                 ].map((s) => (
-                  <div key={s.step} className="flex items-center gap-4 p-3 bg-gray-50 rounded-xl">
-                    <div className="w-8 h-8 bg-violet-600 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">{s.step}</div>
-                    <span className="text-gray-700 text-sm flex-1">{s.text}</span>
-                    <span className="text-violet-600 text-xs font-semibold">{s.time}</span>
+                  <div key={s.step} className="flex items-center gap-4 rounded-2xl bg-gray-50 p-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">
+                      {s.step}
+                    </div>
+                    <span className="flex-1 text-sm text-gray-700">{s.text}</span>
+                    <span className="text-xs font-semibold text-violet-600">{s.time}</span>
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-3 gap-4 mb-8 text-center">
-                <div className="bg-violet-50 rounded-xl p-3">
-                  <div className="text-2xl font-bold text-violet-600">7</div>
-                  <div className="text-xs text-gray-500">Touchpoints</div>
-                </div>
-                <div className="bg-violet-50 rounded-xl p-3">
-                  <div className="text-2xl font-bold text-violet-600">45</div>
-                  <div className="text-xs text-gray-500">Days covered</div>
-                </div>
-                <div className="bg-violet-50 rounded-xl p-3">
-                  <div className="text-2xl font-bold text-violet-600">$65</div>
-                  <div className="text-xs text-gray-500">Per rep/mo</div>
-                </div>
+              <div className="mb-8 grid grid-cols-3 gap-4 text-center">
+                {[
+                  { v: '7', l: 'Touchpoints' },
+                  { v: '45', l: 'Days covered' },
+                  { v: '$65', l: 'Per rep/mo' },
+                ].map((s) => (
+                  <div key={s.l} className="rounded-2xl bg-violet-50 p-3">
+                    <div className="text-2xl font-bold text-violet-600">{s.v}</div>
+                    <div className="text-xs text-gray-500">{s.l}</div>
+                  </div>
+                ))}
               </div>
-              <a href="/signup" className="block w-full text-center bg-violet-600 text-white py-4 rounded-xl font-semibold hover:bg-violet-700 transition">Get Started Free →</a>
-              <p className="text-center text-xs text-gray-400 mt-3">No credit card required</p>
+              <Link
+                to="/signup"
+                className="block w-full rounded-xl bg-violet-600 py-4 text-center font-semibold text-white no-underline transition hover:bg-violet-700"
+              >
+                Get Started Free →
+              </Link>
+              <p className="mt-3 text-center text-xs text-gray-400">No credit card required</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
-              <div className="flex items-center space-x-2 mb-2">
-                <img src="/operon-badge.png" alt="Operon" style={{ height: 36, width: 36, borderRadius: '50%', objectFit: 'contain' }} />
-                <span className="text-white font-semibold">Operon</span>
+      {/* --------------------------- FOOTER --------------------------- */}
+      <footer className="border-t border-white/10 bg-[#0a0a0f] px-6 py-16">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+            <div>
+              <div className="mb-3 flex items-center gap-2.5">
+                <img src="/operon-badge.png" alt="" className="h-9 w-9 rounded-full object-contain" />
+                <span className="font-bold text-white">Operon</span>
               </div>
               <p className="text-sm text-violet-400">Your AI Salesforce Platform</p>
+              <a
+                href="mailto:info@myoperon.io"
+                className="mt-4 inline-block text-sm text-gray-500 no-underline transition hover:text-white"
+              >
+                info@myoperon.io
+              </a>
             </div>
-            <div className="flex space-x-8">
-              <a href="#" className="hover:text-white transition">Product</a>
-              <a href="#" className="hover:text-white transition">Pricing</a>
-              <Link to="/docs" className="hover:text-white transition">Docs</Link>
-              <a href="#" className="hover:text-white transition">About</a>
-              <a href="#" className="hover:text-white transition">Contact</a>
+
+            <div>
+              <h4 className="mb-4 text-xs uppercase tracking-[0.14em] text-gray-500">Platforms</h4>
+              <ul className="space-y-2.5">
+                {APPS.filter((a) => a.kind === 'platform').map((a) => (
+                  <li key={a.id}>
+                    <a
+                      href={a.href}
+                      {...(a.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="text-sm text-gray-400 no-underline transition hover:text-white"
+                    >
+                      {a.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-4 text-xs uppercase tracking-[0.14em] text-gray-500">Company</h4>
+              <ul className="space-y-2.5">
+                <li><a href="#apps" className="text-sm text-gray-400 no-underline transition hover:text-white">All apps</a></li>
+                <li><Link to="/docs" className="text-sm text-gray-400 no-underline transition hover:text-white">Docs</Link></li>
+                <li><a href="/ai-assistants.html" className="text-sm text-gray-400 no-underline transition hover:text-white">Pricing</a></li>
+                <li><a href="/brand-book.html" className="text-sm text-gray-400 no-underline transition hover:text-white">Brand book</a></li>
+                <li><a href="/resources.html" className="text-sm text-gray-400 no-underline transition hover:text-white">Resources</a></li>
+              </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-            © 2026 Operon. All rights reserved.
+
+          <div className="mt-12 border-t border-white/10 pt-8 text-center text-sm text-gray-500">
+            © {new Date().getFullYear()} Operon. All rights reserved.
           </div>
         </div>
       </footer>
     </div>
-
   );
 };
 
