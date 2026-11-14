@@ -2,16 +2,16 @@ import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
 /* ==================================================================
- * Operon — vertical software studio for vacation ownership.
+ * Operon — parent company. We build software and run it ourselves.
  *
- * Positioning: we build the operational stack a vacation sales floor
- * runs on, proven on a live operation. The owned SaaS portfolio is
- * evidence of delivery speed, not the headline.
+ * Positioning: Operon designs, builds, owns and operates every product
+ * on this page rather than handing work off at launch. Sector-neutral
+ * by intent — the breadth of the portfolio is the proof.
  * ================================================================== */
 
 const GOLD = '#c9a96e';
 
-/* The operator journey. Each stage maps to software already shipped. */
+/* The operations suite. Each stage maps to software already shipped. */
 type Stage = {
   n: string;
   stage: string;
@@ -26,7 +26,7 @@ const STACK: Stage[] = [
     n: '01',
     stage: 'Recruit',
     tool: 'Operon Recruit',
-    blurb: 'Kanban candidate pipeline, interview calendar and hiring analytics built for high-turnover sales floors.',
+    blurb: 'Kanban candidate pipeline, interview calendar and hiring analytics for teams that hire continuously.',
     href: 'https://vidarecruitment.vercel.app',
     external: true,
   },
@@ -34,7 +34,7 @@ const STACK: Stage[] = [
     n: '02',
     stage: 'Assess',
     tool: 'APEX Index',
-    blurb: 'Behavioural assessment scored against vacation sales, not generic B2B. Hire / do-not-hire with a performer profile.',
+    blurb: 'Behavioural assessment that predicts who actually closes, with a performer profile and a clear hire / do-not-hire call.',
     href: 'https://apex-index.com',
     external: true,
   },
@@ -42,7 +42,7 @@ const STACK: Stage[] = [
     n: '03',
     stage: 'Train',
     tool: 'Operon Sales Academy',
-    blurb: 'Thirty days of structured modules, lesson viewer and progress tracking, with the ARDA compliance library alongside.',
+    blurb: 'Thirty days of structured modules, lesson viewer and progress tracking, with a compliance library alongside.',
     href: 'https://vida-rep-academy-9d6cda93.vercel.app',
     external: true,
   },
@@ -50,7 +50,7 @@ const STACK: Stage[] = [
     n: '04',
     stage: 'Sell',
     tool: 'TravelWise Console',
-    blurb: 'Presentation booking and wholesale inventory — the front of the funnel your reps actually work in.',
+    blurb: 'Booking and inventory — the front of the funnel reps actually work in, every day.',
     href: '/travelwise',
     external: false,
   },
@@ -58,7 +58,7 @@ const STACK: Stage[] = [
     n: '05',
     stage: 'Check in',
     tool: 'Operon Check-In',
-    blurb: 'Member verification and QR check-in with promotor attribution, so tours are credited to the right source.',
+    blurb: 'Member verification and QR check-in with source attribution, so every visit is credited to whoever earned it.',
     href: 'https://secure-checkin-confirm.vercel.app',
     external: true,
   },
@@ -66,7 +66,7 @@ const STACK: Stage[] = [
     n: '06',
     stage: 'Service',
     tool: 'Operon Guest Care',
-    blurb: 'Guest portal and issue tracking that catches problems before they reach a review site.',
+    blurb: 'Customer portal and issue tracking that catches problems before they reach a review site.',
     href: 'https://guest-whisper-care.vercel.app',
     external: true,
   },
@@ -82,7 +82,7 @@ const STACK: Stage[] = [
     n: '08',
     stage: 'Report',
     tool: 'Lead to Cash Track',
-    blurb: 'Volume, OPC performance, goals and payroll in one backend, so the floor and the books finally agree.',
+    blurb: 'Volume, rep performance, goals and payroll in one backend, so the team and the books finally agree.',
     href: 'https://lead-to-cash-track.vercel.app',
     external: true,
   },
@@ -119,7 +119,7 @@ const PRODUCTS: Product[] = [
     name: 'APEX Index',
     domain: 'apex-index.com',
     sector: 'Hiring',
-    blurb: 'Behavioural assessment for vacation sales hiring. Also stage 02 of the operator stack.',
+    blurb: 'Behavioural assessment for sales hiring. Also stage 02 of the operations suite.',
     href: 'https://apex-index.com',
     external: true,
   },
@@ -151,8 +151,8 @@ const PRODUCTS: Product[] = [
 /* How we work — capability, with AI in its proper place. */
 const CAPABILITIES = [
   {
-    title: 'Built on a live floor',
-    body: 'Every tool in the stack runs a real vacation sales operation before it is offered to anyone else. We are not guessing at the workflow.',
+    title: 'We run what we ship',
+    body: 'Every tool here operates a live business before it is offered to anyone else. Nothing on this page is a prototype we walked away from.',
   },
   {
     title: 'You own the keys',
@@ -171,9 +171,9 @@ const CAPABILITIES = [
 /* Brand architecture — Operon is the parent; everything below reports to it. */
 const DIVISIONS = [
   {
-    label: 'Operator Stack',
+    label: 'Operations Suite',
     meta: 'Eight stages',
-    blurb: 'The system a vacation sales floor runs on, start to finish.',
+    blurb: 'An end-to-end system for any business that hires, trains and pays a sales team.',
     members: ['Operon Recruit', 'APEX Index', 'Sales Academy', 'TravelWise Console', 'Operon Check-In', 'Operon Guest Care', 'Commission Calculator', 'Lead to Cash Track'],
     href: '#stack',
     external: false,
@@ -610,9 +610,9 @@ const Landing = () => {
               className="font-display max-w-[17ch] text-[clamp(2.6rem,7.2vw,5.6rem)] font-normal leading-[1.03] tracking-[-0.02em]"
               style={{ textWrap: 'balance' } as React.CSSProperties}
             >
-              We build the software that runs{' '}
+              We build software — then we{' '}
               <em className="not-italic" style={{ color: GOLD }}>
-                vacation sales floors
+                run it ourselves
               </em>
               .
             </h1>
@@ -620,22 +620,22 @@ const Landing = () => {
 
           <Reveal delay={160}>
             <p className="mt-9 max-w-[54ch] text-[17px] leading-[1.75] text-[#9a938c] md:text-lg">
-              Recruiting, assessment, training, check-in, guest care, commissions and
-              compliance — eight stages of one operational stack. Built and proven on a live
-              sales operation before it was offered to anyone else.
+              Seventeen products live across fleet, marine, hospitality, health, storage and
+              fintech. Every one designed, built, owned and operated in house — never handed
+              off at launch, never left to someone else to keep running.
             </p>
           </Reveal>
 
           <Reveal delay={240}>
             <div className="mt-12 flex flex-wrap items-center gap-5">
               <a
-                href="#stack"
+                href="#house"
                 className="px-9 py-4 text-[11px] uppercase no-underline transition-all duration-300"
                 style={{ letterSpacing: '0.2em', background: GOLD, color: '#0b0a0c' }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = '#dcc08c'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = GOLD; }}
               >
-                See the stack
+                See the house
               </a>
               <a
                 href="#house"
@@ -688,14 +688,14 @@ const Landing = () => {
         <div className="mx-auto max-w-[1240px]">
           <Reveal>
             <div className="max-w-3xl">
-              <Eyebrow>The operator stack</Eyebrow>
+              <Eyebrow>Operations suite</Eyebrow>
               <h2 className="font-display text-[clamp(2rem,4.4vw,3.4rem)] font-normal leading-[1.1] tracking-[-0.02em]">
                 Eight stages. One system.
               </h2>
               <p className="mt-6 max-w-[58ch] text-[17px] leading-[1.75] text-[#9a938c]">
-                A vacation sales floor runs on the same eight stages everywhere. Most operators
-                stitch them together from six vendors who have never set foot on a floor. We
-                built the whole run, end to end.
+                Hiring, training, paying and reporting on a sales team runs through the same
+                eight stages in every business. Most companies stitch them together from six
+                vendors that do not talk to each other. We built the whole run.
               </p>
             </div>
           </Reveal>
@@ -750,8 +750,8 @@ const Landing = () => {
                 Also shipped.
               </h2>
               <p className="mt-6 max-w-[58ch] text-[17px] leading-[1.75] text-[#9a938c]">
-                Products we own and run outside the vacation stack. They are here as evidence of
-                delivery — marine, fleet, health, storage and fintech, all live.
+                Products we own and operate in their own right, each with its own customers and
+                its own domain — marine, fleet, hiring, storage, health and fintech, all live.
               </p>
             </div>
           </Reveal>
@@ -783,8 +783,8 @@ const Landing = () => {
               Tell us which stage is bleeding.
             </h2>
             <p className="mx-auto mt-7 max-w-[50ch] text-[17px] leading-[1.75] text-[#9a938c]">
-              Most operators know exactly where the leak is — onboarding that takes six weeks,
-              commissions nobody trusts, tours credited to the wrong promotor. Start there.
+              Most teams know exactly where the leak is — onboarding that takes six weeks,
+              commissions nobody trusts, visits credited to the wrong source. Start there.
             </p>
             <div className="mt-12 flex flex-wrap justify-center gap-5">
               <a
@@ -818,7 +818,7 @@ const Landing = () => {
                 <span className="font-display text-xl font-normal">Operon</span>
               </div>
               <p className="mt-5 max-w-[34ch] text-sm leading-relaxed text-[#6f6962]">
-                Software for vacation ownership and hospitality operators.
+                Software built, owned and operated in house.
               </p>
               <a
                 href="mailto:info@myoperon.io"
