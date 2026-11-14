@@ -1,818 +1,739 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-/* ------------------------------------------------------------------ *
- * APP REGISTRY — single source of truth.
- * Every count, filter and card on this page is derived from here, so
- * adding a site means adding one entry and nothing else gets stale.
- *   kind 'platform' = products Operon owns and sells to the public
- *   kind 'tool'     = platforms that run a vacation-sales business
- * ------------------------------------------------------------------ */
-type AppKind = 'platform' | 'tool';
+/* ==================================================================
+ * Operon — vertical software studio for vacation ownership.
+ *
+ * Positioning: we build the operational stack a vacation sales floor
+ * runs on, proven on a live operation. The owned SaaS portfolio is
+ * evidence of delivery speed, not the headline.
+ * ================================================================== */
 
-type AppEntry = {
-  id: string;
-  name: string;
-  kind: AppKind;
-  icon: string;
-  color: string;
-  tagline: string;
-  features: string[];
-  cta: string;
+const GOLD = '#c9a96e';
+
+/* The operator journey. Each stage maps to software already shipped. */
+type Stage = {
+  n: string;
+  stage: string;
+  tool: string;
+  blurb: string;
   href: string;
   external: boolean;
-  domain?: string;
 };
 
-const APPS: AppEntry[] = [
-  // ---------------------------- PLATFORMS ----------------------------
+const STACK: Stage[] = [
   {
-    id: 'logbook',
-    name: 'My Logbook',
-    kind: 'platform',
-    icon: '📓',
-    color: '#0ea5e9',
-    tagline: 'The #1 digital logbook for boats, motorcycles & RVs — track everything, save thousands.',
-    features: [
-      "Captain's Plan — $24.99 setup + $7.99/mo",
-      'Fleet Plan — $49.99 setup + $9.99/mo',
-      'Smart maintenance reminders',
-      'Fuel & engine-hours tracking',
-      'Analytics dashboard',
-      'PWA — works offline on the water',
-    ],
-    cta: 'Visit My Logbook',
-    href: 'https://my-logbook.io',
-    external: true,
-    domain: 'my-logbook.io',
-  },
-  {
-    id: 'carttracker',
-    name: 'Cart Tracker',
-    kind: 'platform',
-    icon: '🛺',
-    color: '#a78bfa',
-    tagline: 'Real-time GPS fleet tracking for golf carts and utility vehicles.',
-    features: [
-      'Live GPS mapping & tracking',
-      'Driver assignment & management',
-      'Maintenance in/out service tracking',
-      'Geofencing & alerts',
-      'Shift scheduling & auto-assign',
-      'Multi-property support',
-      'Starter $29/mo · Pro $79/mo · Enterprise $199/mo',
-    ],
-    cta: 'Open Tracker',
-    href: 'https://carttracker.io',
-    external: true,
-    domain: 'carttracker.io',
-  },
-  {
-    id: 'solace',
-    name: 'Solace Wellness',
-    kind: 'platform',
-    icon: '🌿',
-    color: '#6b9b6b',
-    tagline: 'AI wellness coaching — your always-available emotional support.',
-    features: ['24/7 AI companion', 'Guided check-ins', 'Private by design'],
-    cta: 'Visit Solace',
-    href: 'https://solace-wellness.io',
-    external: true,
-    domain: 'solace-wellness.io',
-  },
-  {
-    id: 'apex',
-    name: 'APEX Index',
-    kind: 'platform',
-    icon: '🎯',
-    color: '#3b82f6',
-    tagline: 'Hire the best closers. Behavioral science built for vacation sales.',
-    features: ['Behavioral assessment', 'Apex Performer Profile', 'Hire / do-not-hire recommendation'],
-    cta: 'Visit APEX Index',
-    href: 'https://apex-index.com',
-    external: true,
-    domain: 'apex-index.com',
-  },
-  {
-    id: 'boxit',
-    name: 'BoxiT',
-    kind: 'platform',
-    icon: '📦',
-    color: '#f59e0b',
-    tagline: 'Storage, simplified.',
-    features: [],
-    cta: 'Visit BoxiT',
-    href: 'https://boxitstorage.io',
-    external: true,
-    domain: 'boxitstorage.io',
-  },
-  {
-    id: 'travelwise',
-    name: 'TravelWise Vacation Club',
-    kind: 'platform',
-    icon: '✈️',
-    color: '#0d9488',
-    tagline: 'Wholesale travel prices — save up to 70% on luxury vacations.',
-    features: ['Free online presentation', 'Wholesale pricing', '1.2M+ properties', 'No blackout dates'],
-    cta: 'Book Presentation',
-    href: '/travelwise',
-    external: false,
-  },
-  {
-    id: 'operontrader',
-    name: 'OperonTrader',
-    kind: 'platform',
-    icon: '📈',
-    color: '#eab308',
-    tagline: 'Automated MT5 trading on forex, gold & crypto.',
-    features: ['ATR-based stops & trailing', 'Session filtering', 'Risk-sized positions'],
-    cta: 'Download EA',
-    href: '/OperonTrader.mq5',
-    external: false,
-  },
-
-  // ------------------------------ TOOLS ------------------------------
-  {
-    id: 'ai-assistants',
-    name: 'AI Assistants',
-    kind: 'tool',
-    icon: '🤖',
-    color: '#7c3aed',
-    tagline: 'Your AI salesforce — always on, always learning, never tired.',
-    features: ['Sales follow-up AI', 'Rep onboarding AI', 'Customer support AI', 'Custom AI builds'],
-    cta: 'See Plans & Pricing',
-    href: '/ai-assistants.html',
-    external: false,
-  },
-  {
-    id: 'api',
-    name: 'API & Infrastructure',
-    kind: 'tool',
-    icon: '⚙️',
-    color: '#8b5cf6',
-    tagline: 'BYOK architecture — zero vendor lock-in, 84–90% gross margin, fully portable.',
-    features: [
-      'OpenRouter — unified model gateway',
-      'Stripe — payments & subscriptions',
-      'Supabase — Postgres, RLS, auth, edge functions',
-      'Mapbox — live GPS & marine mapping',
-      'ElevenLabs — voice TTS & narration',
-      'Twilio — voice lines, SMS, crisis detection',
-      'Vercel — zero-config edge hosting',
-    ],
-    cta: 'View Tech Stack',
-    href: '/docs',
-    external: false,
-  },
-  {
-    id: 'lead-to-cash',
-    name: 'Lead to Cash Track',
-    kind: 'tool',
-    icon: '💰',
-    color: '#14b8a6',
-    tagline: 'Full backend financial management — leads, payroll, goals and stats.',
-    features: ['Sales volume dashboard', 'OPC performance tracking', 'Payroll & commission reports', 'Sales goals & analytics'],
-    cta: 'View Platform',
-    href: 'https://lead-to-cash-track.vercel.app',
-    external: true,
-  },
-  {
-    id: 'recruit',
-    name: 'Operon Recruit',
-    kind: 'tool',
-    icon: '🧑‍💼',
-    color: '#f97316',
-    tagline: 'Kanban-style candidate pipeline for hiring vacation sales teams.',
-    features: ['Candidate tracking', 'Hiring workflow', 'Interview calendar', 'Analytics dashboard'],
-    cta: 'View Platform',
+    n: '01',
+    stage: 'Recruit',
+    tool: 'Operon Recruit',
+    blurb: 'Kanban candidate pipeline, interview calendar and hiring analytics built for high-turnover sales floors.',
     href: 'https://vidarecruitment.vercel.app',
     external: true,
   },
   {
-    id: 'academy',
-    name: 'Operon Sales Academy',
-    kind: 'tool',
-    icon: '🎓',
-    color: '#10b981',
-    tagline: '30-day structured sales training for new and existing reps.',
-    features: ['Day-by-day training modules', 'Lesson viewer', 'Progress tracking', 'Training editor'],
-    cta: 'View Platform',
+    n: '02',
+    stage: 'Assess',
+    tool: 'APEX Index',
+    blurb: 'Behavioural assessment scored against vacation sales, not generic B2B. Hire / do-not-hire with a performer profile.',
+    href: 'https://apex-index.com',
+    external: true,
+  },
+  {
+    n: '03',
+    stage: 'Train',
+    tool: 'Operon Sales Academy',
+    blurb: 'Thirty days of structured modules, lesson viewer and progress tracking, with the ARDA compliance library alongside.',
     href: 'https://vida-rep-academy-9d6cda93.vercel.app',
     external: true,
   },
   {
-    id: 'loyalty',
-    name: 'Operon Loyalty',
-    kind: 'tool',
-    icon: '🎟️',
-    color: '#c9a96e',
-    tagline: 'Digital loyalty card programs for modern businesses.',
-    features: ['Digital stamp cards', 'Points & rewards', 'Merchant dashboard', 'QR code scanning'],
-    cta: 'View Platform',
-    href: 'https://laralucaloyalty.vercel.app',
-    external: true,
+    n: '04',
+    stage: 'Sell',
+    tool: 'TravelWise Console',
+    blurb: 'Presentation booking and wholesale inventory — the front of the funnel your reps actually work in.',
+    href: '/travelwise',
+    external: false,
   },
   {
-    id: 'checkin',
-    name: 'Operon Check-In',
-    kind: 'tool',
-    icon: '✅',
-    color: '#6366f1',
-    tagline: 'Member verification and check-in with QR codes.',
-    features: ['Member verification', 'QR code scanning', 'Admin dashboard', 'Promotor tracking'],
-    cta: 'View Platform',
+    n: '05',
+    stage: 'Check in',
+    tool: 'Operon Check-In',
+    blurb: 'Member verification and QR check-in with promotor attribution, so tours are credited to the right source.',
     href: 'https://secure-checkin-confirm.vercel.app',
     external: true,
   },
   {
-    id: 'guestcare',
-    name: 'Operon Guest Care',
-    kind: 'tool',
-    icon: '🛎️',
-    color: '#ec4899',
-    tagline: 'Guest experience and issue tracking for resorts and hospitality.',
-    features: ['Guest portal', 'Issue tracking', 'Analytics dashboard', 'Staff management'],
-    cta: 'View Platform',
+    n: '06',
+    stage: 'Service',
+    tool: 'Operon Guest Care',
+    blurb: 'Guest portal and issue tracking that catches problems before they reach a review site.',
     href: 'https://guest-whisper-care.vercel.app',
     external: true,
   },
   {
-    id: 'commissions',
-    name: 'Commission Calculator',
-    kind: 'tool',
-    icon: '🧮',
-    color: '#84cc16',
-    tagline: 'Sales commission tracking, payroll management and reporting.',
-    features: ['Commission charts', 'Payroll manager', 'Company breakdown', 'Admin dashboard'],
-    cta: 'View Platform',
+    n: '07',
+    stage: 'Pay',
+    tool: 'Commission Calculator',
+    blurb: 'Commission charts, payroll runs and company breakdowns — the part that ends arguments on Monday morning.',
     href: 'https://antares-travel-club-sales-commission-calc.vercel.app',
     external: true,
   },
   {
-    id: 'arda',
-    name: 'ARDA Materials',
-    kind: 'tool',
-    icon: '📚',
-    color: '#94a3b8',
-    tagline: 'Training and compliance material library for vacation ownership teams.',
-    features: ['Pitchman training manual', 'Compliance references', 'Downloadable assets'],
-    cta: 'Open Library',
-    href: 'https://arda-materials.vercel.app',
+    n: '08',
+    stage: 'Report',
+    tool: 'Lead to Cash Track',
+    blurb: 'Volume, OPC performance, goals and payroll in one backend, so the floor and the books finally agree.',
+    href: 'https://lead-to-cash-track.vercel.app',
     external: true,
   },
 ];
 
-const KIND_LABEL: Record<AppKind, string> = {
-  platform: 'Our Platforms',
-  tool: 'Business Tools',
+/* Owned SaaS — proof of delivery across verticals. */
+type Product = {
+  name: string;
+  domain?: string;
+  sector: string;
+  blurb: string;
+  href: string;
+  external: boolean;
 };
 
-/* ---------------------------- components ---------------------------- */
+const PRODUCTS: Product[] = [
+  {
+    name: 'My Logbook',
+    domain: 'my-logbook.io',
+    sector: 'Marine & RV',
+    blurb: 'Digital logbook for boats, motorcycles and RVs. Maintenance reminders, fuel and engine hours, offline-capable.',
+    href: 'https://my-logbook.io',
+    external: true,
+  },
+  {
+    name: 'Cart Tracker',
+    domain: 'carttracker.io',
+    sector: 'Fleet',
+    blurb: 'Live GPS tracking for golf carts and utility vehicles, with geofencing, shift scheduling and multi-property support.',
+    href: 'https://carttracker.io',
+    external: true,
+  },
+  {
+    name: 'APEX Index',
+    domain: 'apex-index.com',
+    sector: 'Hiring',
+    blurb: 'Behavioural assessment for vacation sales hiring. Also stage 02 of the operator stack.',
+    href: 'https://apex-index.com',
+    external: true,
+  },
+  {
+    name: 'BoxiT',
+    domain: 'boxitstorage.io',
+    sector: 'Storage',
+    blurb: 'Storage, simplified.',
+    href: 'https://boxitstorage.io',
+    external: true,
+  },
+  {
+    name: 'Solace Wellness',
+    domain: 'solace-wellness.io',
+    sector: 'Health',
+    blurb: 'AI wellness coaching with guided check-ins and a 24/7 companion, built private by design.',
+    href: 'https://solace-wellness.io',
+    external: true,
+  },
+  {
+    name: 'OperonTrader',
+    sector: 'Fintech',
+    blurb: 'Automated MT5 execution on forex, gold and crypto with ATR-based risk sizing and session filtering.',
+    href: '/OperonTrader.mq5',
+    external: false,
+  },
+];
 
-function AppCard({ app }: { app: AppEntry }) {
-  const [hover, setHover] = useState(false);
-  const shown = app.features.slice(0, 5);
-  const rest = app.features.length - shown.length;
+/* How we work — capability, with AI in its proper place. */
+const CAPABILITIES = [
+  {
+    title: 'Built on a live floor',
+    body: 'Every tool in the stack runs a real vacation sales operation before it is offered to anyone else. We are not guessing at the workflow.',
+  },
+  {
+    title: 'You own the keys',
+    body: 'BYOK architecture throughout — your model keys, your Stripe, your Supabase. No vendor lock-in and nothing held hostage.',
+  },
+  {
+    title: 'AI where it pays',
+    body: 'Voice-cloned follow-up calls, a 24/7 FAQ autoresponder, automated nurture sequences. Applied where it returns money, not sprinkled for a headline.',
+  },
+  {
+    title: 'Shipped, not promised',
+    body: 'Seventeen products live across six sectors. The portfolio below is the reference — look at it before you brief us.',
+  },
+];
 
-  const body = (
-    <>
-      <div className="flex items-start gap-4">
-        <div
-          className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-3xl"
-          style={{ background: `${app.color}1f`, border: `1px solid ${app.color}40` }}
-          aria-hidden="true"
-        >
-          {app.icon}
-        </div>
-        <div className="min-w-0 flex-1">
-          <h3 className="truncate text-lg font-bold text-white">{app.name}</h3>
-          {app.domain && (
-            <span className="font-mono text-xs" style={{ color: app.color }}>
-              {app.domain}
-            </span>
-          )}
-        </div>
-      </div>
+/* ------------------------------ atoms ------------------------------ */
 
-      <p className="mt-4 text-sm leading-relaxed text-gray-400">{app.tagline}</p>
-
-      {shown.length > 0 && (
-        <ul className="mt-5 space-y-2">
-          {shown.map((f) => (
-            <li key={f} className="flex items-start gap-2.5 text-[13px] leading-snug text-gray-300">
-              <span
-                className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full"
-                style={{ background: app.color }}
-              />
-              <span className="min-w-0">{f}</span>
-            </li>
-          ))}
-          {rest > 0 && (
-            <li className="pl-4 text-[13px] text-gray-500">+{rest} more</li>
-          )}
-        </ul>
-      )}
-
-      <div className="mt-auto pt-6">
-        <div
-          className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition-colors"
-          style={{
-            background: hover ? app.color : `${app.color}1a`,
-            color: hover ? '#0a0a0f' : app.color,
-          }}
-        >
-          <span>{app.cta}</span>
-          <span aria-hidden="true">→</span>
-        </div>
-      </div>
-    </>
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      className="mb-5 text-[11px] font-medium uppercase"
+      style={{ letterSpacing: '0.28em', color: GOLD }}
+    >
+      {children}
+    </div>
   );
+}
 
-  const shell =
-    'group flex h-full flex-col rounded-3xl border p-6 text-left no-underline transition-transform duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0f]';
+function Rule() {
+  return (
+    <div
+      className="h-px w-full"
+      style={{ background: `linear-gradient(90deg, ${GOLD}55, transparent)` }}
+    />
+  );
+}
 
-  const style = {
-    background: 'linear-gradient(180deg, #14141c 0%, #0f0f16 100%)',
-    borderColor: hover ? `${app.color}66` : 'rgba(255,255,255,0.08)',
-    transform: hover ? 'translateY(-4px)' : 'none',
-    boxShadow: hover ? `0 18px 40px -12px ${app.color}59` : '0 1px 2px rgba(0,0,0,0.4)',
-    ['--tw-ring-color' as string]: app.color,
-  } as React.CSSProperties;
+/** Fades children in once, when they first scroll into view. */
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
 
-  const handlers = {
-    onMouseEnter: () => setHover(true),
-    onMouseLeave: () => setHover(false),
-    onFocus: () => setHover(true),
-    onBlur: () => setHover(false),
-  };
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setShown(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setShown(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '-40px' },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
-  if (app.external) {
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: shown ? 1 : 0,
+        transform: shown ? 'none' : 'translateY(14px)',
+        transition: `opacity 700ms ease ${delay}ms, transform 700ms cubic-bezier(.2,.7,.3,1) ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Outbound({
+  href,
+  external,
+  className,
+  children,
+}: {
+  href: string;
+  external: boolean;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  if (external) {
     return (
-      <a href={app.href} target="_blank" rel="noopener noreferrer" className={shell} style={style} {...handlers}>
-        {body}
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {children}
       </a>
     );
   }
-  if (app.href.startsWith('/') && !app.href.includes('.')) {
+  if (href.startsWith('/') && !href.includes('.')) {
     return (
-      <Link to={app.href} className={shell} style={style} {...handlers}>
-        {body}
+      <Link to={href} className={className}>
+        {children}
       </Link>
     );
   }
   return (
-    <a href={app.href} className={shell} style={style} {...handlers}>
-      {body}
+    <a href={href} className={className}>
+      {children}
     </a>
   );
 }
 
-function TestimonialCard({ name, role, stars, quote }: { name: string; role: string; stars: number; quote: string }) {
-  const initials = name.split(' ').map((n) => n[0]).join('');
+/* ----------------------------- sections ----------------------------- */
+
+function StageRow({ s }: { s: Stage }) {
+  const [hover, setHover] = useState(false);
   return (
-    <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm transition hover:shadow-md">
-      <div className="mb-6 flex items-center">
-        <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-violet-600">
-          <span className="text-sm font-semibold text-white">{initials}</span>
-        </div>
-        <div className="text-left">
-          <div className="font-semibold text-gray-900">{name}</div>
-          <div className="text-sm text-gray-500">{role}</div>
-        </div>
+    <Outbound
+      href={s.href}
+      external={s.external}
+      className="group block no-underline"
+    >
+      <div
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onFocus={() => setHover(true)}
+        onBlur={() => setHover(false)}
+        className="grid grid-cols-1 gap-x-10 gap-y-3 px-3 py-8 transition-colors duration-300 sm:grid-cols-[auto_1fr] md:grid-cols-[auto_minmax(170px,210px)_1fr_auto] md:items-baseline"
+        style={{
+          borderTop: '1px solid rgba(246,242,235,0.09)',
+          background: hover ? 'rgba(201,169,110,0.04)' : 'transparent',
+        }}
+      >
+        <span
+          className="font-display text-sm"
+          style={{ color: hover ? GOLD : 'rgba(201,169,110,0.45)', transition: 'color 300ms' }}
+        >
+          {s.n}
+        </span>
+
+        <h3 className="font-display text-2xl font-normal tracking-tight text-[#f6f2eb] md:text-[26px]">
+          {s.stage}
+        </h3>
+
+        <p className="max-w-xl text-[15px] leading-relaxed text-[#9a938c]">
+          {s.blurb}
+        </p>
+
+        <span
+          className="flex items-center gap-2 whitespace-nowrap text-xs uppercase"
+          style={{
+            letterSpacing: '0.16em',
+            color: hover ? GOLD : '#6f6962',
+            transition: 'color 300ms',
+          }}
+        >
+          {s.tool}
+          <span
+            aria-hidden="true"
+            style={{
+              transform: hover ? 'translateX(3px)' : 'none',
+              transition: 'transform 300ms cubic-bezier(.2,.7,.3,1)',
+            }}
+          >
+            →
+          </span>
+        </span>
       </div>
-      <div className="mb-4 flex text-yellow-400" aria-label={`${stars} out of 5 stars`}>
-        {[...Array(stars)].map((_, i) => (
-          <span key={i} className="text-sm">★</span>
-        ))}
-      </div>
-      <p className="italic text-gray-600">"{quote}"</p>
-    </div>
+    </Outbound>
   );
 }
 
-function ROICalculator() {
-  const [leads, setLeads] = useState(50);
-  const [emails, setEmails] = useState(20);
-
-  const hoursSavedValue = leads * 0.3 + emails * 0.1;
-  const hoursSaved = hoursSavedValue.toFixed(1);
-  const revenueRecovered = Math.round(hoursSavedValue * 150);
-  const roi = Math.round(((revenueRecovered - 99) / 99) * 100);
-
+function ProductCard({ p }: { p: Product }) {
+  const [hover, setHover] = useState(false);
   return (
-    <div className="rounded-3xl bg-gray-50 p-8">
-      <div className="space-y-8">
-        <div>
-          <label htmlFor="roi-leads" className="mb-2 block text-left font-medium text-gray-700">
-            How many leads per week? <span className="text-violet-600">{leads}</span>
-          </label>
-          <input
-            id="roi-leads"
-            type="range"
-            min="10"
-            max="200"
-            value={leads}
-            onChange={(e) => setLeads(parseInt(e.target.value))}
-            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-violet-600"
-          />
-        </div>
-        <div>
-          <label htmlFor="roi-emails" className="mb-2 block text-left font-medium text-gray-700">
-            How many support emails per day? <span className="text-violet-600">{emails}</span>
-          </label>
-          <input
-            id="roi-emails"
-            type="range"
-            min="5"
-            max="100"
-            value={emails}
-            onChange={(e) => setEmails(parseInt(e.target.value))}
-            className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-violet-600"
-          />
-        </div>
-        <div className="grid grid-cols-1 gap-6 text-center md:grid-cols-3">
-          {[
-            { v: `${hoursSaved} hrs`, l: 'Hours saved per week' },
-            { v: `$${revenueRecovered.toLocaleString()}`, l: 'Estimated revenue recovered' },
-            { v: `${roi}%`, l: 'Your ROI' },
-          ].map((s) => (
-            <div key={s.l} className="rounded-2xl bg-white p-4 shadow-sm">
-              <div className="text-2xl font-bold text-violet-600">{s.v}</div>
-              <div className="text-sm text-gray-500">{s.l}</div>
-            </div>
-          ))}
-        </div>
-        <Link
-          to="/signup"
-          className="mt-4 inline-block rounded-xl bg-violet-600 px-8 py-4 text-lg font-medium text-white no-underline shadow-lg shadow-violet-200 transition hover:bg-violet-700"
+    <Outbound
+      href={p.href}
+      external={p.external}
+      className="no-underline"
+    >
+      <article
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onFocus={() => setHover(true)}
+        onBlur={() => setHover(false)}
+        className="flex h-full flex-col p-8 transition-transform duration-500"
+        style={{
+          background: hover
+            ? 'linear-gradient(170deg, #1a1713 0%, #121011 100%)'
+            : 'linear-gradient(170deg, #141216 0%, #0f0e10 100%)',
+          border: `1px solid ${hover ? 'rgba(201,169,110,0.34)' : 'rgba(246,242,235,0.07)'}`,
+          transform: hover ? 'translateY(-5px)' : 'none',
+          transition: 'transform 500ms cubic-bezier(.2,.7,.3,1), border-color 400ms, background 400ms',
+        }}
+      >
+        <span
+          className="mb-6 text-[10px] uppercase"
+          style={{ letterSpacing: '0.24em', color: GOLD }}
         >
-          Start saving time today →
-        </Link>
-      </div>
-    </div>
+          {p.sector}
+        </span>
+
+        <h3 className="font-display text-[28px] font-normal leading-tight text-[#f6f2eb]">
+          {p.name}
+        </h3>
+
+        {p.domain && (
+          <span className="mt-1.5 font-mono text-xs text-[#6f6962]">{p.domain}</span>
+        )}
+
+        <p className="mt-5 flex-1 text-[15px] leading-relaxed text-[#9a938c]">{p.blurb}</p>
+
+        <div className="mt-8">
+          <span
+            className="inline-flex items-center gap-2 pb-1 text-xs uppercase"
+            style={{
+              letterSpacing: '0.16em',
+              color: hover ? GOLD : '#8a837b',
+              borderBottom: `1px solid ${hover ? GOLD : 'transparent'}`,
+              transition: 'color 300ms, border-color 300ms',
+            }}
+          >
+            Visit
+            <span
+              aria-hidden="true"
+              style={{
+                transform: hover ? 'translateX(3px)' : 'none',
+                transition: 'transform 300ms cubic-bezier(.2,.7,.3,1)',
+              }}
+            >
+              →
+            </span>
+          </span>
+        </div>
+      </article>
+    </Outbound>
   );
 }
 
 /* ------------------------------- page ------------------------------- */
 
 const Landing = () => {
-  const [filter, setFilter] = useState<'all' | AppKind>('all');
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const counts = useMemo(
-    () => ({
-      all: APPS.length,
-      platform: APPS.filter((a) => a.kind === 'platform').length,
-      tool: APPS.filter((a) => a.kind === 'tool').length,
-    }),
-    [],
-  );
-
-  const visible = useMemo(
-    () => (filter === 'all' ? APPS : APPS.filter((a) => a.kind === filter)),
-    [filter],
-  );
-
-  const liveDomains = useMemo(() => APPS.filter((a) => a.domain).length, []);
-
   return (
-    <div className="min-h-screen bg-[#0a0a0f] font-sans antialiased">
-      {/* ---------------------------- NAV ---------------------------- */}
+    <div className="min-h-screen bg-[#0b0a0c] text-[#f6f2eb] antialiased">
+      {/* ------------------------------ NAV ------------------------------ */}
       <nav
-        className="fixed inset-x-0 top-0 z-50 border-b transition-colors duration-200"
+        className="fixed inset-x-0 top-0 z-50 transition-all duration-300"
         style={{
-          background: scrolled ? 'rgba(10,10,15,0.92)' : 'rgba(10,10,15,0.55)',
-          backdropFilter: 'blur(14px)',
-          borderColor: scrolled ? 'rgba(124,58,237,0.28)' : 'transparent',
+          background: scrolled ? 'rgba(11,10,12,0.88)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(16px) saturate(140%)' : 'none',
+          borderBottom: `1px solid ${scrolled ? 'rgba(201,169,110,0.16)' : 'transparent'}`,
         }}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          <Link to="/" className="flex shrink-0 items-center gap-2.5 no-underline">
-            <img src="/operon-badge.png" alt="" className="h-9 w-9 rounded-full object-cover" />
-            <span className="text-lg font-bold text-white">Operon</span>
+        <div className="mx-auto flex max-w-[1240px] items-center justify-between px-6 py-5 lg:px-10">
+          <Link to="/" className="flex shrink-0 items-center gap-3 no-underline">
+            <img src="/operon-badge.png" alt="" className="h-8 w-8 rounded-full object-cover" />
+            <span
+              className="font-display text-xl font-normal text-[#f6f2eb]"
+              style={{ letterSpacing: '0.01em' }}
+            >
+              Operon
+            </span>
           </Link>
 
-          <div className="hidden items-center gap-7 md:flex">
-            <a href="#apps" className="text-sm text-gray-400 no-underline transition hover:text-white">Apps</a>
-            <a href="#roi" className="text-sm text-gray-400 no-underline transition hover:text-white">ROI</a>
-            <Link to="/docs" className="text-sm text-gray-400 no-underline transition hover:text-white">Docs</Link>
-            <a
-              href="https://myoperon.io/admin.html"
-              className="text-sm font-semibold text-violet-400 no-underline transition hover:text-violet-300"
-            >
-              Admin
-            </a>
+          <div className="hidden items-center gap-10 md:flex">
+            {[
+              ['The stack', '#stack'],
+              ['Portfolio', '#portfolio'],
+              ['Approach', '#approach'],
+            ].map(([label, href]) => (
+              <a
+                key={href}
+                href={href}
+                className="text-[11px] uppercase text-[#9a938c] no-underline transition-colors duration-300 hover:text-[#f6f2eb]"
+                style={{ letterSpacing: '0.2em' }}
+              >
+                {label}
+              </a>
+            ))}
           </div>
 
           <a
-            href="mailto:info@myoperon.io?subject=Get%20Started%20with%20Operon"
-            className="shrink-0 whitespace-nowrap rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white no-underline transition hover:bg-violet-700"
+            href="mailto:info@myoperon.io?subject=Operon%20enquiry"
+            className="shrink-0 border px-6 py-2.5 text-[11px] uppercase no-underline transition-all duration-300"
+            style={{
+              letterSpacing: '0.2em',
+              borderColor: 'rgba(201,169,110,0.4)',
+              color: GOLD,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = GOLD;
+              e.currentTarget.style.color = '#0b0a0c';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = GOLD;
+            }}
           >
-            Get Started →
+            Start a project
           </a>
         </div>
       </nav>
 
-      {/* --------------------------- HERO --------------------------- */}
-      <header className="relative overflow-hidden px-6 pb-20 pt-32 sm:pt-40">
+      {/* ------------------------------ HERO ------------------------------ */}
+      <header className="grain relative flex min-h-screen items-center overflow-hidden px-6 pb-24 pt-36 lg:px-10">
         <div
+          aria-hidden="true"
           className="pointer-events-none absolute inset-0"
-          style={{ background: 'radial-gradient(ellipse 80% 55% at 50% -10%, rgba(124,58,237,0.32), transparent 70%)' }}
-          aria-hidden="true"
-        />
-        <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(124,58,237,0.5), transparent)' }}
-          aria-hidden="true"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 50% at 18% 0%, rgba(201,169,110,0.14), transparent 62%), radial-gradient(ellipse 60% 45% at 85% 100%, rgba(139,92,246,0.10), transparent 60%)',
+          }}
         />
 
-        <div className="relative mx-auto max-w-4xl text-center">
-          <img
-            src="/operon-badge.png"
-            alt="Operon"
-            className="mx-auto mb-10 h-40 w-40 object-contain sm:h-56 sm:w-56"
-            style={{ filter: 'drop-shadow(0 0 70px rgba(124,58,237,0.75))' }}
-          />
+        <div className="relative mx-auto w-full max-w-[1240px]">
+          <Reveal>
+            <Eyebrow>Vacation ownership · Hospitality</Eyebrow>
+          </Reveal>
 
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs uppercase tracking-[0.18em] text-violet-300">
-            {counts.all} products · one platform
-          </div>
-
-          <h1 className="text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold leading-[1.05] tracking-tight text-white">
-            Your AI Salesforce
-            <br />
-            <span
-              className="bg-clip-text text-transparent"
-              style={{ backgroundImage: 'linear-gradient(120deg, #a78bfa, #14b8a6)' }}
+          <Reveal delay={80}>
+            <h1
+              className="font-display max-w-[17ch] text-[clamp(2.6rem,7.2vw,5.6rem)] font-normal leading-[1.03] tracking-[-0.02em]"
+              style={{ textWrap: 'balance' } as React.CSSProperties}
             >
-              Platform
-            </span>
-          </h1>
+              We build the software that runs{' '}
+              <em className="not-italic" style={{ color: GOLD }}>
+                vacation sales floors
+              </em>
+              .
+            </h1>
+          </Reveal>
 
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-gray-400">
-            {counts.platform} products we own and run. {counts.tool} tools that run the business behind them.
-          </p>
+          <Reveal delay={160}>
+            <p className="mt-9 max-w-[54ch] text-[17px] leading-[1.75] text-[#9a938c] md:text-lg">
+              Recruiting, assessment, training, check-in, guest care, commissions and
+              compliance — eight stages of one operational stack. Built and proven on a live
+              sales operation before it was offered to anyone else.
+            </p>
+          </Reveal>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <a
-              href="#apps"
-              className="rounded-xl bg-violet-600 px-7 py-3.5 font-semibold text-white no-underline shadow-lg shadow-violet-900/40 transition hover:bg-violet-700"
-            >
-              Explore all {counts.all} apps →
-            </a>
-            <a
-              href="mailto:info@myoperon.io?subject=Operon%20Demo"
-              className="rounded-xl border border-white/20 px-7 py-3.5 font-semibold text-white no-underline transition hover:border-white/40 hover:bg-white/5"
-            >
-              Book a Demo
-            </a>
-          </div>
+          <Reveal delay={240}>
+            <div className="mt-12 flex flex-wrap items-center gap-5">
+              <a
+                href="#stack"
+                className="px-9 py-4 text-[11px] uppercase no-underline transition-all duration-300"
+                style={{ letterSpacing: '0.2em', background: GOLD, color: '#0b0a0c' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = '#dcc08c'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = GOLD; }}
+              >
+                See the stack
+              </a>
+              <a
+                href="#portfolio"
+                className="inline-flex items-center gap-2.5 text-[11px] uppercase text-[#9a938c] no-underline transition-colors duration-300 hover:text-[#f6f2eb]"
+                style={{ letterSpacing: '0.2em' }}
+              >
+                Seventeen shipped products
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </Reveal>
         </div>
       </header>
 
-      {/* -------------------------- STAT BAR -------------------------- */}
-      <div className="border-y border-violet-500/15 bg-[#120a20]">
-        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 px-6 py-8 sm:grid-cols-4">
+      {/* --------------------------- PROOF STRIP --------------------------- */}
+      <section className="border-y border-[rgba(201,169,110,0.14)] bg-[#0e0d0f]">
+        <div className="mx-auto grid max-w-[1240px] grid-cols-2 px-6 lg:grid-cols-4 lg:px-10">
           {[
-            { num: String(counts.all), label: 'Apps & sites' },
-            { num: String(liveDomains), label: 'Live domains' },
-            { num: '24/7', label: 'AI powered' },
-            { num: '100%', label: 'BYOK — yours' },
-          ].map((s) => (
-            <div key={s.label} className="text-center">
-              <div className="text-3xl font-extrabold text-violet-300">{s.num}</div>
-              <div className="mt-1 text-xs uppercase tracking-[0.12em] text-gray-500">{s.label}</div>
+            ['17', 'Products shipped'],
+            ['8', 'Stages covered'],
+            ['6', 'Sectors'],
+            ['100%', 'Keys stay yours'],
+          ].map(([n, l], i) => (
+            <div
+              key={l}
+              className="px-2 py-10"
+              style={{
+                borderLeft: i === 0 ? 'none' : '1px solid rgba(246,242,235,0.07)',
+              }}
+            >
+              <div className="font-display text-[44px] font-light leading-none" style={{ color: GOLD }}>
+                {n}
+              </div>
+              <div
+                className="mt-3 text-[10px] uppercase text-[#6f6962]"
+                style={{ letterSpacing: '0.2em' }}
+              >
+                {l}
+              </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* ------------------------- APP SHOWCASE ------------------------- */}
-      <section id="apps" className="scroll-mt-20 px-6 py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <div className="mb-4 inline-block rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs uppercase tracking-[0.18em] text-violet-300">
-              The ecosystem
+      {/* ----------------------------- THE STACK ----------------------------- */}
+      <section id="stack" className="scroll-mt-24 px-6 py-28 lg:px-10 lg:py-36">
+        <div className="mx-auto max-w-[1240px]">
+          <Reveal>
+            <div className="max-w-3xl">
+              <Eyebrow>The operator stack</Eyebrow>
+              <h2 className="font-display text-[clamp(2rem,4.4vw,3.4rem)] font-normal leading-[1.1] tracking-[-0.02em]">
+                Eight stages. One system.
+              </h2>
+              <p className="mt-6 max-w-[58ch] text-[17px] leading-[1.75] text-[#9a938c]">
+                A vacation sales floor runs on the same eight stages everywhere. Most operators
+                stitch them together from six vendors who have never set foot on a floor. We
+                built the whole run, end to end.
+              </p>
             </div>
-            <h2 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-              Everything we build
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed text-gray-400">
-              Every app and site under the Operon umbrella — the products we sell, and the
-              platforms that run them.
-            </p>
-          </div>
+          </Reveal>
 
-          {/* filter */}
-          <div className="mt-10 flex flex-wrap justify-center gap-2" role="tablist" aria-label="Filter apps">
-            {([
-              ['all', `All ${counts.all}`],
-              ['platform', `${KIND_LABEL.platform} ${counts.platform}`],
-              ['tool', `${KIND_LABEL.tool} ${counts.tool}`],
-            ] as const).map(([key, label]) => {
-              const active = filter === key;
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => setFilter(key)}
-                  className={`rounded-full border px-5 py-2.5 text-sm font-semibold transition ${
-                    active
-                      ? 'border-violet-500 bg-violet-600 text-white'
-                      : 'border-white/12 bg-white/[0.03] text-gray-400 hover:border-white/25 hover:text-white'
-                  }`}
-                >
-                  {label}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {visible.map((app) => (
-              <AppCard key={app.id} app={app} />
+          <div className="mt-16" style={{ borderBottom: '1px solid rgba(246,242,235,0.09)' }}>
+            {STACK.map((s, i) => (
+              <Reveal key={s.n} delay={i * 45}>
+                <StageRow s={s} />
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------------------------- ROI ---------------------------- */}
-      <section id="roi" className="scroll-mt-20 bg-white px-6 py-24">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
-            See how much time Operon saves you
-          </h2>
-          <p className="mb-12 mt-4 text-gray-600">Adjust the sliders to see your potential ROI</p>
-          <ROICalculator />
-        </div>
-      </section>
+      {/* ----------------------------- APPROACH ----------------------------- */}
+      <section id="approach" className="scroll-mt-24 bg-[#0e0d0f] px-6 py-28 lg:px-10 lg:py-36">
+        <div className="mx-auto max-w-[1240px]">
+          <Reveal>
+            <div className="max-w-3xl">
+              <Eyebrow>Approach</Eyebrow>
+              <h2 className="font-display text-[clamp(2rem,4.4vw,3.4rem)] font-normal leading-[1.1] tracking-[-0.02em]">
+                How we work.
+              </h2>
+            </div>
+          </Reveal>
 
-      {/* ------------------------ TESTIMONIALS ------------------------ */}
-      <section className="bg-gray-50 px-6 py-24">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="mb-16 text-center text-3xl font-bold text-gray-900 md:text-4xl">
-            Loved by business owners
-          </h2>
-          <div className="grid gap-8 md:grid-cols-3">
-            <TestimonialCard
-              name="Sarah M."
-              role="Real Estate Agent, Austin TX"
-              stars={5}
-              quote="I hired the Sales Assistant and it followed up with 47 leads while I was showing houses. Closed 3 deals I would have missed."
-            />
-            <TestimonialCard
-              name="James T."
-              role="Restaurant Owner, Chicago"
-              stars={5}
-              quote="The Support Agent answers customer questions 24/7. My stress levels dropped immediately. Worth every penny."
-            />
-            <TestimonialCard
-              name="Maria K."
-              role="E-Commerce Store, Miami"
-              stars={5}
-              quote="Operon's Admin Assistant organizes my inbox and generates weekly reports. I save at least 20 hours a week."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* --------------------- FOLLOW-UP AUTOMATION --------------------- */}
-      <section className="bg-white px-6 py-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-14 text-center">
-            <span className="mb-4 inline-block rounded-full bg-violet-100 px-4 py-2 text-xs font-bold uppercase tracking-widest text-violet-700">
-              Flagship feature
-            </span>
-            <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
-              Never Lose a Sale After the Close
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-xl text-gray-500">
-              Most sales fall apart not at the pitch — but in the silence after signing. Operon
-              automates every touchpoint so your clients feel remembered, valued and excited.
-            </p>
-          </div>
-
-          <div className="grid items-center gap-12 md:grid-cols-2">
-            <div className="space-y-6">
-              {[
-                { icon: '📧', title: 'Welcome Email in 1 Hour', desc: "Sent automatically from your rep's own email address — warm, personal and on-brand." },
-                { icon: '📞', title: 'Voice Clone Calls', desc: "Your rep's cloned voice calls every client on Day 1. They think it's a real call." },
-                { icon: '🤖', title: 'AI FAQ Autoresponder', desc: 'Clients text questions 24/7. AI answers instantly. Reps only get notified for escalations.' },
-                { icon: '📬', title: '7-Day Email Sequence', desc: "Automated nurture emails from the rep's address — booking tips, benefits reminders, check-ins." },
-                { icon: '🎁', title: 'Referral Ask on Day 45', desc: 'Happy clients get a personalised referral request at exactly the right moment.' },
-              ].map((f) => (
-                <div key={f.title} className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-violet-100 text-2xl">
-                    {f.icon}
-                  </div>
-                  <div>
-                    <h3 className="mb-1 font-semibold text-gray-900">{f.title}</h3>
-                    <p className="text-sm leading-relaxed text-gray-500">{f.desc}</p>
-                  </div>
+          <div className="mt-16 grid gap-x-14 gap-y-12 md:grid-cols-2">
+            {CAPABILITIES.map((c, i) => (
+              <Reveal key={c.title} delay={i * 70}>
+                <div>
+                  <Rule />
+                  <h3 className="font-display mt-7 text-2xl font-normal text-[#f6f2eb]">
+                    {c.title}
+                  </h3>
+                  <p className="mt-4 max-w-[46ch] text-[15px] leading-relaxed text-[#9a938c]">
+                    {c.body}
+                  </p>
                 </div>
-              ))}
-            </div>
-
-            <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
-              <h3 className="mb-2 text-xl font-bold text-gray-900">Rep does 3 things.</h3>
-              <h3 className="mb-6 text-xl font-bold text-violet-600">AI does the rest.</h3>
-              <div className="mb-8 space-y-4">
-                {[
-                  { step: '1', text: 'Fill intake form after sale', time: '3 min' },
-                  { step: '2', text: 'Photo the contract', time: '30 sec' },
-                  { step: '3', text: 'Record voice sample once', time: '5 min (forever)' },
-                ].map((s) => (
-                  <div key={s.step} className="flex items-center gap-4 rounded-2xl bg-gray-50 p-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">
-                      {s.step}
-                    </div>
-                    <span className="flex-1 text-sm text-gray-700">{s.text}</span>
-                    <span className="text-xs font-semibold text-violet-600">{s.time}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="mb-8 grid grid-cols-3 gap-4 text-center">
-                {[
-                  { v: '7', l: 'Touchpoints' },
-                  { v: '45', l: 'Days covered' },
-                  { v: '$65', l: 'Per rep/mo' },
-                ].map((s) => (
-                  <div key={s.l} className="rounded-2xl bg-violet-50 p-3">
-                    <div className="text-2xl font-bold text-violet-600">{s.v}</div>
-                    <div className="text-xs text-gray-500">{s.l}</div>
-                  </div>
-                ))}
-              </div>
-              <Link
-                to="/signup"
-                className="block w-full rounded-xl bg-violet-600 py-4 text-center font-semibold text-white no-underline transition hover:bg-violet-700"
-              >
-                Get Started Free →
-              </Link>
-              <p className="mt-3 text-center text-xs text-gray-400">No credit card required</p>
-            </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* --------------------------- FOOTER --------------------------- */}
-      <footer className="border-t border-white/10 bg-[#0a0a0f] px-6 py-16">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+      {/* ----------------------------- PORTFOLIO ----------------------------- */}
+      <section id="portfolio" className="scroll-mt-24 px-6 py-28 lg:px-10 lg:py-36">
+        <div className="mx-auto max-w-[1240px]">
+          <Reveal>
+            <div className="max-w-3xl">
+              <Eyebrow>Portfolio</Eyebrow>
+              <h2 className="font-display text-[clamp(2rem,4.4vw,3.4rem)] font-normal leading-[1.1] tracking-[-0.02em]">
+                Also shipped.
+              </h2>
+              <p className="mt-6 max-w-[58ch] text-[17px] leading-[1.75] text-[#9a938c]">
+                Products we own and run outside the vacation stack. They are here as evidence of
+                delivery — marine, fleet, health, storage and fintech, all live.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="mt-16 grid gap-px bg-[rgba(246,242,235,0.07)] sm:grid-cols-2 lg:grid-cols-3">
+            {PRODUCTS.map((p, i) => (
+              <Reveal key={p.name} delay={i * 55}>
+                <ProductCard p={p} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ------------------------------- CTA ------------------------------- */}
+      <section className="grain relative overflow-hidden border-y border-[rgba(201,169,110,0.16)] px-6 py-32 lg:px-10 lg:py-40">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 60% 70% at 50% 50%, rgba(201,169,110,0.11), transparent 68%)',
+          }}
+        />
+        <div className="relative mx-auto max-w-[760px] text-center">
+          <Reveal>
+            <Eyebrow>Start a project</Eyebrow>
+            <h2 className="font-display text-[clamp(2rem,5vw,3.6rem)] font-normal leading-[1.1] tracking-[-0.02em]">
+              Tell us which stage is bleeding.
+            </h2>
+            <p className="mx-auto mt-7 max-w-[50ch] text-[17px] leading-[1.75] text-[#9a938c]">
+              Most operators know exactly where the leak is — onboarding that takes six weeks,
+              commissions nobody trusts, tours credited to the wrong promotor. Start there.
+            </p>
+            <div className="mt-12 flex flex-wrap justify-center gap-5">
+              <a
+                href="mailto:info@myoperon.io?subject=Operon%20enquiry"
+                className="px-10 py-4 text-[11px] uppercase no-underline transition-all duration-300"
+                style={{ letterSpacing: '0.2em', background: GOLD, color: '#0b0a0c' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = '#dcc08c'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = GOLD; }}
+              >
+                info@myoperon.io
+              </a>
+              <Link
+                to="/docs"
+                className="border px-10 py-4 text-[11px] uppercase text-[#9a938c] no-underline transition-all duration-300 hover:text-[#f6f2eb]"
+                style={{ letterSpacing: '0.2em', borderColor: 'rgba(246,242,235,0.18)' }}
+              >
+                Technical docs
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ------------------------------ FOOTER ------------------------------ */}
+      <footer className="px-6 py-20 lg:px-10">
+        <div className="mx-auto max-w-[1240px]">
+          <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr]">
             <div>
-              <div className="mb-3 flex items-center gap-2.5">
-                <img src="/operon-badge.png" alt="" className="h-9 w-9 rounded-full object-contain" />
-                <span className="font-bold text-white">Operon</span>
+              <div className="flex items-center gap-3">
+                <img src="/operon-badge.png" alt="" className="h-8 w-8 rounded-full object-cover" />
+                <span className="font-display text-xl font-normal">Operon</span>
               </div>
-              <p className="text-sm text-violet-400">Your AI Salesforce Platform</p>
+              <p className="mt-5 max-w-[34ch] text-sm leading-relaxed text-[#6f6962]">
+                Software for vacation ownership and hospitality operators.
+              </p>
               <a
                 href="mailto:info@myoperon.io"
-                className="mt-4 inline-block text-sm text-gray-500 no-underline transition hover:text-white"
+                className="mt-6 inline-block text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]"
               >
                 info@myoperon.io
               </a>
             </div>
 
             <div>
-              <h4 className="mb-4 text-xs uppercase tracking-[0.14em] text-gray-500">Platforms</h4>
-              <ul className="space-y-2.5">
-                {APPS.filter((a) => a.kind === 'platform').map((a) => (
-                  <li key={a.id}>
-                    <a
-                      href={a.href}
-                      {...(a.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="text-sm text-gray-400 no-underline transition hover:text-white"
+              <h4 className="text-[10px] uppercase text-[#6f6962]" style={{ letterSpacing: '0.2em' }}>
+                Products
+              </h4>
+              <ul className="mt-6 space-y-3">
+                {PRODUCTS.map((p) => (
+                  <li key={p.name}>
+                    <Outbound
+                      href={p.href}
+                      external={p.external}
+                      className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]"
                     >
-                      {a.name}
-                    </a>
+                      {p.name}
+                    </Outbound>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div>
-              <h4 className="mb-4 text-xs uppercase tracking-[0.14em] text-gray-500">Company</h4>
-              <ul className="space-y-2.5">
-                <li><a href="#apps" className="text-sm text-gray-400 no-underline transition hover:text-white">All apps</a></li>
-                <li><Link to="/docs" className="text-sm text-gray-400 no-underline transition hover:text-white">Docs</Link></li>
-                <li><a href="/ai-assistants.html" className="text-sm text-gray-400 no-underline transition hover:text-white">Pricing</a></li>
-                <li><a href="/brand-book.html" className="text-sm text-gray-400 no-underline transition hover:text-white">Brand book</a></li>
-                <li><a href="/resources.html" className="text-sm text-gray-400 no-underline transition hover:text-white">Resources</a></li>
+              <h4 className="text-[10px] uppercase text-[#6f6962]" style={{ letterSpacing: '0.2em' }}>
+                Company
+              </h4>
+              <ul className="mt-6 space-y-3">
+                <li><a href="#stack" className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]">The stack</a></li>
+                <li><Link to="/docs" className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]">Docs</Link></li>
+                <li><a href="/ai-assistants.html" className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]">AI assistants</a></li>
+                <li><a href="/brand-book.html" className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]">Brand book</a></li>
+                <li><a href="/resources.html" className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]">Resources</a></li>
+                <li><a href="https://myoperon.io/admin.html" className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]">Admin</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="mt-12 border-t border-white/10 pt-8 text-center text-sm text-gray-500">
-            © {new Date().getFullYear()} Operon. All rights reserved.
+          <div className="mt-16 flex flex-col gap-3 border-t border-[rgba(246,242,235,0.07)] pt-8 text-xs text-[#5c5750] sm:flex-row sm:items-center sm:justify-between">
+            <span>© {new Date().getFullYear()} Operon. All rights reserved.</span>
+            <span>Built and run on a live sales operation.</span>
           </div>
         </div>
       </footer>
