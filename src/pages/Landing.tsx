@@ -168,6 +168,34 @@ const CAPABILITIES = [
   },
 ];
 
+/* Brand architecture — Operon is the parent; everything below reports to it. */
+const DIVISIONS = [
+  {
+    label: 'Operator Stack',
+    meta: 'Eight stages',
+    blurb: 'The system a vacation sales floor runs on, start to finish.',
+    members: ['Operon Recruit', 'APEX Index', 'Sales Academy', 'TravelWise Console', 'Operon Check-In', 'Operon Guest Care', 'Commission Calculator', 'Lead to Cash Track'],
+    href: '#stack',
+    external: false,
+  },
+  {
+    label: 'Owned Products',
+    meta: 'Six brands',
+    blurb: 'Consumer and prosumer software we build, own and operate outright.',
+    members: ['My Logbook', 'Cart Tracker', 'BoxiT', 'Solace Wellness', 'APEX Index', 'OperonTrader'],
+    href: '#portfolio',
+    external: false,
+  },
+  {
+    label: 'Infrastructure',
+    meta: 'Shared platform',
+    blurb: 'The BYOK layer every product above is built on. Your keys, never ours.',
+    members: ['AI Assistants', 'Model gateway', 'Payments & billing', 'Auth & data', 'Voice & SMS', 'Edge hosting'],
+    href: '/docs',
+    external: false,
+  },
+];
+
 /* ------------------------------ atoms ------------------------------ */
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -388,6 +416,105 @@ function ProductCard({ p }: { p: Product }) {
   );
 }
 
+function HouseSection() {
+  return (
+    <section id="house" className="scroll-mt-24 px-6 py-28 lg:px-10 lg:py-36">
+      <div className="mx-auto max-w-[1240px]">
+        <Reveal>
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow>The parent company</Eyebrow>
+            <h2 className="font-display text-[clamp(2rem,4.4vw,3.4rem)] font-normal leading-[1.1] tracking-[-0.02em]">
+              One company. Three divisions.
+            </h2>
+            <p className="mx-auto mt-6 max-w-[56ch] text-[17px] leading-[1.75] text-[#9a938c]">
+              Every product on this page is built, owned and operated by Operon. Not a
+              marketplace, not a reseller, not a badge on someone else&rsquo;s software — one
+              company, one engineering team, one shared platform underneath.
+            </p>
+          </div>
+        </Reveal>
+
+        {/* master node */}
+        <Reveal delay={100}>
+          <div className="mt-20 flex flex-col items-center">
+            <div
+              className="flex items-center gap-4 px-10 py-6"
+              style={{
+                border: `1px solid ${GOLD}`,
+                background: 'linear-gradient(180deg, rgba(201,169,110,0.10), rgba(201,169,110,0.02))',
+              }}
+            >
+              <img src="/operon-badge.png" alt="" className="h-11 w-11 rounded-full object-cover" />
+              <div className="text-left">
+                <div className="font-display text-[30px] font-normal leading-none text-[#f6f2eb]">
+                  Operon
+                </div>
+                <div
+                  className="mt-2 text-[9px] uppercase"
+                  style={{ letterSpacing: '0.26em', color: GOLD }}
+                >
+                  Parent company
+                </div>
+              </div>
+            </div>
+
+            {/* trunk */}
+            <div className="h-14 w-px" style={{ background: `linear-gradient(180deg, ${GOLD}, ${GOLD}44)` }} />
+          </div>
+        </Reveal>
+
+        {/* branch bar (desktop only) */}
+        <div className="relative hidden md:block">
+          <div
+            className="absolute left-[16.666%] right-[16.666%] top-0 h-px"
+            style={{ background: `${GOLD}44` }}
+          />
+          <div className="grid grid-cols-3">
+            {DIVISIONS.map((d) => (
+              <div key={d.label} className="flex justify-center">
+                <div className="h-14 w-px" style={{ background: `linear-gradient(180deg, ${GOLD}44, ${GOLD}22)` }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* divisions */}
+        <div className="grid gap-px bg-[rgba(246,242,235,0.07)] md:grid-cols-3">
+          {DIVISIONS.map((d, i) => (
+            <Reveal key={d.label} delay={i * 80}>
+              <Outbound
+                href={d.href}
+                external={d.external}
+                className="flex h-full flex-col bg-[#0f0e10] p-9 no-underline transition-colors duration-500 hover:bg-[#15130f]"
+              >
+                <span
+                  className="text-[10px] uppercase"
+                  style={{ letterSpacing: '0.24em', color: GOLD }}
+                >
+                  {d.meta}
+                </span>
+                <h3 className="font-display mt-4 text-[26px] font-normal leading-tight text-[#f6f2eb]">
+                  {d.label}
+                </h3>
+                <p className="mt-4 text-[15px] leading-relaxed text-[#9a938c]">{d.blurb}</p>
+
+                <ul className="mt-7 space-y-2.5 border-t pt-7" style={{ borderColor: 'rgba(246,242,235,0.08)' }}>
+                  {d.members.map((m) => (
+                    <li key={m} className="flex items-center gap-3 text-[13px] text-[#8a837b]">
+                      <span className="h-px w-3 shrink-0" style={{ background: `${GOLD}77` }} />
+                      {m}
+                    </li>
+                  ))}
+                </ul>
+              </Outbound>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ------------------------------- page ------------------------------- */
 
 const Landing = () => {
@@ -424,6 +551,7 @@ const Landing = () => {
 
           <div className="hidden items-center gap-10 md:flex">
             {[
+              ['The house', '#house'],
               ['The stack', '#stack'],
               ['Portfolio', '#portfolio'],
               ['Approach', '#approach'],
@@ -474,7 +602,7 @@ const Landing = () => {
 
         <div className="relative mx-auto w-full max-w-[1240px]">
           <Reveal>
-            <Eyebrow>Vacation ownership · Hospitality</Eyebrow>
+            <Eyebrow>Operon · Parent company</Eyebrow>
           </Reveal>
 
           <Reveal delay={80}>
@@ -510,11 +638,11 @@ const Landing = () => {
                 See the stack
               </a>
               <a
-                href="#portfolio"
+                href="#house"
                 className="inline-flex items-center gap-2.5 text-[11px] uppercase text-[#9a938c] no-underline transition-colors duration-300 hover:text-[#f6f2eb]"
                 style={{ letterSpacing: '0.2em' }}
               >
-                Seventeen shipped products
+                Seventeen products, one company
                 <span aria-hidden="true">→</span>
               </a>
             </div>
@@ -551,6 +679,9 @@ const Landing = () => {
           ))}
         </div>
       </section>
+
+      {/* ------------------------------ THE HOUSE ------------------------------ */}
+      <HouseSection />
 
       {/* ----------------------------- THE STACK ----------------------------- */}
       <section id="stack" className="scroll-mt-24 px-6 py-28 lg:px-10 lg:py-36">
@@ -721,6 +852,7 @@ const Landing = () => {
                 Company
               </h4>
               <ul className="mt-6 space-y-3">
+                <li><a href="#house" className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]">The house</a></li>
                 <li><a href="#stack" className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]">The stack</a></li>
                 <li><Link to="/docs" className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]">Docs</Link></li>
                 <li><a href="/ai-assistants.html" className="text-sm text-[#9a938c] no-underline transition-colors hover:text-[#f6f2eb]">AI assistants</a></li>
@@ -733,7 +865,7 @@ const Landing = () => {
 
           <div className="mt-16 flex flex-col gap-3 border-t border-[rgba(246,242,235,0.07)] pt-8 text-xs text-[#5c5750] sm:flex-row sm:items-center sm:justify-between">
             <span>© {new Date().getFullYear()} Operon. All rights reserved.</span>
-            <span>Built and run on a live sales operation.</span>
+            <span>Every product here is an Operon company.</span>
           </div>
         </div>
       </footer>
